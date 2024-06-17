@@ -1,5 +1,6 @@
 package com.itda.android_c_teamproject.Activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.RetrofitClient
@@ -35,6 +36,10 @@ class LoginActivity : AppCompatActivity() {
                         TODO("Not yet implemented")
                     }
                 })
+            }
+
+            textRegister.setOnClickListener{
+                startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
             }
         }
 
