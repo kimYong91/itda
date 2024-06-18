@@ -1,5 +1,6 @@
 package com.itda.android_c_teamproject.Activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +16,11 @@ class FindUserPasswordActivity : AppCompatActivity() {
         binding = ActivityFindUserPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.run {
+            buttonExit.setOnClickListener {
+                startActivity(Intent(this@FindUserPasswordActivity, LoginActivity::class.java))
+            }
 
-
+        }
     }
 }

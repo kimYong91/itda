@@ -37,4 +37,5 @@ interface ApiService {
     @POST("/itda/oneUserInfo/{id}")
     fun updateUserPersonalDTO(@Header("Authorization") token: String, id: String, @Body user: User): Call<User>
 
+
 }
