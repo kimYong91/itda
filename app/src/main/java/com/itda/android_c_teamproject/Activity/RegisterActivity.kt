@@ -21,6 +21,11 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.run {
+
+            buttonExit.setOnClickListener {
+                startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+            }
+
             if (buttonMale.isClickable) {
                 buttonMale.setOnClickListener {
                     textGender.text = "남"
@@ -31,6 +36,7 @@ class RegisterActivity : AppCompatActivity() {
                     textGender.text = "여"
                 }
             }
+            
             buttonRegister.setOnClickListener {
                 val username = editId.text.toString()
                 val password = editPassword.text.toString()
