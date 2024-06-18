@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("kotlin-kapt")    // kapt 추가  (Room 사용)
 }
 
 android {
@@ -37,13 +38,21 @@ android {
 }
 
 dependencies {
+
+    val room_version = "2.6.1"
+
+    implementation("androidx.room:room-runtime:$room_version")       // 런타임 라이브러리
+    annotationProcessor("androidx.room:room-compiler:$room_version") // 애노태이션 컴파일러
+    implementation("androidx.room:room-ktx:$room_version")
+
+    kapt("androidx.room:room-compiler:$room_version")
+
 // Glide 의존성 추가
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
     // retrofit 의존성 추가
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -1,7 +1,10 @@
 package com.itda.android_c_teamproject.Activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.RetrofitClient
 import com.itda.android_c_teamproject.databinding.ActivityLoginBinding
@@ -29,16 +32,40 @@ class LoginActivity : AppCompatActivity() {
                         call: Call<LoginResponse>,
                         response: Response<LoginResponse>
                     ) {
-                        TODO("Not yet implemented")
+                        if (response.isSuccessful) {
+                            Toast.makeText(this@LoginActivity, "로그인 성공했습니다.", Toast.LENGTH_SHORT).show()
+                            Log.d("mylog", "onResponse: ${response.body()}")
+
+                            // 변환된 JWT 토큰을 sharedPreferences 에 저장
+                            val token = response.body()?.jwt ?: ""
+                            val sharedPreferences =
+                                getSharedPreferences("app_pref", Context.MODE_PRIVATE)
+
+                            sharedPreferences.edit()
+                                .putString("token", token)          // 토큰
+                                .putString("username", username)    // 사용자 이름
+                                .apply()
+
+                            // 로그인 성공하면 메인 화면 진입
+                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+
+                            finish()    // 로그인 액티비티 종료
+
+
+                        } else {
+                            Toast.makeText(this@LoginActivity, "로그인 실패했습니다.", Toast.LENGTH_SHORT).show()
+                            Log.d("mylog", "onResponse: ${response.code()}")
+                        }
                     }
 
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                        TODO("Not yet implemented")
+                        Toast.makeText(this@LoginActivity, "로그인 네트워크 요청 실패했습니다.", Toast.LENGTH_SHORT).show()
+                        Log.d("mylog", "onFailure: ${t.message}")
                     }
                 })
             }
 
-            textRegister.setOnClickListener{
+            textRegister.setOnClickListener {
                 startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
             }
         }
