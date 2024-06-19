@@ -70,10 +70,10 @@ class LoginActivity : AppCompatActivity() {
             }
 
             textFindUserName.setOnClickListener {
-                startActivity(Intent(this@LoginActivity, FindUserNameActivity::class.java))
+                startActivity(Intent(this@LoginActivity, UserFindNameActivity::class.java))
             }
             textFindPassword.setOnClickListener {
-                startActivity(Intent(this@LoginActivity, FindUserPasswordActivity::class.java))
+                startActivity(Intent(this@LoginActivity, UserFindPasswordActivity::class.java))
             }
         }
 

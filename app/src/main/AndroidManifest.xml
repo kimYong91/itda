@@ -16,10 +16,10 @@
         android:theme="@style/Theme.Itda"
         tools:targetApi="31">
         <activity
-            android:name=".Activity.FindUserPasswordActivity"
+            android:name=".Activity.UserFindPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.FindUserNameActivity"
+            android:name=".Activity.UserFindNameActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.RegisterActivity"
