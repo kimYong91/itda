@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                         textAge.text = user?.userAge.toString()
                         textWeight.text = user?.userWeight.toString()
                         textHeight.text = user?.userHeight.toString()
-                        textBasalMetabolism.text = user?.userBasalMetabolism.toString()
+                        textBasalMetabolism.text = user?.basalMetabolism.toString()
                     } else {
                         Log.d(TAG, "onResponse: 응답 실패 ${response.code()}")
                     }

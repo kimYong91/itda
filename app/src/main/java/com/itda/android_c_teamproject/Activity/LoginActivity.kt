@@ -47,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
                                 .apply()
 
                             // 로그인 성공하면 메인 화면 진입
-                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                            startActivity(Intent(this@LoginActivity, FirstActivity::class.java))
 
                             finish()    // 로그인 액티비티 종료
 

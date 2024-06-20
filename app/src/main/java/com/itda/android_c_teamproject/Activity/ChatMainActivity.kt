@@ -42,7 +42,7 @@ class ChatMainActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_chat_main)
 
         // API Key를 로그로 출력
         Log.d("API_KEY_LOG", "API Key: ${BuildConfig.API_KEY}")
