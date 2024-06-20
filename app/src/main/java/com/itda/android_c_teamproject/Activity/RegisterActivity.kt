@@ -21,6 +21,11 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.run {
+
+            buttonExit.setOnClickListener {
+                startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+            }
+
             if (buttonMale.isClickable) {
                 buttonMale.setOnClickListener {
                     textGender.text = "남"
@@ -31,6 +36,7 @@ class RegisterActivity : AppCompatActivity() {
                     textGender.text = "여"
                 }
             }
+            
             buttonRegister.setOnClickListener {
                 val username = editId.text.toString()
                 val password = editPassword.text.toString()
@@ -51,34 +57,45 @@ class RegisterActivity : AppCompatActivity() {
                     height
                 )
 
-                RetrofitClient.api.createUser(user).enqueue(object : Callback<User> {
-                    override fun onResponse(call: Call<User>, response: Response<User>) {
-                        if (response.isSuccessful) {
-                            Toast.makeText(
-                                this@RegisterActivity,
-                                "화원가입에 성공하셨습니다.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            Log.d("mylog", "onResponse: ${response.body()}")
-                            // 회원 가입 성공시 메시지 띄우고, 로그인 화면으로 이동
-                            startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
-                        } else {
-                            // 실패
-                            Toast.makeText(
-                                this@RegisterActivity,
-                                "화원가입에 실패하셨습니다.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            Log.d("mylog", "onResponse, 회원가입실패: ${response.body()}")
+                if (password.length in 8..13 && email.contains("@")) {
+                    RetrofitClient.api.createUser(user).enqueue(object : Callback<User> {
+                        override fun onResponse(call: Call<User>, response: Response<User>) {
+                            if (response.isSuccessful) {
+                                Toast.makeText(
+                                    this@RegisterActivity,
+                                    "회원가입에 성공하셨습니다.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                Log.d("mylog", "onResponse: ${response.body()}")
+                                // 회원 가입 성공시 메시지 띄우고, 로그인 화면으로 이동
+                                startActivity(
+                                    Intent(
+                                        this@RegisterActivity,
+                                        LoginActivity::class.java
+                                    )
+                                )
+                            } else {
+                                // 실패
+                                Toast.makeText(
+                                    this@RegisterActivity,
+                                    "화원가입에 실패하셨습니다.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                Log.d("mylog", "onResponse, 회원가입실패: ${response.body()}")
+                            }
                         }
-                    }
 
-                    override fun onFailure(call: Call<User>, t: Throwable) {
-                        Toast.makeText(this@RegisterActivity, "회원가입 네트워크 요청 실패", Toast.LENGTH_SHORT)
-                            .show()
-                        Log.d("mylog", "onFailure: ${t.message}")
-                    }
-                })
+                        override fun onFailure(call: Call<User>, t: Throwable) {
+                            Toast.makeText(
+                                this@RegisterActivity,
+                                "회원가입 네트워크 요청 실패",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            Log.d("mylog", "onFailure: ${t.message}")
+                        }
+                    })
+                }
             }
         }
     }

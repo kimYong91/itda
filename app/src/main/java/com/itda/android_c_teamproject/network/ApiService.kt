@@ -4,6 +4,8 @@ import com.itda.android_c_teamproject.model.LoginRequest
 import com.itda.android_c_teamproject.model.LoginResponse
 import com.itda.android_c_teamproject.model.User
 import com.itda.android_c_teamproject.model.UserDTO
+import com.itda.android_c_teamproject.model.UserFindPasswordDTO
+import com.itda.android_c_teamproject.model.UserFindPasswordResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -37,4 +39,6 @@ interface ApiService {
     @POST("/itda/oneUserInfo/{id}")
     fun updateUserPersonalDTO(@Header("Authorization") token: String, id: String, @Body user: User): Call<User>
 
+    @POST("/itda/findPassword")
+    fun userFindPassword(@Body userFindPasswordDTO: UserFindPasswordDTO): Call<UserFindPasswordResponse>
 }

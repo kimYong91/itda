@@ -29,9 +29,6 @@ class MainActivity : AppCompatActivity() {
             if (token.isNullOrEmpty()) {
                 startActivity(Intent(this@MainActivity, LoginActivity::class.java))
             }
-            buttonLogout.setOnClickListener {
-                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
-            }
             sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
             buttonLogout.setOnClickListener {
                 logout()
@@ -45,11 +42,10 @@ class MainActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<UserDTO>, response: Response<UserDTO>) {
                     if (response.isSuccessful) {
                         val user = response.body()
-                        Log.d(TAG, "onResponse: ${user}")
-                        textAge.text = user?.userAge.toString()
-                        textWeight.text = user?.userWeight.toString()
-                        textHeight.text = user?.userHeight.toString()
-                        textBasalMetabolism.text = user?.basalMetabolism.toString()
+                        textAge.text = "나이 : ${user?.userAge.toString()}"
+                        textWeight.text = "몸무게 : ${user?.userWeight.toString()}"
+                        textHeight.text = "기 : ${user?.userHeight.toString()}"
+                        textBasalMetabolism.text = "평균기초대사량 : ${user?.basalMetabolism.toString()}"
                     } else {
                         Log.d(TAG, "onResponse: 응답 실패 ${response.code()}")
                     }
