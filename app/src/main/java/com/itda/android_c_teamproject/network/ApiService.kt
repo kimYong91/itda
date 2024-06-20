@@ -1,4 +1,4 @@
-package com.itda.android_c_teamproject
+package com.itda.android_c_teamproject.network
 
 import com.itda.android_c_teamproject.model.LoginRequest
 import com.itda.android_c_teamproject.model.LoginResponse

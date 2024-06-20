@@ -1,8 +1,28 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")    // kapt 추가  (Room 사용)
 }
+
+// ChatGPT api key 보안 설정
+val properties = Properties().apply {
+    load(FileInputStream(rootProject.file("local.properties")))
+}
+
+//val properties = Properties()
+//properties.load(FileInputStream(rootProject.file("local.properties")))
+
+
+fun getApiKey(propertyKey: String): String {
+    return properties.getProperty(propertyKey)
+}
+
+//fun getApiKey(propertyKey: String): String {
+//    return properties.getProperty("api.key")
+//}
 
 android {
     namespace = "com.itda.android_c_teamproject"
@@ -16,6 +36,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // ChatGPT api key 보안 설정
+        buildConfigField("String", "API_KEY", "\"${getApiKey("api.key")}\"")
+        // buildConfigField("String", "api_key", getApiKey("api.key"))
     }
 
     buildTypes {
@@ -34,7 +58,13 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    viewBinding { enable = true }
+
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
+    
+    // viewBinding { enable = true }
 }
 
 dependencies {
@@ -53,6 +83,8 @@ dependencies {
     // retrofit 의존성 추가
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.0")             // 추가
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0") // 추가
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

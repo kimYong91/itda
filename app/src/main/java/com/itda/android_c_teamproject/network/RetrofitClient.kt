@@ -1,4 +1,4 @@
-package com.itda.android_c_teamproject
+package com.itda.android_c_teamproject.network
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
