@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.RetrofitClient
 import com.itda.android_c_teamproject.databinding.ActivityFindUserPasswordBinding
 import com.itda.android_c_teamproject.model.UserFindPasswordDTO
+import com.itda.android_c_teamproject.model.UserFindPasswordResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,13 +31,22 @@ class UserFindPasswordActivity : AppCompatActivity() {
                 val phoneNumber = editPhoneNumber.text.toString()
                 val dateOfBirth = editDateOfBirth.text.toString()
 
+                if (username.isBlank() || email.isBlank() || phoneNumber.isBlank() || dateOfBirth.isBlank()) {
+                    Toast.makeText(
+                        this@UserFindPasswordActivity,
+                        "모든 정보를 입력하세요.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+
                 val userFindPasswordDTO = UserFindPasswordDTO(username, email, phoneNumber, dateOfBirth)
 
                 RetrofitClient.api.userFindPassword(userFindPasswordDTO)
-                    .enqueue(object : Callback<UserFindPasswordDTO> {
-                        override fun onResponse(call: Call<UserFindPasswordDTO>, response: Response<UserFindPasswordDTO>) {
+                    .enqueue(object : Callback<UserFindPasswordResponse> {
+                        override fun onResponse(call: Call<UserFindPasswordResponse>, response: Response<UserFindPasswordResponse>) {
                             if (response.isSuccessful) {
-                                val newPassword = response.body().toString()
+                                val newPassword = response.body()?.newPassword
                                 textFindPassword.text = newPassword
                                 Toast.makeText(
                                     this@UserFindPasswordActivity,
@@ -52,7 +62,7 @@ class UserFindPasswordActivity : AppCompatActivity() {
                             }
                         }
 
-                        override fun onFailure(call: Call<UserFindPasswordDTO>, t: Throwable) {
+                        override fun onFailure(call: Call<UserFindPasswordResponse>, t: Throwable) {
                             Toast.makeText(
                                 this@UserFindPasswordActivity,
                                 "네트워크 오류가 발생했습니다.",
