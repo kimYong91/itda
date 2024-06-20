@@ -19,13 +19,23 @@
         android:gravity="center"
         android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/textName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:padding="5dp"
             android:text="이름"
             android:textSize="20sp" />
 
@@ -33,7 +43,6 @@
             android:id="@+id/textAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="3dp"
             android:text="나이"
             android:textSize="20sp" />
 
@@ -41,7 +50,6 @@
             android:id="@+id/textWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="3dp"
             android:text="몸무게"
             android:textSize="20sp" />
 
@@ -49,7 +57,6 @@
             android:id="@+id/textHeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="3dp"
             android:text="키"
             android:textSize="20sp" />
 
@@ -57,7 +64,6 @@
             android:id="@+id/textBasalMetabolism"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="3dp"
             android:text="기초대사량"
             android:textSize="20sp" />
 
@@ -65,11 +71,11 @@
 
     <ImageView
         android:id="@+id/mainImage"
-        android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_width="wrap_content"
+        android:layout_height="400dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="104dp"
+        android:layout_marginTop="155dp"
         android:layout_marginEnd="-1dp"
         android:src="@drawable/mainimage"
         android:visibility="visible" />
@@ -129,12 +135,11 @@
             android:id="@+id/gptButton"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@drawable/round_button"
             android:text="GPT"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:layout_weight="1"
-            />
+            android:textSize="16sp" />
     </LinearLayout>
 
 

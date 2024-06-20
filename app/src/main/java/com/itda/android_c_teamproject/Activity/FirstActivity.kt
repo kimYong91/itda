@@ -7,6 +7,9 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
@@ -40,78 +43,101 @@ class FirstActivity : AppCompatActivity() {
             mainImage.visibility = ImageView.VISIBLE
         }
 
+        val items = arrayOf("항목1", "항목2")
+
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, items)
+        binding.spinner.adapter = adapter
+        binding.spinner.onItemClickListener = object : AdapterView.OnItemClickListener {
+            override fun onItemClick(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                Log.d(TAG, "onItemSelected: ${items[position]} 선택")
+                when (position) {
+                    0 -> {
+
+                    }
+                    1 -> {
+
+                    }
+                }
+            }
+
+        }
 
         sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
 
         val token = getToken()
 
         binding.run {
-            if (token.isNullOrEmpty()) {
-                startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
-            }
-            buttonLogout.setOnClickListener {
-                startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
-            }
-            sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
-            buttonLogout.setOnClickListener {
-                logout()
-            }
+//            if (token.isNullOrEmpty()) {
+//                startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
+//            }
+//            buttonLogout.setOnClickListener {
+//                startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
+//            }
+//            sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
+//            buttonLogout.setOnClickListener {
+//                logout()
+//            }
 
             val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
 
             // 로그인 시 저장된 사용자 이름을 가져옴
             val username = sharedPreferences.getString("username", "") ?: ""
 
-            RetrofitClient.api.getUserHealthInfo("Bearer $token", username).enqueue(object : Callback<UserDTO> {
-                override fun onResponse(call: Call<UserDTO>, response: Response<UserDTO>) {
-                    if (response.isSuccessful) {
-                        val user = response.body()
-                        Log.d(TAG, "onResponse: ${user}")
+            RetrofitClient.api.getUserHealthInfo("Bearer $token", username)
+                .enqueue(object : Callback<UserDTO> {
+                    override fun onResponse(call: Call<UserDTO>, response: Response<UserDTO>) {
+                        if (response.isSuccessful) {
+                            val user = response.body()
+                            Log.d(TAG, "onResponse: ${user}")
 
-                        textName.text = "${username}님"
-                        textAge.text = "나이 : ${user?.userAge.toString()}세"
-                        textWeight.text = "몸무게 : ${user?.userWeight.toString()}kg"
-                        textHeight.text = "키 : ${user?.userHeight.toString()}cm"
-                        textBasalMetabolism.text = "평균기초대사량 : ${user?.basalMetabolism.toString()}"
+                            textName.text = "${username}님"
+                            textAge.text = "나이 : ${user?.userAge.toString()}세"
+                            textWeight.text = "몸무게 : ${user?.userWeight.toString()}kg"
+                            textHeight.text = "키 : ${user?.userHeight.toString()}cm"
+                            textBasalMetabolism.text =
+                                "평균기초대사량 : ${user?.basalMetabolism.toString()}"
 
 
-                        textAge.text = user?.userAge.toString()
-                        textWeight.text = user?.userWeight.toString()
-                        textHeight.text = user?.userHeight.toString()
+                            textAge.text = user?.userAge.toString()
+                            textWeight.text = user?.userWeight.toString()
+                            textHeight.text = user?.userHeight.toString()
 
-                        textBasalMetabolism.text = user?.basalMetabolism.toString()
-                    } else {
-                        Log.d(TAG, "onResponse: 응답 실패 ${response.code()}")
+                            textBasalMetabolism.text = user?.basalMetabolism.toString()
+                        } else {
+                            Log.d(TAG, "onResponse: 응답 실패 ${response.code()}")
+                        }
                     }
-                }
 
-                override fun onFailure(call: Call<UserDTO>, t: Throwable) {
-                    Log.d(TAG, "onFailure: 네트워크 실패")
-                }
-            })
+                    override fun onFailure(call: Call<UserDTO>, t: Throwable) {
+                        Log.d(TAG, "onFailure: 네트워크 실패")
+                    }
+                })
             textName.text = "${username}님"
 
-            recommendExerciseButton.setOnClickListener{
+            recommendExerciseButton.setOnClickListener {
                 val intent = Intent(this@FirstActivity, ChatMainActivity::class.java)
                 startActivity(intent)
                 Toast.makeText(this@FirstActivity, "추천 운동 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
 
-            foodMenuButton.setOnClickListener{
+            foodMenuButton.setOnClickListener {
                 Toast.makeText(this@FirstActivity, "식단 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
 
-            stopwatchButton.setOnClickListener{
+            stopwatchButton.setOnClickListener {
                 Toast.makeText(this@FirstActivity, "스탑워치 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
 
-            gptButton.setOnClickListener{
+            gptButton.setOnClickListener {
                 Toast.makeText(this@FirstActivity, "GPT 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
-
 
 
 //        val recommendExerciseButton: Button = findViewById(R.id.recommendExerciseButton)
