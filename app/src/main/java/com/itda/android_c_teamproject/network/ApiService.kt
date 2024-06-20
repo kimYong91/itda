@@ -4,6 +4,8 @@ import com.itda.android_c_teamproject.model.LoginRequest
 import com.itda.android_c_teamproject.model.LoginResponse
 import com.itda.android_c_teamproject.model.User
 import com.itda.android_c_teamproject.model.UserDTO
+import com.itda.android_c_teamproject.model.UserFindNameDTO
+import com.itda.android_c_teamproject.model.UserFindNameResponse
 import com.itda.android_c_teamproject.model.UserFindPasswordDTO
 import com.itda.android_c_teamproject.model.UserFindPasswordResponse
 import retrofit2.Call
@@ -41,4 +43,7 @@ interface ApiService {
 
     @POST("/itda/findPassword")
     fun userFindPassword(@Body userFindPasswordDTO: UserFindPasswordDTO): Call<UserFindPasswordResponse>
+
+    @POST("/itda/findUsername")
+    fun userFindName(@Body userFindNameDTO: UserFindNameDTO): Call<UserFindNameResponse>
 }
