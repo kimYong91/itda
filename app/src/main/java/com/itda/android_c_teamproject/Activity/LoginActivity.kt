@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.itda.android_c_teamproject.RetrofitClient
+import com.itda.android_c_teamproject.network.RetrofitClient
 import com.itda.android_c_teamproject.databinding.ActivityLoginBinding
 import com.itda.android_c_teamproject.model.LoginRequest
 import com.itda.android_c_teamproject.model.LoginResponse
@@ -47,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
                                 .apply()
 
                             // 로그인 성공하면 메인 화면 진입
-                            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                            startActivity(Intent(this@LoginActivity, FirstActivity::class.java))
 
                             finish()    // 로그인 액티비티 종료
 
