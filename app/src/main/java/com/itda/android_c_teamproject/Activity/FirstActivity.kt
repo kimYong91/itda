@@ -75,9 +75,9 @@ class FirstActivity : AppCompatActivity() {
                         textBasalMetabolism.text = "평균기초대사량 : ${user?.basalMetabolism.toString()}"
 
 
-                        textAge.text = user?.userAge.toString()
-                        textWeight.text = user?.userWeight.toString()
-                        textHeight.text = user?.userHeight.toString()
+//                        textAge.text = user?.userAge.toString()
+//                        textWeight.text = user?.userWeight.toString()
+//                        textHeight.text = user?.userHeight.toString()
 
                         textBasalMetabolism.text = user?.basalMetabolism.toString()
                     } else {

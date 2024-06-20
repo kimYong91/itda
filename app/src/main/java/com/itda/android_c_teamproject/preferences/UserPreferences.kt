@@ -3,6 +3,8 @@ package com.itda.android_c_teamproject.preferences
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import com.itda.android_c_teamproject.model.User
+import com.itda.android_c_teamproject.model.UserDTO
 
 // 사용자가 가입할 때 입력한 정보를 저장 하고 불러 오는 방법을 추가
 object UserPreferences {
@@ -80,20 +82,23 @@ object UserPreferences {
         }
     }
 
-    fun createPrompt1(userInfo: Map<String, Any>): String {
-        val gender = userInfo["gender"] as? String ?: "N/A"
-        val height = userInfo["height"] as? Int ?: 0
-        val weight = userInfo["weight"] as? Int ?: 0
-        val age = userInfo["age"] as? Int ?: 0
-        val bmr = userInfo["bmr"] as? Int ?: 0
+    fun createPrompt1(userdto: UserDTO): String {
+        val userGender = userdto.userGender
+        val userHeight = userdto.userHeight
+        val userWeight = userdto.userWeight
+        val userAge = userdto.userAge
+        val basalMetabolism = userdto.basalMetabolism
 
-        // 로그 추가
-        Log.d(
-            "CreatePrompt1",
-            "Gender: $gender, Height: $height, Weight: $weight, Age: $age, BMR: $bmr"
-        )
+       // val age = userInfo["age"] as? Int ?: 0
+       //  val bmr = userInfo["bmr"] as? Int ?: 0
 
-        return "성별은 $gender,키는 $height cm, 몸무게는 $weight kg, 나이는 $age, 기초대사량이 $bmr 인 사람이 주 4회 30분 정도 산보 정도의 세기로 달리기를 하면서 다이어트를 하려고 한다. 하루에 얼마나 달려야 할까?"
+//        // 로그 추가
+//        Log.d(
+//            "CreatePrompt1",
+//            "Gender: $gender, Height: $height, Weight: $weight, Age: $age, BMR: $bmr"
+//        )
+
+        return "성별은 $userGender,키는 $userHeight cm, 몸무게는 $userWeight kg, 나이는 $userAge, 기초대사량이 $basalMetabolism 인 사람이 주 4회 30분 정도 산보 정도의 세기로 달리기를 하면서 다이어트를 하려고 한다. 하루에 얼마나 달려야 할까?"
     }
 
     fun createPrompt2(userInfo: Map<String, Any>): String {
