@@ -49,7 +49,7 @@ class UserFindNameActivity : AppCompatActivity() {
                         response: Response<UserFindNameResponse>
                     ) {
                         if (response.isSuccessful) {
-                            val username = response.body()?.newUsername
+                            val username = response.body()?.username
                             Log.d(TAG, "onResponse: ${username}")
                             textFindUserName.text = username
                             Toast.makeText(
