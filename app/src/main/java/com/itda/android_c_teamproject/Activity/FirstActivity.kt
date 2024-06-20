@@ -67,10 +67,18 @@ class FirstActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         val user = response.body()
                         Log.d(TAG, "onResponse: ${user}")
+
+                        textName.text = "${username}님"
+                        textAge.text = "나이 : ${user?.userAge.toString()}세"
+                        textWeight.text = "몸무게 : ${user?.userWeight.toString()}kg"
+                        textHeight.text = "키 : ${user?.userHeight.toString()}cm"
+                        textBasalMetabolism.text = "평균기초대사량 : ${user?.basalMetabolism.toString()}"
+
+
                         textAge.text = user?.userAge.toString()
                         textWeight.text = user?.userWeight.toString()
                         textHeight.text = user?.userHeight.toString()
-                        Log.d(TAG, "onResponse: ${user?.basalMetabolism.toString() ?: "빈데이터"}")
+
                         textBasalMetabolism.text = user?.basalMetabolism.toString()
                     } else {
                         Log.d(TAG, "onResponse: 응답 실패 ${response.code()}")
