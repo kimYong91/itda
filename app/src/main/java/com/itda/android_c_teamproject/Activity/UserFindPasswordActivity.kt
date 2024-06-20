@@ -34,7 +34,7 @@ class UserFindPasswordActivity : AppCompatActivity() {
                 if (username.isBlank() || email.isBlank() || phoneNumber.isBlank() || dateOfBirth.isBlank()) {
                     Toast.makeText(
                         this@UserFindPasswordActivity,
-                        "모든 정보를 입력하세요.",
+                        "모든 정보를 입력해주세요.",
                         Toast.LENGTH_SHORT
                     ).show()
                     return@setOnClickListener
