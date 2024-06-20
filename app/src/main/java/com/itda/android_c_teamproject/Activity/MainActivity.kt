@@ -1,28 +1,17 @@
 package com.itda.android_c_teamproject.Activity
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.content.SharedPreferences
-import android.database.Cursor
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.itda.android_c_teamproject.R
-import com.itda.android_c_teamproject.RetrofitClient
+import com.itda.android_c_teamproject.network.RetrofitClient
 import com.itda.android_c_teamproject.databinding.ActivityMainBinding
-import com.itda.android_c_teamproject.model.User
 import com.itda.android_c_teamproject.model.UserDTO
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
-import java.io.IOException
 
 private const val TAG = "MainActivity"
 
@@ -56,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                         textAge.text = "나이 : ${user?.userAge.toString()}"
                         textWeight.text = "몸무게 : ${user?.userWeight.toString()}"
                         textHeight.text = "기 : ${user?.userHeight.toString()}"
-                        textBasalMetabolism.text = "평균기초대사량 : ${user?.userBasalMetabolism.toString()}"
+                        textBasalMetabolism.text = "평균기초대사량 : ${user?.basalMetabolism.toString()}"
                     } else {
                         Log.d(TAG, "onResponse: 응답 실패 ${response.code()}")
                     }
