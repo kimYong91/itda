@@ -42,7 +42,7 @@ class UserFindPasswordActivity : AppCompatActivity() {
 
                 val userFindPasswordDTO = UserFindPasswordDTO(username, email, phoneNumber, dateOfBirth)
 
-                RetrofitClient.api.userFindPassword(userFindPasswordDTO)
+                RetrofitClient.api.findUserPassword(userFindPasswordDTO)
                     .enqueue(object : Callback<UserFindPasswordResponse> {
                         override fun onResponse(call: Call<UserFindPasswordResponse>, response: Response<UserFindPasswordResponse>) {
                             if (response.isSuccessful) {

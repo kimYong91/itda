@@ -81,7 +81,7 @@ class RegisterActivity : AppCompatActivity() {
                                     "화원가입에 실패하셨습니다.",
                                     Toast.LENGTH_SHORT
                                 ).show()
-                                Log.d("mylog", "onResponse, 회원가입실패: ${response.body()}")
+                                Log.d("mylog", "onResponse, 회원가입 실패: ${response.body()}")
                             }
                         }
 

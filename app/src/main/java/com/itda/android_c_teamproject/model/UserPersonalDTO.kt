@@ -4,5 +4,6 @@ data class UserPersonalDTO(
     val username: String,
     val password: String,
     val email: String,
-    val phoneNumber: String
+    val phoneNumber: String,
+    val dateOfBirth: String
 )

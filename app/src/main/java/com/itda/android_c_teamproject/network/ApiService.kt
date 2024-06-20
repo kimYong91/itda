@@ -8,6 +8,7 @@ import com.itda.android_c_teamproject.model.UserFindNameDTO
 import com.itda.android_c_teamproject.model.UserFindNameResponse
 import com.itda.android_c_teamproject.model.UserFindPasswordDTO
 import com.itda.android_c_teamproject.model.UserFindPasswordResponse
+import com.itda.android_c_teamproject.model.UserPersonalDTO
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -17,11 +18,11 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    // 사용자 로그인 후 모든 정보 보기
+    // 로그인 후 모든 정보 보기
     @GET("/itda/oneUserInfo")
     fun getUserInfo(@Header("Authorization") token: String, @Query("id") id: String): Call<User>
 
-    // 사용자 로그인 후 건강 관련 정보 보기
+    // 로그인 후 건강 관련 정보 보기
     @GET("/itda/oneUserHealthDTO")
     fun getUserHealthInfo(@Header("Authorization") token: String, @Query("id") id: String): Call<UserDTO>
 
@@ -39,11 +40,14 @@ interface ApiService {
 
     // 로그인 후 사용자 개인 정보 업데이트
     @POST("/itda/oneUserInfo/{id}")
-    fun updateUserPersonalDTO(@Header("Authorization") token: String, id: String, @Body user: User): Call<User>
+    fun updateUserPersonalDTO(@Header("Authorization") token: String, id: String, @Body userPersonalDTO: UserPersonalDTO): Call<UserPersonalDTO>
 
+    // 비밀번호 임시 생성
     @POST("/itda/findPassword")
-    fun userFindPassword(@Body userFindPasswordDTO: UserFindPasswordDTO): Call<UserFindPasswordResponse>
+    fun findUserPassword(@Body userFindPasswordDTO: UserFindPasswordDTO): Call<UserFindPasswordResponse>
 
+    // 아이디 찾기
     @POST("/itda/findUsername")
-    fun userFindName(@Body userFindNameDTO: UserFindNameDTO): Call<UserFindNameResponse>
+    fun findUsername(@Body userFindNameDTO: UserFindNameDTO): Call<UserFindNameResponse>
+
 }

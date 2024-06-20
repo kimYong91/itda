@@ -42,7 +42,7 @@ class UserFindNameActivity : AppCompatActivity() {
 
                 val userFindNameDTO = UserFindNameDTO(email, phoneNumber, dateOfBirth)
 
-                RetrofitClient.api.userFindName(userFindNameDTO).enqueue(object :
+                RetrofitClient.api.findUsername(userFindNameDTO).enqueue(object :
                     Callback<UserFindNameResponse> {
                     override fun onResponse(
                         call: Call<UserFindNameResponse>,

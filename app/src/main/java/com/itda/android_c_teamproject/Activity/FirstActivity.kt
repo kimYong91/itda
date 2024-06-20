@@ -43,26 +43,29 @@ class FirstActivity : AppCompatActivity() {
             mainImage.visibility = ImageView.VISIBLE
         }
 
-        val items = arrayOf("항목1", "항목2")
+        val items = arrayOf("수정", "개인정보", "건강정보")
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, items)
         binding.spinner.adapter = adapter
-        binding.spinner.onItemClickListener = object : AdapterView.OnItemClickListener {
-            override fun onItemClick(
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
                 id: Long
             ) {
-                Log.d(TAG, "onItemSelected: ${items[position]} 선택")
                 when (position) {
-                    0 -> {
-
-                    }
                     1 -> {
-
+                        startActivity(Intent(this@FirstActivity, UpdateUserPersonalActivity::class.java))
+                    }
+                    2 -> {
+                        startActivity(Intent(this@FirstActivity, UpdateUserHealthActivity::class.java))
                     }
                 }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
             }
 
         }
@@ -72,18 +75,16 @@ class FirstActivity : AppCompatActivity() {
         val token = getToken()
 
         binding.run {
-//            if (token.isNullOrEmpty()) {
-//                startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
-//            }
-//            buttonLogout.setOnClickListener {
-//                startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
-//            }
-//            sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
-//            buttonLogout.setOnClickListener {
-//                logout()
-//            }
-
-            val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
+            if (token.isNullOrEmpty()) {
+                startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
+            }
+            buttonLogout.setOnClickListener {
+                startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
+            }
+            sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
+            buttonLogout.setOnClickListener {
+                logout()
+            }
 
             // 로그인 시 저장된 사용자 이름을 가져옴
             val username = sharedPreferences.getString("username", "") ?: ""
@@ -93,7 +94,6 @@ class FirstActivity : AppCompatActivity() {
                     override fun onResponse(call: Call<UserDTO>, response: Response<UserDTO>) {
                         if (response.isSuccessful) {
                             val user = response.body()
-                            Log.d(TAG, "onResponse: ${user}")
 
                             textName.text = "${username}님"
                             textAge.text = "나이 : ${user?.userAge.toString()}세"
