@@ -6,14 +6,9 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.itda.android_c_teamproject.R
 import com.itda.android_c_teamproject.databinding.ActivityUpdateUserPersonalBinding
 import com.itda.android_c_teamproject.model.User
-import com.itda.android_c_teamproject.model.UserDTO
 import com.itda.android_c_teamproject.model.UserPersonalDTO
 import com.itda.android_c_teamproject.network.RetrofitClient
 import retrofit2.Call
@@ -40,23 +35,24 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
 
             buttonExit.setOnClickListener {
                 startActivity(Intent(this@UpdateUserPersonalActivity, FirstActivity::class.java))
+                finish()
             }
 
-            RetrofitClient.api.getUserInfo("Bearer $token", username).enqueue(object :
-                Callback<User> {
-                override fun onResponse(call: Call<User>, response: Response<User>) {
-                    val user = response.body()
-                    textUsername.text = "${username}님"
-                    textEmail.text = "이메일 : ${user?.email.toString()}"
-                    textPhoneNumber.text = "핸드폰 번호 : ${user?.phoneNumber.toString()}"
-                    textDateOfBirth.text = "생년월일 : ${user?.dateOfBirth.toString()}"
-                }
+            RetrofitClient.api.getUserInfo("Bearer $token", username)
+                .enqueue(object : Callback<User> {
+                    override fun onResponse(call: Call<User>, response: Response<User>) {
+                        val user = response.body()
+                        textUsername.text = "${username}님"
+                        textEmail.text = "이메일 : ${user?.email.toString()}"
+                        textPhoneNumber.text = "핸드폰 번호 : ${user?.phoneNumber.toString()}"
+                        textDateOfBirth.text = "생년월일 : ${user?.dateOfBirth.toString()}"
+                    }
 
-                override fun onFailure(call: Call<User>, t: Throwable) {
-                    Log.d(TAG, "onFailure: 네트워크 요청 실패")
-                }
+                    override fun onFailure(call: Call<User>, t: Throwable) {
+                        Log.d(TAG, "onFailure: 네트워크 요청 실패")
+                    }
 
-            })
+                })
 
 
             buttonUpdate.setOnClickListener {
@@ -67,39 +63,39 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
                 val newDateOfBirth = editDateOfBirth.text.toString()
 
                 userPersonalDTO = UserPersonalDTO(
-                    newPassword,
-                    newEmail,
-                    newPhoneNumber,
-                    newDateOfBirth
+                    newPassword, newEmail, newPhoneNumber, newDateOfBirth
                 )
 
 
-                RetrofitClient.api.updateUserPersonalDTO("Bearer $token", username, userPersonalDTO)
-                    .enqueue(
-                        object : Callback<UserPersonalDTO> {
-                            override fun onResponse(
-                                call: Call<UserPersonalDTO>,
-                                response: Response<UserPersonalDTO>
-                            ) {
-                                if (response.isSuccessful) {
-                                    Log.d(TAG, "onResponse: 정보 수정 성공 ${response.code()}")
+                RetrofitClient.api.updateUserPersonalInfo(
+                    "Bearer $token", username, userPersonalDTO
+                ).enqueue(object : Callback<UserPersonalDTO> {
+                    override fun onResponse(
+                        call: Call<UserPersonalDTO>, response: Response<UserPersonalDTO>
+                    ) {
+                        if (response.isSuccessful) {
+                            Log.d(TAG, "onResponse: 정보 수정 성공 ${response.code()}")
 
-                                    val user = response.body()
-                                    textUsername.text = "${username}님"
-                                    textEmail.text = "이메일 : ${user?.email.toString()}"
-                                    textPhoneNumber.text = "핸드폰 번호 : ${user?.phoneNumber.toString()}"
-                                    textDateOfBirth.text = "생년월일 : ${user?.dateOfBirth.toString()}"
-                                    Toast.makeText(this@UpdateUserPersonalActivity, "정보 수정 완료 했습니다.", Toast.LENGTH_SHORT).show()
+                            val user = response.body()
+                            textUsername.text = "${username}님"
+                            textEmail.text = "이메일 : ${user?.email.toString()}"
+                            textPhoneNumber.text = "핸드폰 번호 : ${user?.phoneNumber.toString()}"
+                            textDateOfBirth.text = "생년월일 : ${user?.dateOfBirth.toString()}"
+                            Toast.makeText(
+                                this@UpdateUserPersonalActivity,
+                                "정보 수정 완료 했습니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
-                                } else {
-                                    Log.d(TAG, "onResponse: 정보 수정 실패 ${response.code()}")
-                                }
-                            }
+                        } else {
+                            Log.d(TAG, "onResponse: 정보 수정 실패 ${response.code()}")
+                        }
+                    }
 
-                            override fun onFailure(call: Call<UserPersonalDTO>, t: Throwable) {
-                                Log.d(TAG, "onFailure: 네트워크 요청 실패")
-                            }
-                        })
+                    override fun onFailure(call: Call<UserPersonalDTO>, t: Throwable) {
+                        Log.d(TAG, "onFailure: 네트워크 요청 실패")
+                    }
+                })
             }
 
 

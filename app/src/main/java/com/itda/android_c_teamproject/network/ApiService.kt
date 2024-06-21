@@ -8,6 +8,7 @@ import com.itda.android_c_teamproject.model.UserFindNameDTO
 import com.itda.android_c_teamproject.model.UserFindNameResponse
 import com.itda.android_c_teamproject.model.UserFindPasswordDTO
 import com.itda.android_c_teamproject.model.UserFindPasswordResponse
+import com.itda.android_c_teamproject.model.UserHealthDTO
 import com.itda.android_c_teamproject.model.UserPersonalDTO
 import retrofit2.Call
 import retrofit2.http.Body
@@ -37,12 +38,12 @@ interface ApiService {
     fun login(@Body user: LoginRequest): Call<LoginResponse>
 
     // 로그인 후 사용자 건강 관련 정보 업데이트
-    @POST("/itda/oneUserHealthDTO/{id}")
-    fun updateUserHealthInfo(@Header("Authorization") token: String, @Path("id") id: String, @Body userPersonalDTO: UserPersonalDTO): Call<UserPersonalDTO>
+    @PATCH("/itda/oneUserHealthDTO/{id}")
+    fun updateUserHealthInfo(@Header("Authorization") token: String, @Path("id") id: String, @Body userHealthDTO: UserHealthDTO): Call<UserHealthDTO>
 
     // 로그인 후 사용자 개인 정보 업데이트
     @PATCH("/itda/oneUserInfo/{id}")
-    fun updateUserPersonalDTO(@Header("Authorization") token: String, @Path("id") id: String, @Body userPersonalDTO: UserPersonalDTO): Call<UserPersonalDTO>
+    fun updateUserPersonalInfo(@Header("Authorization") token: String, @Path("id") id: String, @Body userPersonalDTO: UserPersonalDTO): Call<UserPersonalDTO>
 
     // 비밀번호 임시 생성
     @POST("/itda/findPassword")
