@@ -65,9 +65,7 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
                     newEmail = editEmail.text.toString()
                 } else {
                     Toast.makeText(
-                        this@UpdateUserPersonalActivity,
-                        "이메일을 정확히 입력하세요",
-                        Toast.LENGTH_SHORT
+                        this@UpdateUserPersonalActivity, "이메일을 정확히 입력하세요", Toast.LENGTH_SHORT
                     ).show()
                 }
                 if (editPhoneNumber.text.contains("-")) {
@@ -80,44 +78,42 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
                     newDateOfBirth = editDateOfBirth.text.toString()
                 } else {
                     Toast.makeText(
-                        this@UpdateUserPersonalActivity,
-                        "'-' 포함하여 입력하세요",
-                        Toast.LENGTH_SHORT
+                        this@UpdateUserPersonalActivity, "'-' 포함하여 입력하세요", Toast.LENGTH_SHORT
                     ).show()
                 }
                 userPersonalDTO = UserPersonalDTO(
                     newPassword, newEmail, newPhoneNumber, newDateOfBirth
                 )
 
-                    RetrofitClient.api.updateUserPersonalInfo(
-                        "Bearer $token", username, userPersonalDTO
-                    ).enqueue(object : Callback<UserPersonalDTO> {
-                        override fun onResponse(
-                            call: Call<UserPersonalDTO>, response: Response<UserPersonalDTO>
-                        ) {
-                            if (response.isSuccessful) {
-                                Log.d(TAG, "onResponse: 정보 수정 성공 ${response.code()}")
+                RetrofitClient.api.updateUserPersonalInfo(
+                    "Bearer $token", username, userPersonalDTO
+                ).enqueue(object : Callback<UserPersonalDTO> {
+                    override fun onResponse(
+                        call: Call<UserPersonalDTO>, response: Response<UserPersonalDTO>
+                    ) {
+                        if (response.isSuccessful) {
+                            Log.d(TAG, "onResponse: 정보 수정 성공 ${response.code()}")
 
-                                val user = response.body()
-                                textUsername.text = "${username}님"
-                                textEmail.text = "이메일 : ${user?.email.toString()}"
-                                textPhoneNumber.text = "핸드폰 번호 : ${user?.phoneNumber.toString()}"
-                                textDateOfBirth.text = "생년월일 : ${user?.dateOfBirth.toString()}"
-                                Toast.makeText(
-                                    this@UpdateUserPersonalActivity,
-                                    "정보 수정 완료 했습니다.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                            val user = response.body()
+                            textUsername.text = "${username}님"
+                            textEmail.text = "이메일 : ${user?.email.toString()}"
+                            textPhoneNumber.text = "핸드폰 번호 : ${user?.phoneNumber.toString()}"
+                            textDateOfBirth.text = "생년월일 : ${user?.dateOfBirth.toString()}"
+                            Toast.makeText(
+                                this@UpdateUserPersonalActivity,
+                                "정보 수정 완료 했습니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
-                            } else {
-                                Log.d(TAG, "onResponse: 정보 수정 실패 ${response.code()}")
-                            }
+                        } else {
+                            Log.d(TAG, "onResponse: 정보 수정 실패 ${response.code()}")
                         }
+                    }
 
-                        override fun onFailure(call: Call<UserPersonalDTO>, t: Throwable) {
-                            Log.d(TAG, "onFailure: 네트워크 요청 실패")
-                        }
-                    })
+                    override fun onFailure(call: Call<UserPersonalDTO>, t: Throwable) {
+                        Log.d(TAG, "onFailure: 네트워크 요청 실패")
+                    }
+                })
             }
 
         }
