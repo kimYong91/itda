@@ -53,7 +53,7 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<User>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    Log.d(TAG, "onFailure: 네트워크 요청 실패")
                 }
 
             })
