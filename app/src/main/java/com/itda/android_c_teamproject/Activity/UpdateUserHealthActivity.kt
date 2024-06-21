@@ -1,21 +1,15 @@
 package com.itda.android_c_teamproject.Activity
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.itda.android_c_teamproject.R
 import com.itda.android_c_teamproject.databinding.ActivityUpdateUserHealthBinding
 import com.itda.android_c_teamproject.model.User
-import com.itda.android_c_teamproject.model.UserHealthDTO
-import com.itda.android_c_teamproject.model.UserPersonalDTO
+import com.itda.android_c_teamproject.model.dto.UserHealthDTO
 import com.itda.android_c_teamproject.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback

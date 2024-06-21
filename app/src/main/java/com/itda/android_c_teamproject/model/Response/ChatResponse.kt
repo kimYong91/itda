@@ -1,4 +1,4 @@
-package com.itda.android_c_teamproject.model
+package com.itda.android_c_teamproject.model.Response
 
 // ChatResponse 데이터 클래스 정의 (ChatResponse.kt)
 data class ChatResponse(

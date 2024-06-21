@@ -10,13 +10,12 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.R
 import com.itda.android_c_teamproject.databinding.ActivityFirstBinding
-import com.itda.android_c_teamproject.model.UserDTO
+import com.itda.android_c_teamproject.model.dto.UserDTO
 import com.itda.android_c_teamproject.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback

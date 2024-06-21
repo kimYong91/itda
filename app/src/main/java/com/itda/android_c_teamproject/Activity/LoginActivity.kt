@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.network.RetrofitClient
 import com.itda.android_c_teamproject.databinding.ActivityLoginBinding
 import com.itda.android_c_teamproject.model.LoginRequest
-import com.itda.android_c_teamproject.model.LoginResponse
+import com.itda.android_c_teamproject.model.Response.LoginResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

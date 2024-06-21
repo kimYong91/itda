@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.BuildConfig
 import com.itda.android_c_teamproject.R
 import com.itda.android_c_teamproject.model.ChatRequest
-import com.itda.android_c_teamproject.model.ChatResponse
+import com.itda.android_c_teamproject.model.Response.ChatResponse
 import com.itda.android_c_teamproject.model.Message
 import com.itda.android_c_teamproject.network.ApiClient
 import com.itda.android_c_teamproject.network.OpenAIService

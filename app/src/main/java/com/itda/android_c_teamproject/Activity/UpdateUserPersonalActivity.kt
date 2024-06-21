@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.databinding.ActivityUpdateUserPersonalBinding
 import com.itda.android_c_teamproject.model.User
-import com.itda.android_c_teamproject.model.UserPersonalDTO
+import com.itda.android_c_teamproject.model.dto.UserPersonalDTO
 import com.itda.android_c_teamproject.network.RetrofitClient
 import retrofit2.Call
 import retrofit2.Callback

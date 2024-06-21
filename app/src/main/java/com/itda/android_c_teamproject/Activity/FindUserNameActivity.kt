@@ -7,8 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.network.RetrofitClient
 import com.itda.android_c_teamproject.databinding.ActivityFindUserNameBinding
-import com.itda.android_c_teamproject.model.UserFindNameDTO
-import com.itda.android_c_teamproject.model.UserFindNameResponse
+import com.itda.android_c_teamproject.model.dto.UserFindNameDTO
+import com.itda.android_c_teamproject.model.Response.UserFindNameResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

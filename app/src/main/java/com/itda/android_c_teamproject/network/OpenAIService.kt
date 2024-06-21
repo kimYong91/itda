@@ -1,7 +1,7 @@
 package com.itda.android_c_teamproject.network
 
 import com.itda.android_c_teamproject.model.ChatRequest
-import com.itda.android_c_teamproject.model.ChatResponse
+import com.itda.android_c_teamproject.model.Response.ChatResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
