@@ -118,6 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="회원 가입"
+            android:background="@drawable/round"
             />
 
         <Button
@@ -126,6 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="나가기"
+            android:background="@drawable/round"
             />
 
     </LinearLayout>
