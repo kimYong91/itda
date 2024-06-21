@@ -110,7 +110,7 @@ class FirstActivity : AppCompatActivity() {
                         Log.d(TAG, "onFailure: 네트워크 실패")
                     }
                 })
-            textName.text = "${username}님"
+
 
             recommendExerciseButton.setOnClickListener {
                 val intent = Intent(this@FirstActivity, ChatMainActivity::class.java)
