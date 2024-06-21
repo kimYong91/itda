@@ -8,6 +8,15 @@
     android:orientation="vertical"
     tools:context=".Activity.FirstActivity">
 
+    <TextView
+        android:id="@+id/textName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="이름"
+        android:textSize="20sp"
+        android:layout_alignParentRight="true"/>
+
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
@@ -21,7 +30,8 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="start">
 
             <Spinner
                 android:id="@+id/spinner"
@@ -32,40 +42,37 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/textName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="이름"
-            android:textSize="20sp" />
-
-        <TextView
             android:id="@+id/textAge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="나이"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginTop="20sp"
+            android:layout_gravity="start"/>
 
         <TextView
             android:id="@+id/textWeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="몸무게"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_gravity="start"/>
 
         <TextView
             android:id="@+id/textHeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="키"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_gravity="start"/>
 
         <TextView
             android:id="@+id/textBasalMetabolism"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="기초대사량"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_gravity="start"/>
 
     </LinearLayout>
 

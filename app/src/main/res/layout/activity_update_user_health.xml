@@ -62,12 +62,17 @@
         android:text="성별"
         android:textSize="20sp"
         />
-
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_weight="1"/>
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_gravity="end">
+        android:layout_gravity="end"
+        >
 
         <RadioButton
             android:id="@+id/buttonMale"
