@@ -14,7 +14,6 @@ import retrofit2.Response
 
 class RegisterActivity : AppCompatActivity() {
     lateinit var binding: ActivityRegisterBinding
-    lateinit var user: User
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -57,7 +56,7 @@ class RegisterActivity : AppCompatActivity() {
                     height
                 )
 
-                if (password.length in 8..13 && email.contains("@")) {
+                if (password.length in 8..13 && email.contains("@") && dateOfBirth.contains("-")) {
                     RetrofitClient.api.createUser(user).enqueue(object : Callback<User> {
                         override fun onResponse(call: Call<User>, response: Response<User>) {
                             if (response.isSuccessful) {
@@ -95,6 +94,11 @@ class RegisterActivity : AppCompatActivity() {
                             Log.d("mylog", "onFailure: ${t.message}")
                         }
                     })
+                } else if (email.contains("@")) {
+                    Toast.makeText(this@RegisterActivity, "이메일을 정확하게 입력해주세요", Toast.LENGTH_SHORT).show()
+                } else if (dateOfBirth.contains("-")) {
+                    Toast.makeText(this@RegisterActivity, "생년월일을 정확하게 입력해주세요", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }

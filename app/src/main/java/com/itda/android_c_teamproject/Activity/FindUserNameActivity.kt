@@ -15,7 +15,7 @@ import retrofit2.Response
 
 private const val TAG = "UserFindNameActivity"
 
-class UserFindNameActivity : AppCompatActivity() {
+class FindUserNameActivity : AppCompatActivity() {
     lateinit var binding: ActivityFindUserNameBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +24,7 @@ class UserFindNameActivity : AppCompatActivity() {
 
         binding.run {
             buttonExit.setOnClickListener {
-                startActivity(Intent(this@UserFindNameActivity, LoginActivity::class.java))
+                startActivity(Intent(this@FindUserNameActivity, LoginActivity::class.java))
             }
 
             buttonFindUserName.setOnClickListener {
@@ -34,7 +34,7 @@ class UserFindNameActivity : AppCompatActivity() {
 
                 if (email.isEmpty() || phoneNumber.isEmpty() || dateOfBirth.isEmpty()) {
                     Toast.makeText(
-                        this@UserFindNameActivity,
+                        this@FindUserNameActivity,
                         "모든 정보를 입력해주세요",
                         Toast.LENGTH_SHORT
                         ).show()
@@ -53,13 +53,13 @@ class UserFindNameActivity : AppCompatActivity() {
                             Log.d(TAG, "onResponse: ${username}")
                             textFindUserName.text = username
                             Toast.makeText(
-                                this@UserFindNameActivity,
+                                this@FindUserNameActivity,
                                 "아이디 찾기에 성공 했습니다.",
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
                             Toast.makeText(
-                                this@UserFindNameActivity,
+                                this@FindUserNameActivity,
                                 "아이디 찾기에 실패 했습니다.",
                                 Toast.LENGTH_SHORT
                             ).show()
@@ -68,7 +68,7 @@ class UserFindNameActivity : AppCompatActivity() {
 
                     override fun onFailure(call: Call<UserFindNameResponse>, t: Throwable) {
                         Toast.makeText(
-                            this@UserFindNameActivity,
+                            this@FindUserNameActivity,
                             "네트워크 오류가 발생했습니다.",
                             Toast.LENGTH_SHORT
                         ).show()

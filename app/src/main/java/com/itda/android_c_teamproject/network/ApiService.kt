@@ -13,7 +13,9 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -36,11 +38,11 @@ interface ApiService {
 
     // 로그인 후 사용자 건강 관련 정보 업데이트
     @POST("/itda/oneUserHealthDTO/{id}")
-    fun updateUserHealthInfo(@Header("Authorization") token: String, id: String, @Body user: User): Call<User>
+    fun updateUserHealthInfo(@Header("Authorization") token: String, @Path("id") id: String, @Body userPersonalDTO: UserPersonalDTO): Call<UserPersonalDTO>
 
     // 로그인 후 사용자 개인 정보 업데이트
-    @POST("/itda/oneUserInfo/{id}")
-    fun updateUserPersonalDTO(@Header("Authorization") token: String, id: String, @Body userPersonalDTO: UserPersonalDTO): Call<UserPersonalDTO>
+    @PATCH("/itda/oneUserInfo/{id}")
+    fun updateUserPersonalDTO(@Header("Authorization") token: String, @Path("id") id: String, @Body userPersonalDTO: UserPersonalDTO): Call<UserPersonalDTO>
 
     // 비밀번호 임시 생성
     @POST("/itda/findPassword")

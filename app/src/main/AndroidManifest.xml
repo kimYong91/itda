@@ -34,10 +34,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.UserFindPasswordActivity"
+            android:name=".Activity.FindUserPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.UserFindNameActivity"
+            android:name=".Activity.FindUserNameActivity"
             android:exported="false" />
         <activity
             android:name=".Activity.RegisterActivity"

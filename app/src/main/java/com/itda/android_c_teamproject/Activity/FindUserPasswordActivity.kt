@@ -12,7 +12,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UserFindPasswordActivity : AppCompatActivity() {
+class FindUserPasswordActivity : AppCompatActivity() {
     lateinit var binding: ActivityFindUserPasswordBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +21,7 @@ class UserFindPasswordActivity : AppCompatActivity() {
 
         binding.run {
             buttonExit.setOnClickListener {
-                startActivity(Intent(this@UserFindPasswordActivity, LoginActivity::class.java))
+                startActivity(Intent(this@FindUserPasswordActivity, LoginActivity::class.java))
                 finish()
             }
 
@@ -33,7 +33,7 @@ class UserFindPasswordActivity : AppCompatActivity() {
 
                 if (username.isBlank() || email.isBlank() || phoneNumber.isBlank() || dateOfBirth.isBlank()) {
                     Toast.makeText(
-                        this@UserFindPasswordActivity,
+                        this@FindUserPasswordActivity,
                         "모든 정보를 입력해주세요.",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -49,13 +49,13 @@ class UserFindPasswordActivity : AppCompatActivity() {
                                 val newPassword = response.body()?.newPassword
                                 textFindPassword.text = newPassword
                                 Toast.makeText(
-                                    this@UserFindPasswordActivity,
+                                    this@FindUserPasswordActivity,
                                     "임시 비밀번호 생성 성공 했습니다.",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             } else {
                                 Toast.makeText(
-                                    this@UserFindPasswordActivity,
+                                    this@FindUserPasswordActivity,
                                     "비밀번호 찾기에 실패했습니다.",
                                     Toast.LENGTH_SHORT
                                 ).show()
@@ -64,7 +64,7 @@ class UserFindPasswordActivity : AppCompatActivity() {
 
                         override fun onFailure(call: Call<UserFindPasswordResponse>, t: Throwable) {
                             Toast.makeText(
-                                this@UserFindPasswordActivity,
+                                this@FindUserPasswordActivity,
                                 "네트워크 오류가 발생했습니다.",
                                 Toast.LENGTH_SHORT
                             ).show()
