@@ -1,5 +1,7 @@
 package com.itda.android_c_teamproject.network
 
+import com.itda.android_c_teamproject.model.ChatRequest
+import com.itda.android_c_teamproject.model.ChatResponse
 import com.itda.android_c_teamproject.model.LoginRequest
 import com.itda.android_c_teamproject.model.LoginResponse
 import com.itda.android_c_teamproject.model.User
@@ -25,6 +27,9 @@ interface ApiService {
     @GET("/itda/oneUserHealthDTO")
     fun getUserHealthInfo(@Header("Authorization") token: String, @Query("id") id: String): Call<UserDTO>
 
+    @POST("/path/to/chat/api") // 실제 엔드포인트로 변경
+    fun getChatResponse(@Body request: ChatRequest): Call<ChatResponse>
+
     // 회원 가입
     @POST("/itda/createUser")
     fun createUser(@Body user: User): Call<User>
@@ -46,4 +51,7 @@ interface ApiService {
 
     @POST("/itda/findUsername")
     fun userFindName(@Body userFindNameDTO: UserFindNameDTO): Call<UserFindNameResponse>
+
+
+
 }
