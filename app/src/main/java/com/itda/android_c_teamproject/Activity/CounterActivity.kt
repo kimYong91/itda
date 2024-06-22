@@ -10,6 +10,7 @@ import com.itda.android_c_teamproject.databinding.ActivityCounterBinding
 class CounterActivity : AppCompatActivity() {
     lateinit var binding: ActivityCounterBinding
     var count = 0
+    var initTime = 0L
     // 액티비티가 생성될 때 savedInstanceState가 매개변수로 전달됨
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +45,14 @@ class CounterActivity : AppCompatActivity() {
         binding.textView.text = "$saveData"
     }
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Toast.makeText(this, "종료하려면 한 번 더 누르세요.", Toast.LENGTH_SHORT).show()
-            return true
+            // 뒤로가기 버튼을 누른지 3초 이내가 아니거나 처음 누를 경우
+            if (System.currentTimeMillis() - initTime > 3000) {
+                Toast.makeText(this, "종료하려면 한 번 더 누르세요.", Toast.LENGTH_SHORT).show()
+                initTime = System.currentTimeMillis()
+                return true
+            }
         }
         return super.onKeyDown(keyCode, event)
     }

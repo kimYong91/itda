@@ -56,6 +56,7 @@ class StopWatchActivity : AppCompatActivity() {
 
     // 뒤로가기 버튼 이벤트 핸들러
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             // 뒤로가기 버튼을 누른지 3초 이내가 아니거나 처음 누를 경우
             if (System.currentTimeMillis() - initTime > 3000) {

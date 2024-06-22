@@ -15,6 +15,7 @@ import retrofit2.Response
 
 class RegisterActivity : AppCompatActivity() {
     lateinit var binding: ActivityRegisterBinding
+    var initTime = 0L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -105,9 +106,14 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Toast.makeText(this, "종료하려면 한 번 더 누르세요.", Toast.LENGTH_SHORT).show()
-            return true
+            // 뒤로가기 버튼을 누른지 3초 이내가 아니거나 처음 누를 경우
+            if (System.currentTimeMillis() - initTime > 3000) {
+                Toast.makeText(this, "종료하려면 한 번 더 누르세요.", Toast.LENGTH_SHORT).show()
+                initTime = System.currentTimeMillis()
+                return true
+            }
         }
         return super.onKeyDown(keyCode, event)
     }
