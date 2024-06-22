@@ -16,6 +16,12 @@
         android:theme="@style/Theme.Itda"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.CounterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.StopWatchActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.UpdateUserHealthActivity"
             android:exported="false" />
         <activity

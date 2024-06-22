@@ -2,6 +2,7 @@ package com.itda.android_c_teamproject.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.databinding.ActivityFindUserPasswordBinding
@@ -72,5 +73,12 @@ class FindUserPasswordActivity : AppCompatActivity() {
                     })
             }
         }
+    }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Toast.makeText(this, "종료하려면 한 번 더 누르세요.", Toast.LENGTH_SHORT).show()
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }

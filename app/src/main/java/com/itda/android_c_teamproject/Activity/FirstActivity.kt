@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -120,7 +121,7 @@ class FirstActivity : AppCompatActivity() {
                 Toast.makeText(this@FirstActivity, "식단 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
 
-            val items2 = arrayOf("   유틸", "스탑워치", "기능2", "기능3")
+            val items2 = arrayOf("   유틸", "스탑워치", "카운터", "기능3")
             val adapter2 = ArrayAdapter(this@FirstActivity, android.R.layout.simple_spinner_item, items2)
             adapter2.setDropDownViewResource(R.layout.spinner_item2)
             binding.spinner2.adapter = adapter2
@@ -133,11 +134,11 @@ class FirstActivity : AppCompatActivity() {
                 ) {
                     when (position) {
                         1 -> {
-
+                            startActivity(Intent(this@FirstActivity, StopWatchActivity::class.java))
                         }
 
                         2 -> {
-
+                            startActivity(Intent(this@FirstActivity, CounterActivity::class.java))
                         }
 
                         3 -> {
@@ -217,6 +218,13 @@ class FirstActivity : AppCompatActivity() {
         } else {
             mainImage.visibility = ImageView.VISIBLE
         }
+    }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Toast.makeText(this, "종료하려면 한 번 더 누르세요.", Toast.LENGTH_SHORT).show()
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
 }
