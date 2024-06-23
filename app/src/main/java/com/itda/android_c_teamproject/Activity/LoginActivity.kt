@@ -24,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.run {
-            buttonLogin.setOnClickListener {
+            textLogin.setOnClickListener {
                 val username = editID.text.toString()
                 val password = editPassword.text.toString()
                 val user = LoginRequest(username, password)

@@ -97,26 +97,30 @@
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/recommendExerciseButton"
+        <TextView
+            android:id="@+id/textRecommendExercise"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="추천운동"
             android:textSize="15sp"
+            android:textStyle="bold"
+            android:padding="15dp"
             android:background="@drawable/round"
-            android:padding="10sp"
+            android:gravity="center_horizontal"
             />
 
-        <Button
-            android:id="@+id/foodMenuButton"
+        <TextView
+            android:id="@+id/textFoodMenu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="식단"
             android:textSize="15sp"
+            android:textStyle="bold"
+            android:padding="15dp"
             android:background="@drawable/round"
-            android:padding="10sp"/>
+            android:gravity="center_horizontal"/>
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -157,14 +161,16 @@
 
         >
 
-        <Button
-            android:id="@+id/gptButton"
+        <TextView
+            android:id="@+id/textGpt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="GPT"
-            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:padding="7.5dp"
             android:background="@drawable/round"
+            android:gravity="center_horizontal"
              />
     </LinearLayout>
 

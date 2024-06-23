@@ -22,12 +22,12 @@ class FindUserPasswordActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.run {
-            buttonExit.setOnClickListener {
+            textExit.setOnClickListener {
                 startActivity(Intent(this@FindUserPasswordActivity, LoginActivity::class.java))
                 finish()
             }
 
-            buttonFindPassword.setOnClickListener {
+            textFindingPassword.setOnClickListener {
                 val username = editUsername.text.toString()
                 val email = editEmail.text.toString()
                 val phoneNumber = editPhoneNumber.text.toString()

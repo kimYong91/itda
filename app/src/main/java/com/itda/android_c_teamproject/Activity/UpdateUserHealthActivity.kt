@@ -36,7 +36,7 @@ class UpdateUserHealthActivity : AppCompatActivity() {
 
             val username = sharedPreferences.getString("username", "") ?: ""
 
-            buttonExit.setOnClickListener {
+            textExit.setOnClickListener {
                 startActivity(Intent(this@UpdateUserHealthActivity, FirstActivity::class.java))
                 finish()
             }
@@ -63,7 +63,7 @@ class UpdateUserHealthActivity : AppCompatActivity() {
             buttonFemale.setOnClickListener {
                 gender = "여"
             }
-            buttonUpdate.setOnClickListener {
+            textUpdate.setOnClickListener {
                 val weight = editWeight.text.toString().toIntOrNull()
                 val height = editHeight.text.toString().toDoubleOrNull()
 

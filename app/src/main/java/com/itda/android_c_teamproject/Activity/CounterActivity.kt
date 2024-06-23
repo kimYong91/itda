@@ -19,7 +19,7 @@ class CounterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.run {
-            countButton.setOnClickListener {
+            mainCount.setOnClickListener {
                 count++
                 textView.text = "$count"
             }

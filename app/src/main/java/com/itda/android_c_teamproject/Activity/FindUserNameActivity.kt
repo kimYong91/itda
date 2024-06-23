@@ -25,11 +25,11 @@ class FindUserNameActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.run {
-            buttonExit.setOnClickListener {
+            textExit.setOnClickListener {
                 startActivity(Intent(this@FindUserNameActivity, LoginActivity::class.java))
             }
 
-            buttonFindUserName.setOnClickListener {
+            textFindingUserName.setOnClickListener {
                 val email = editEmail.text.toString()
                 val phoneNumber = editPhoneNumber.text.toString()
                 val dateOfBirth = editDateOfBirth.text.toString()

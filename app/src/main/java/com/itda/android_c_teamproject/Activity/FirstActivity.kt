@@ -112,13 +112,13 @@ class FirstActivity : AppCompatActivity() {
                 })
 
 
-            recommendExerciseButton.setOnClickListener {
+            textRecommendExercise.setOnClickListener {
                 val intent = Intent(this@FirstActivity, ChatMainActivity::class.java)
                 startActivity(intent)
                 Toast.makeText(this@FirstActivity, "추천 운동 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
 
-            foodMenuButton.setOnClickListener {
+            textFoodMenu.setOnClickListener {
                 Toast.makeText(this@FirstActivity, "식단 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
 
@@ -153,7 +153,7 @@ class FirstActivity : AppCompatActivity() {
                 }
 
             }
-                gptButton.setOnClickListener {
+            textGpt.setOnClickListener {
                 Toast.makeText(this@FirstActivity, "GPT 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
         }

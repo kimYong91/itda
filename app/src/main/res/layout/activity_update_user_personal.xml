@@ -91,19 +91,26 @@
         android:layout_marginTop="50dp"
         >
 
-        <Button
-            android:id="@+id/buttonUpdate"
+        <TextView
+            android:id="@+id/textUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="수정"
+            android:text="  수정  "
+            android:gravity="center"
+            android:textStyle="bold"
+            android:padding="15dp"
+            android:background="@drawable/round"
             />
-        <Button
-            android:id="@+id/buttonExit"
+        <TextView
+            android:id="@+id/textExit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_gravity="end"
             android:text="나가기"
+            android:textStyle="bold"
+            android:padding="15dp"
+            android:background="@drawable/round"
             />
 
     </LinearLayout>

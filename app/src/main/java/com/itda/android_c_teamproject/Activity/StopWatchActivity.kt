@@ -20,32 +20,32 @@ class StopWatchActivity : AppCompatActivity() {
 
 
         binding.run {
-            btnStart.setOnClickListener {
+            textStart.setOnClickListener {
                 chronometer.base = SystemClock.elapsedRealtime() + pauseTime
                 chronometer.start()
                 // 버튼 표시여부를 조정
-                btnStart.isEnabled = false
-                btnStop.isEnabled = true
-                btnReset.isEnabled = true
+                textStart.isEnabled = false
+                textStop.isEnabled = true
+                textReset.isEnabled = true
             }
 
-            btnStop.setOnClickListener {
+            textStop.setOnClickListener {
                 pauseTime = chronometer.base - SystemClock.elapsedRealtime()
                 chronometer.stop()
 
-                btnStart.isEnabled = true
-                btnStop.isEnabled = false
-                btnReset.isEnabled = true
+                textStart.isEnabled = true
+                textStop.isEnabled = false
+                textReset.isEnabled = true
             }
 
-            btnReset.setOnClickListener {
+            textReset.setOnClickListener {
                 chronometer.base = SystemClock.elapsedRealtime()
                 chronometer.stop()
                 pauseTime = 0L
 
-                btnStart.isEnabled = true
-                btnStop.isEnabled = false
-                btnReset.isEnabled = false
+                textStart.isEnabled = true
+                textStop.isEnabled = false
+                textReset.isEnabled = false
             }
             buttonExit.setOnClickListener {
                 startActivity(Intent(this@StopWatchActivity, FirstActivity::class.java))

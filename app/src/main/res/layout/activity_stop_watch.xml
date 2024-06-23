@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="50dp">
 
     <Chronometer
         android:id="@+id/chronometer"
@@ -20,37 +21,55 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnStart"
+        <TextView
+            android:id="@+id/textStart"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="시작"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="15dp"
+            android:background="@drawable/round"
+            android:gravity="center_horizontal"
+            />
 
-        <Button
-            android:id="@+id/btnStop"
+        <TextView
+            android:id="@+id/textStop"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="정지"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:padding="15dp"
+            android:background="@drawable/round"
+            android:gravity="center_horizontal"
+            />
 
-        <Button
-            android:id="@+id/btnReset"
+        <TextView
+            android:id="@+id/textReset"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="리셋"
-            android:textStyle="bold" />
-        <Button
+            android:textStyle="bold"
+            android:padding="15dp"
+            android:background="@drawable/round"
+            android:gravity="center_horizontal"
+            />
+
+        <TextView
             android:id="@+id/buttonExit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="10dp"
             android:text="나가기"
+            android:textStyle="bold"
+            android:padding="15dp"
+            android:background="@drawable/round"
+            android:gravity="center_horizontal"
             />
+
     </LinearLayout>
 
 

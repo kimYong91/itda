@@ -38,7 +38,7 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
 
             val username = sharedPreferences.getString("username", "") ?: ""
 
-            buttonExit.setOnClickListener {
+            textExit.setOnClickListener {
                 startActivity(Intent(this@UpdateUserPersonalActivity, FirstActivity::class.java))
                 finish()
             }
@@ -60,7 +60,7 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
                 })
 
 
-            buttonUpdate.setOnClickListener {
+            textUpdate.setOnClickListener {
 
                 val newPassword = editPassword.text.toString()
                 if (editEmail.text.contains("@") || editEmail.text.isNullOrBlank()) {
