@@ -5,119 +5,98 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".Activity.UpdateUserPersonalActivity"
     android:orientation="vertical"
-    android:padding="50dp"
-    tools:context=".Activity.UpdateUserHealthActivity">
+    android:padding="50dp">
 
     <TextView
         android:id="@+id/textUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="아이디"
         android:layout_gravity="end"
-        android:text="아이디" />
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="25dp"
-        android:text="건강정보 수정"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
-
-    <TextView
-        android:id="@+id/textGender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:text="성별" />
-
-    <TextView
-        android:id="@+id/textWeight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="몸무게" />
-
-    <TextView
-        android:id="@+id/textHeight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="키" />
-
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_marginTop="50dp"
-    >
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="성별"
-        android:textSize="20sp"
         />
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="1"/>
-    <RadioGroup
+
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="end"
-        >
+        android:text="개인정보 수정"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"/>
 
-        <RadioButton
-            android:id="@+id/buttonMale"
-            android:layout_width="wrap_content"
-            android:layout_height="32sp"
-            android:text="남" />
 
-        <RadioButton
-            android:id="@+id/buttonFemale"
-            android:layout_width="wrap_content"
-            android:layout_height="32sp"
-            android:text="여" />
 
-    </RadioGroup>
-
-</LinearLayout>
+    <TextView
+        android:id="@+id/textEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="이메일"
+        />
+    <TextView
+        android:id="@+id/textPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="전화번호"
+        />
+    <TextView
+        android:id="@+id/textDateOfBirth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="생년월일"
+        />
 
 
     <EditText
-        android:id="@+id/editWeight"
+        android:id="@+id/editPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:hint="몸무게" />
-
+        android:layout_marginTop="50dp"
+        android:hint="비밀번호"
+        android:inputType="textPassword"
+        />
     <EditText
-        android:id="@+id/editHeight"
+        android:id="@+id/editEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="키" />
+        android:hint="이메일"
+        />
+    <EditText
+        android:id="@+id/editPhoneNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="전화번호"
+        />
+    <EditText
+        android:id="@+id/editDateOfBirth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="생년월일 (1900-00-00)"
+        />
 
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_gravity="end"
-        android:layout_marginTop="70dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="50dp"
+        >
 
         <TextView
             android:id="@+id/textUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="  수정  "
+            android:gravity="center"
             android:textStyle="bold"
             android:padding="15dp"
             android:background="@drawable/round"
