@@ -28,6 +28,7 @@ class FirstActivity : AppCompatActivity() {
     lateinit var binding: ActivityFirstBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var mainImage: ImageView
+    private lateinit var userdto: UserDTO
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFirstBinding.inflate(layoutInflater)
@@ -72,6 +73,13 @@ class FirstActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
 
         val token = getToken()
+        if (token.isNullOrEmpty()) {
+            startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
+            finish() // finish()를 추가하여 FirstActivity를 종료합니다.
+            return
+        }
+
+
 
         binding.run {
             if (token.isNullOrEmpty()) {
@@ -85,14 +93,16 @@ class FirstActivity : AppCompatActivity() {
                 logout()
             }
 
+            val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
+
             // 로그인 시 저장된 사용자 이름을 가져옴
             val username = sharedPreferences.getString("username", "") ?: ""
 
-            RetrofitClient.api.getUserHealthInfo("Bearer $token", username)
-                .enqueue(object : Callback<UserDTO> {
-                    override fun onResponse(call: Call<UserDTO>, response: Response<UserDTO>) {
-                        if (response.isSuccessful) {
-                            val user = response.body()
+            RetrofitClient.api.getUserHealthInfo("Bearer $token", username).enqueue(object : Callback<UserDTO> {
+                override fun onResponse(call: Call<UserDTO>, response: Response<UserDTO>) {
+                    if (response.isSuccessful) {
+                        val user = response.body()
+                        Log.d(TAG, "onResponse: ${user}")
 
                             textName.text = "${username}님"
                             textAge.text = "나이 : ${user?.userAge.toString()}세"
@@ -114,6 +124,9 @@ class FirstActivity : AppCompatActivity() {
 
             recommendExerciseButton.setOnClickListener {
                 val intent = Intent(this@FirstActivity, ChatMainActivity::class.java)
+
+
+
                 startActivity(intent)
                 Toast.makeText(this@FirstActivity, "추천 운동 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
@@ -162,9 +175,16 @@ class FirstActivity : AppCompatActivity() {
 //
 //    }
 
+
+
     private fun getToken(): String {
         val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
         return sharedPreferences.getString("token", null) ?: ""
+    }
+
+    private fun getUsername(): String {
+        val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
+        return sharedPreferences.getString("username", null) ?: ""
     }
 
     private fun logout() {

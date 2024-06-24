@@ -29,11 +29,15 @@ object ApiClient {
         .build()
 
 
+    //  Retrofit 인스턴스를 생성
     val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
+
+
+    val apiService: ApiService = retrofit.create(ApiService::class.java)
 }
 
 // AuthInterceptor 를 사용 하여 API 키를 헤더에 포함 시키는 방법

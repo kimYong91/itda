@@ -1,6 +1,7 @@
 package com.itda.android_c_teamproject.Activity
 
 import android.annotation.SuppressLint
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,12 +16,16 @@ import com.itda.android_c_teamproject.R
 import com.itda.android_c_teamproject.model.ChatRequest
 import com.itda.android_c_teamproject.model.Response.ChatResponse
 import com.itda.android_c_teamproject.model.Message
+import com.itda.android_c_teamproject.model.UserDTO
 import com.itda.android_c_teamproject.network.ApiClient
 import com.itda.android_c_teamproject.network.OpenAIService
+import com.itda.android_c_teamproject.network.RetrofitClient
 import com.itda.android_c_teamproject.preferences.UserPreferences
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
+private const val TAG = "ChatMainActivity"
 
 class ChatMainActivity : AppCompatActivity() {
     private lateinit var userInput: EditText
@@ -38,11 +43,17 @@ class ChatMainActivity : AppCompatActivity() {
     private lateinit var errorMessage: TextView
     private var call: Call<ChatResponse>? = null
 
+    private lateinit var userdto: UserDTO
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_main)
+
+
+
+        // 로그 추가: onCreate 메서드가 호출되었음을 확인
+        Log.d(TAG, "onCreate called")
 
         // API Key를 로그로 출력
         Log.d("API_KEY_LOG", "API Key: ${BuildConfig.API_KEY}")
@@ -60,6 +71,9 @@ class ChatMainActivity : AppCompatActivity() {
         loadingTextView = findViewById(R.id.loadingTextView)   // 실행 할 때 "요청중" 메세지
         loadingIndicator = findViewById(R.id.loadingIndicator)  // 실행할 때 로딩 이미지
         errorMessage = findViewById(R.id.errorMessage)
+
+        // 백엔드에서 UserDTO 객체를 가져 오는 가정
+        fetchUserDTOFromBackend()
 
         sendButton.setOnClickListener {
             // 추가로 버튼 클릭 시에도 로그 출력 (필요시)
@@ -85,68 +99,65 @@ class ChatMainActivity : AppCompatActivity() {
             }
         }
 
+
+//        autoPromptButton1.setOnClickListener {
+//            try {
+//                val prompt = UserPreferences.createPrompt1(userdto)
+//
+//                // 로그 추가
+//                Log.d("AutoPrompt1", "Prompt: $prompt")
+//
+//                userInput.setText(prompt)
+//            } catch (e: Exception) {
+//                Log.e("AutoPrompt1", "Error: ${e.message}")
+//                e.printStackTrace()
+//            }
+//            // sendMessageToChatGPT(prompt)
+//        }
+
         autoPromptButton1.setOnClickListener {
-            try {
-                val userInfo = UserPreferences.getUserInfo(this)
-                val prompt = UserPreferences.createPrompt1(userInfo)
-
-                // 로그 추가
-                Log.d("AutoPrompt1", "Prompt: $prompt")
-
-                userInput.setText(prompt)
-            } catch (e: Exception) {
-                Log.e("AutoPrompt1", "Error: ${e.message}")
-                e.printStackTrace()
-            }
-            // sendMessageToChatGPT(prompt)
+            Log.d(TAG, "AutoPrompt1 clicked")
+                if (::userdto.isInitialized) {  // userdto가 초기화되었는지 확인
+                    // val userInfo = UserPreferences.getUserInfo(this)
+                    val prompt = UserPreferences.createPrompt1(userdto)
+                    // 로그 추가: 프롬프트 생성 확인
+                    Log.d(TAG, "Prompt: $prompt")
+                    userInput.setText(prompt) // EditText에 설정
+                } else {
+                    // 로그 추가: userdto 초기화되지 않음
+                    Log.e(TAG, "userdto is not initialized")
+                }
         }
+
 
         autoPromptButton2.setOnClickListener {
-            try {
-                val userInfo = UserPreferences.getUserInfo(this)
-                val prompt = UserPreferences.createPrompt2(userInfo)
-
-                // 로그 추가
-                Log.d("AutoPrompt2", "Prompt: $prompt")
-
-                userInput.setText(prompt)
-            } catch (e: Exception) {
-                Log.e("AutoPrompt2", "Error: ${e.message}")
-                e.printStackTrace()
-            }
-            // sendMessageToChatGPT(prompt)
+            Log.d(TAG, "AutoPrompt2 clicked")
+            if (::userdto.isInitialized) {
+            val prompt = UserPreferences.createPrompt2(userdto)
+            userInput.setText(prompt)
+        } else {
+                Log.e(TAG, "userdto is not initialized")
         }
+    }
 
         autoPromptButton3.setOnClickListener {
-            try {
-                val userInfo = UserPreferences.getUserInfo(this)
-                val prompt = UserPreferences.createPrompt3(userInfo)
-
-                // 로그 추가
-                Log.d("AutoPrompt3", "Prompt: $prompt")
-
-                userInput.setText(prompt)
-            } catch (e: Exception) {
-                Log.e("AutoPrompt3", "Error: ${e.message}")
-                e.printStackTrace()
-            }
-            // sendMessageToChatGPT(prompt)
+            Log.d(TAG, "AutoPrompt3 clicked")
+            if (::userdto.isInitialized) {
+            val prompt = UserPreferences.createPrompt3(userdto)
+            userInput.setText(prompt)
+        } else {
+                Log.e(TAG, "userdto is not initialized")
         }
+    }
 
         autoPromptButton4.setOnClickListener {
-            try {
-                val userInfo = UserPreferences.getUserInfo(this)
-                val prompt = UserPreferences.createPrompt4(userInfo)
-
-                // 로그 추가
-                Log.d("AutoPrompt4", "Prompt: $prompt")
-
+            Log.d(TAG, "AutoPrompt4 clicked")
+            if (::userdto.isInitialized) {
+                val prompt = UserPreferences.createPrompt4(userdto)
                 userInput.setText(prompt)
-            } catch (e: Exception) {
-                Log.e("AutoPrompt4", "Error: ${e.message}")
-                e.printStackTrace()
+            } else {
+                Log.e(TAG, "userdto is not initialized")
             }
-            // sendMessageToChatGPT(prompt)
         }
 
         clearButton.setOnClickListener {
@@ -180,6 +191,7 @@ class ChatMainActivity : AppCompatActivity() {
         loadingTextView.visibility = View.VISIBLE // 요청중 표시
 
         val apiService = ApiClient.retrofit.create(OpenAIService::class.java)
+        //val apiService = ApiClient.apiService
         val request = ChatRequest(
             model = "gpt-4",
             messages = listOf(Message(role = "user", content = message))
@@ -218,4 +230,43 @@ class ChatMainActivity : AppCompatActivity() {
         })
     }
 
+    // 백엔드 통합:
+
+    //fetchUserDTOFromBackend 메서드,  이 함수는 UserDTO 객체를 백엔드에서 가져오는 역할
+    //이 객체를 userdto 변수에 저장하여 버튼 클릭 리스너에서 사용할 수 있도록 합니다.
+    private fun fetchUserDTOFromBackend() {
+        var token = getToken() // 실제 토큰 값으로 변경
+        token = "Bearer ${token}"
+        val userId = getUsername() // 실제 사용자 ID로 변경
+        Log.d(TAG, "Fetching UserDTO with token: $token and userId: $userId")
+        RetrofitClient.api.getUserHealthInfo(token, userId).enqueue(object : Callback<UserDTO> {
+            override fun onResponse(call: Call<UserDTO>, response: Response<UserDTO>) {
+                if (response.isSuccessful) {
+                    userdto = response.body()!!
+                    Log.d(TAG, "UserDTO fetched: $userdto")
+                } else {
+                    Log.e(TAG, "Error fetching UserDTO: ${response.code()}")
+                    Log.e(TAG, "Response message: ${response.message()}")
+                    Log.e(TAG, "Response body: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<UserDTO>, t: Throwable) {
+                Log.e(TAG, "Error fetching UserDTO", t)
+            }
+        })
+    }
+    private fun getToken(): String {
+        val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
+        return sharedPreferences.getString("token", null) ?: ""
+    }
+
+    private fun getUsername(): String {
+        val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
+        return sharedPreferences.getString("username", null) ?: ""
+    }
 }
+
+
+
+

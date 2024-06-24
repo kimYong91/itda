@@ -29,6 +29,9 @@ interface ApiService {
     @GET("/itda/oneUserHealthDTO")
     fun getUserHealthInfo(@Header("Authorization") token: String, @Query("id") id: String): Call<UserDTO>
 
+    @POST("/path/to/chat/api") // 실제 엔드포인트로 변경
+    fun getChatResponse(@Body request: ChatRequest): Call<ChatResponse>
+
     // 회원 가입
     @POST("/itda/createUser")
     fun createUser(@Body user: User): Call<User>
@@ -52,5 +55,9 @@ interface ApiService {
     // 아이디 찾기
     @POST("/itda/findUsername")
     fun findUsername(@Body userFindNameDTO: UserFindNameDTO): Call<UserFindNameResponse>
+
+    fun userFindName(@Body userFindNameDTO: UserFindNameDTO): Call<UserFindNameResponse>
+
+
 
 }
