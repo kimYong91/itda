@@ -1,11 +1,8 @@
 package com.itda.android_c_teamproject.preferences
 
-import android.content.Context
-import android.content.SharedPreferences
-import android.media.MediaFormat.KEY_HEIGHT
 import android.util.Log
-import com.itda.android_c_teamproject.model.User
-import com.itda.android_c_teamproject.model.UserDTO
+import com.itda.android_c_teamproject.model.dto.UserDTO
+
 
 // 사용자가 가입할 때 입력한 정보를 저장 하고 불러 오는 방법을 추가
 // 벡엔드에서 사용자 정보를 UserDTO 로 가져오고 있으므로 더이상 UserPreferences에서

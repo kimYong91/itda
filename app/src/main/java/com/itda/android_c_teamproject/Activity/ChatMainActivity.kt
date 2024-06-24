@@ -16,7 +16,7 @@ import com.itda.android_c_teamproject.R
 import com.itda.android_c_teamproject.model.ChatRequest
 import com.itda.android_c_teamproject.model.Response.ChatResponse
 import com.itda.android_c_teamproject.model.Message
-import com.itda.android_c_teamproject.model.UserDTO
+import com.itda.android_c_teamproject.model.dto.UserDTO
 import com.itda.android_c_teamproject.network.ApiClient
 import com.itda.android_c_teamproject.network.OpenAIService
 import com.itda.android_c_teamproject.network.RetrofitClient

@@ -1,6 +1,8 @@
 package com.itda.android_c_teamproject.network
 
+import com.itda.android_c_teamproject.model.ChatRequest
 import com.itda.android_c_teamproject.model.LoginRequest
+import com.itda.android_c_teamproject.model.Response.ChatResponse
 import com.itda.android_c_teamproject.model.Response.LoginResponse
 import com.itda.android_c_teamproject.model.User
 import com.itda.android_c_teamproject.model.dto.UserDTO
