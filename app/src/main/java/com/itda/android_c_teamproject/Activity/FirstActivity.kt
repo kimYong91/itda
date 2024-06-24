@@ -140,7 +140,10 @@ class FirstActivity : AppCompatActivity() {
             }
 
             gptButton.setOnClickListener {
-                Toast.makeText(this@FirstActivity, "GPT 버튼 클릭됨", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@FirstActivity, PopupChatActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                Toast.makeText(this@FirstActivity, "챗봇 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
         }
     }

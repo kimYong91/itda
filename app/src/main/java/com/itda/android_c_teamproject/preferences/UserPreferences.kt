@@ -93,14 +93,16 @@ object UserPreferences {
 //
 //    }
 
-    fun createPrompt1(userdto: UserDTO): String {
+    fun createPrompt1(userdto: UserDTO, exerciseType: String, exerciseDurationTime: String, exerciseDurationDay: String): String {
+        val username = userdto.username
         val userGender = userdto.userGender
         val userHeight = userdto.userHeight
         val userWeight = userdto.userWeight
         val userAge = userdto.userAge
         val basalMetabolism = userdto.basalMetabolism
 
-       // val age = userInfo["age"] as? Int ?: 0
+
+        // val age = userInfo["age"] as? Int ?: 0
        //  val bmr = userInfo["bmr"] as? Int ?: 0
 
 //        // 로그 추가
@@ -109,41 +111,53 @@ object UserPreferences {
 //            "Gender: $gender, Height: $height, Weight: $weight, Age: $age, BMR: $bmr"
 //        )
 
-        val prompt = "성별은 $userGender,키는 $userHeight cm, 몸무게는 $userWeight kg, 나이는 $userAge, 기초대사량이 $basalMetabolism 인 사람이 주 4회 30분 정도 산보 정도의 세기로 달리기를 하면서 다이어트를 하려고 한다. 하루에 얼마나 달려야 할까?"
-        Log.d("createPrompt1", "Generated prompt: $prompt")  // 로그 추가
+        val prompt = """
+            이름은 $username 님,
+            성별은 $userGender, 키는 $userHeight cm, 몸무게는 $userWeight kg, 나이는 $userAge 세, 기초대사량은 $basalMetabolism kcal 입니다.
+            하고자 하는 운동 종류는 $exerciseType 이고, 운동 시간은 $exerciseDurationTime 입니다.
+            이 정보를 바탕으로 $exerciseDurationDay 동안의 운동 스케줄을 만들어 주세요.
+        """.trimIndent()
+
+        Log.d("createPrompt1", "Generated prompt: $prompt")
         return prompt
+
     }
 
-    fun createPrompt2(userdto: UserDTO): String {
-        val userGender = userdto.userGender
-        val userHeight = userdto.userHeight
-        val userWeight = userdto.userWeight
-        val userAge = userdto.userAge
-        val basalMetabolism = userdto.basalMetabolism
-
-        // 필요한 경우 다른 내용을 작성
-        return "Prompt 2: 예시 문구입니다."
+//        val prompt = "성별은 $userGender,키는 $userHeight cm, 몸무게는 $userWeight kg, 나이는 $userAge, 기초대사량이 $basalMetabolism 이다. 하고자 하는 운동종류는  이고 운동시간은 시 분 동안 운동을 하려고 한다. 운동 스케줄을 만들어 주시오."
+//        Log.d("createPrompt1", "Generated prompt: $prompt")  // 로그 추가
+//        return prompt
     }
 
-    fun createPrompt3(userdto: UserDTO): String {
-        val userGender = userdto.userGender
-        val userHeight = userdto.userHeight
-        val userWeight = userdto.userWeight
-        val userAge = userdto.userAge
-        val basalMetabolism = userdto.basalMetabolism
+//    fun createPrompt2(userdto: UserDTO): String {
+//        val userGender = userdto.userGender
+//        val userHeight = userdto.userHeight
+//        val userWeight = userdto.userWeight
+//        val userAge = userdto.userAge
+//        val basalMetabolism = userdto.basalMetabolism
+//
+//        // 필요한 경우 다른 내용을 작성
+//        return "Prompt 2: 예시 문구입니다."
+//    }
+//
+//    fun createPrompt3(userdto: UserDTO): String {
+//        val userGender = userdto.userGender
+//        val userHeight = userdto.userHeight
+//        val userWeight = userdto.userWeight
+//        val userAge = userdto.userAge
+//        val basalMetabolism = userdto.basalMetabolism
+//
+//        // 필요한 경우 다른 내용을 작성
+//        return "Prompt 3: 예시 문구입니다."
+//    }
+//
+//    fun createPrompt4(userdto: UserDTO): String {
+//        val userGender = userdto.userGender
+//        val userHeight = userdto.userHeight
+//        val userWeight = userdto.userWeight
+//        val userAge = userdto.userAge
+//        val basalMetabolism = userdto.basalMetabolism
+//
+//        // 필요한 경우 다른 내용을 작성
+//        return "Prompt 4: 예시 문구입니다."
 
-        // 필요한 경우 다른 내용을 작성
-        return "Prompt 3: 예시 문구입니다."
-    }
 
-    fun createPrompt4(userdto: UserDTO): String {
-        val userGender = userdto.userGender
-        val userHeight = userdto.userHeight
-        val userWeight = userdto.userWeight
-        val userAge = userdto.userAge
-        val basalMetabolism = userdto.basalMetabolism
-
-        // 필요한 경우 다른 내용을 작성
-        return "Prompt 4: 예시 문구입니다."
-    }
-}
