@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -28,6 +29,7 @@ class FirstActivity : AppCompatActivity() {
     lateinit var binding: ActivityFirstBinding
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var mainImage: ImageView
+    var initTime = 0L
     private lateinit var userdto: UserDTO
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,10 +45,11 @@ class FirstActivity : AppCompatActivity() {
             mainImage.visibility = ImageView.VISIBLE
         }
 
-        val items = arrayOf("수정", "개인정보", "건강정보")
+        val items = arrayOf("정보", "개인정보", "건강정보", "로그아웃")
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, items)
         binding.spinner.adapter = adapter
+        adapter.setDropDownViewResource(R.layout.spinner_item)
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -60,6 +63,9 @@ class FirstActivity : AppCompatActivity() {
                     }
                     2 -> {
                         startActivity(Intent(this@FirstActivity, UpdateUserHealthActivity::class.java))
+                    }
+                    3 -> {
+                        logout()
                     }
                 }
             }
@@ -85,13 +91,7 @@ class FirstActivity : AppCompatActivity() {
             if (token.isNullOrEmpty()) {
                 startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
             }
-            buttonLogout.setOnClickListener {
-                startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
-            }
             sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
-            buttonLogout.setOnClickListener {
-                logout()
-            }
 
             val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
 
@@ -122,7 +122,7 @@ class FirstActivity : AppCompatActivity() {
                 })
 
 
-            recommendExerciseButton.setOnClickListener {
+            textRecommendExercise.setOnClickListener {
                 val intent = Intent(this@FirstActivity, ChatMainActivity::class.java)
 
 
@@ -131,15 +131,42 @@ class FirstActivity : AppCompatActivity() {
                 Toast.makeText(this@FirstActivity, "추천 운동 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
 
-            foodMenuButton.setOnClickListener {
+            textFoodMenu.setOnClickListener {
                 Toast.makeText(this@FirstActivity, "식단 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
 
-            stopwatchButton.setOnClickListener {
-                Toast.makeText(this@FirstActivity, "스탑워치 버튼 클릭됨", Toast.LENGTH_SHORT).show()
-            }
+            val items2 = arrayOf("   유틸", "스탑워치", "카운터", "기능3")
+            val adapter2 = ArrayAdapter(this@FirstActivity, android.R.layout.simple_spinner_item, items2)
+            adapter2.setDropDownViewResource(R.layout.spinner_item2)
+            binding.spinner2.adapter = adapter2
+            binding.spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    when (position) {
+                        1 -> {
+                            startActivity(Intent(this@FirstActivity, StopWatchActivity::class.java))
+                        }
 
-            gptButton.setOnClickListener {
+                        2 -> {
+                            startActivity(Intent(this@FirstActivity, CounterActivity::class.java))
+                        }
+
+                        3 -> {
+
+                        }
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
+
+            }
+            textGpt.setOnClickListener {
                 Toast.makeText(this@FirstActivity, "GPT 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
         }
@@ -212,6 +239,18 @@ class FirstActivity : AppCompatActivity() {
         } else {
             mainImage.visibility = ImageView.VISIBLE
         }
+    }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 뒤로가기 버튼을 누른지 3초 이내가 아니거나 처음 누를 경우
+            if (System.currentTimeMillis() - initTime > 3000) {
+                Toast.makeText(this, "종료하려면 한 번 더 누르세요.", Toast.LENGTH_SHORT).show()
+                initTime = System.currentTimeMillis()
+                return true
+            }
+        }
+        return super.onKeyDown(keyCode, event)
     }
 
 }

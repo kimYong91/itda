@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="25dp"
-        android:text="건장정보 수정"
+        android:text="건강정보 수정"
         android:textSize="30sp"
         android:textStyle="bold" />
 
@@ -113,18 +113,26 @@
         android:layout_marginTop="70dp"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/buttonUpdate"
+        <TextView
+            android:id="@+id/textUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="수정" />
-
-        <Button
-            android:id="@+id/buttonExit"
+            android:text="  수정  "
+            android:textStyle="bold"
+            android:padding="15dp"
+            android:background="@drawable/round"
+            />
+        <TextView
+            android:id="@+id/textExit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="나가기" />
+            android:layout_gravity="end"
+            android:text="나가기"
+            android:textStyle="bold"
+            android:padding="15dp"
+            android:background="@drawable/round"
+            />
 
     </LinearLayout>
 
