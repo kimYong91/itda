@@ -80,9 +80,9 @@ class FirstActivity : AppCompatActivity() {
         val token = getToken()
 
         binding.run {
-//            if (token.isNullOrEmpty()) {
-//                startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
-//            }
+            if (token.isNullOrEmpty()) {
+                startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
+            }
             sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
 
             // 로그인 시 저장된 사용자 이름을 가져옴
