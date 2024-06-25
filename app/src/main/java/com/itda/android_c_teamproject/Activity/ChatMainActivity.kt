@@ -118,6 +118,7 @@ class ChatMainActivity : AppCompatActivity() {
 //            // sendMessageToChatGPT(prompt)
 //        }
 
+        // 자동 프롬프트 버튼
         autoPromptButton1.setOnClickListener {
             Log.d(TAG, "AutoPrompt1 clicked")
                 if (::userdto.isInitialized) {  // userdto가 초기화되었는지 확인
@@ -150,26 +151,8 @@ class ChatMainActivity : AppCompatActivity() {
 //        }
 //    }
 //
-//        autoPromptButton3.setOnClickListener {
-//            Log.d(TAG, "AutoPrompt3 clicked")
-//            if (::userdto.isInitialized) {
-//            val prompt = UserPreferences.createPrompt3(userdto)
-//            userInput.setText(prompt)
-//        } else {
-//                Log.e(TAG, "userdto is not initialized")
-//        }
-//    }
-//
-//        autoPromptButton4.setOnClickListener {
-//            Log.d(TAG, "AutoPrompt4 clicked")
-//            if (::userdto.isInitialized) {
-//                val prompt = UserPreferences.createPrompt4(userdto)
-//                userInput.setText(prompt)
-//            } else {
-//                Log.e(TAG, "userdto is not initialized")
-//            }
-//        }
 
+        // 모두 삭제 버튼
         clearButton.setOnClickListener {
             //userInput.text.clear()
             exerciseTypeInput.text.clear()
@@ -180,11 +163,13 @@ class ChatMainActivity : AppCompatActivity() {
             errorMessage.visibility = View.INVISIBLE
         }
 
+        // 뒤로 가기 버튼
         backButton.setOnClickListener {
             val intent = Intent(this, FirstActivity::class.java)
             startActivity(intent)
         }
 
+        // 중지 버튼
         stopButton.setOnClickListener {
             call?.cancel() // 네트워크 호출 취소
             call = null // 새로운 요청을 받을 수 있게 초기화

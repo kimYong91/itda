@@ -151,7 +151,7 @@ class FirstActivity : AppCompatActivity() {
             }
 
             // 유틸 화면으로 이동
-            val items2 = arrayOf("   유틸", "스탑워치", "카운터", "기능3")
+            val items2 = arrayOf("   유틸", "스탑워치", "카운터", "만보기")
             val adapter2 =
                 ArrayAdapter(this@FirstActivity, android.R.layout.simple_spinner_item, items2)
             adapter2.setDropDownViewResource(R.layout.spinner_item2)
@@ -174,6 +174,7 @@ class FirstActivity : AppCompatActivity() {
                         }
                         // 만보기 유틸 화면으로 이동
                         3 -> {
+                            startActivity(Intent(this@FirstActivity, PedometerActivity::class.java))
 
                         }
                     }

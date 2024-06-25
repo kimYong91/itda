@@ -69,11 +69,14 @@ android {
 
 dependencies {
 
+    implementation(libs.play.services.location)
     val room_version = "2.6.1"
 
     implementation("androidx.room:room-runtime:$room_version")       // 런타임 라이브러리
     annotationProcessor("androidx.room:room-compiler:$room_version") // 애노태이션 컴파일러
     implementation("androidx.room:room-ktx:$room_version")
+
+    implementation("com.google.android.gms:play-services-location:21.0.1") // 활동 인식 클라이언트(Activity Recognition Client)를 사용
 
     kapt("androidx.room:room-compiler:$room_version")
 
