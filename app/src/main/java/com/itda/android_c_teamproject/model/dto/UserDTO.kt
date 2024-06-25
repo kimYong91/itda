@@ -9,6 +9,8 @@ data class UserDTO(
     val userGender: String,
     val userWeight: Int,
     val userHeight: Double,
-    val basalMetabolism: Double
+    val basalMetabolism: Double,
+
+
 
 )

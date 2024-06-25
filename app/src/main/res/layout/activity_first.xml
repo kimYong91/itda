@@ -158,8 +158,14 @@
         android:layout_below="@+id/linearLayout"
         android:layout_weight="1"
         android:orientation="horizontal"
-
         >
+
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="로그아웃" />
 
         <TextView
             android:id="@+id/textGpt"
@@ -172,6 +178,16 @@
             android:background="@drawable/round"
             android:gravity="center_horizontal"
              />
+
+        <Button
+            android:id="@+id/gptButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:text="챗봇"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
     </LinearLayout>
 
 

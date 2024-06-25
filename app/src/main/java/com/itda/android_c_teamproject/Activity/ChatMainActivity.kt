@@ -30,12 +30,12 @@ import retrofit2.Response
 private const val TAG = "ChatMainActivity"
 
 class ChatMainActivity : AppCompatActivity() {
-    private lateinit var userInput: EditText
-    private lateinit var sendButton: Button
+    //private lateinit var userInput: EditText
+    private lateinit var exerciseTypeInput: EditText
+    private lateinit var exerciseDurationTimeInput: EditText
+    private lateinit var exerciseDurationDayInput: EditText
+//    private lateinit var sendButton: Button
     private lateinit var autoPromptButton1: Button
-    private lateinit var autoPromptButton2: Button
-    private lateinit var autoPromptButton3: Button
-    private lateinit var autoPromptButton4: Button
     private lateinit var clearButton: Button
     private lateinit var stopButton: Button
     private lateinit var backButton: Button
@@ -61,12 +61,12 @@ class ChatMainActivity : AppCompatActivity() {
         // API Key를 로그로 출력
         Log.d("API_KEY_LOG", "API Key: ${BuildConfig.API_KEY}")
 
-        userInput = findViewById(R.id.userInput)
-        sendButton = findViewById(R.id.sendButton)
+        //userInput = findViewById(R.id.userInput)
+        exerciseTypeInput = findViewById(R.id.exerciseTypeInput)
+        exerciseDurationTimeInput = findViewById(R.id.exerciseDurationTimeInput)
+        exerciseDurationDayInput = findViewById(R.id.exerciseDurationDayInput)
+//        sendButton = findViewById(R.id.sendButton)
         autoPromptButton1 = findViewById(R.id.autoPromptButton1)
-        autoPromptButton2 = findViewById(R.id.autoPromptButton2)
-        autoPromptButton3 = findViewById(R.id.autoPromptButton3)
-        autoPromptButton4 = findViewById(R.id.autoPromptButton4)
         clearButton = findViewById(R.id.clearButton)
         stopButton = findViewById(R.id.stopButton)
         backButton = findViewById(R.id.backButton)
@@ -78,29 +78,29 @@ class ChatMainActivity : AppCompatActivity() {
         // 백엔드에서 UserDTO 객체를 가져 오는 가정
         fetchUserDTOFromBackend()
 
-        sendButton.setOnClickListener {
-            // 추가로 버튼 클릭 시에도 로그 출력 (필요시)
-            Log.d("API_KEY_LOG", "Button clicked - API Key: ${BuildConfig.API_KEY}")
-
-            val userMessage = userInput.text.toString()
-
-
-            // chatResponse.text = "요청중"
-
-            //  API 요청의 크기 조정
-            // 입력 란에 아무런 명령이 입력 되지 않은 경우, 실행 되지 않고 입력 하라는 메세지 출력
-            if (userMessage.isEmpty()) {
-                errorMessage.text = "입력 되지 않았습니다"
-                errorMessage.visibility = View.VISIBLE
-
-                // 너무 긴 질문이 타임아웃을 유발할 수 있으므로, 질문을 적절한 길이로 분할하거나 트림
-            } else if (userMessage.length > 1024) {  // OpenAI API에서 처리 가능한 최대 길이는 4096 tokens 이지만, 안전하게 1024로 설정
-                chatResponse.text = "Error: Message is too long. Please shorten your input."
-            } else {
-                errorMessage.visibility = View.GONE
-                sendMessageToChatGPT(userMessage)
-            }
-        }
+//        sendButton.setOnClickListener {
+//            // 추가로 버튼 클릭 시에도 로그 출력 (필요시)
+//            Log.d("API_KEY_LOG", "Button clicked - API Key: ${BuildConfig.API_KEY}")
+//
+//            val userMessage = userInput.text.toString()
+//
+//
+//            // chatResponse.text = "요청중"
+//
+//            //  API 요청의 크기 조정
+//            // 입력 란에 아무런 명령이 입력 되지 않은 경우, 실행 되지 않고 입력 하라는 메세지 출력
+//            if (userMessage.isEmpty()) {
+//                errorMessage.text = "입력 되지 않았습니다"
+//                errorMessage.visibility = View.VISIBLE
+//
+//                // 너무 긴 질문이 타임아웃을 유발할 수 있으므로, 질문을 적절한 길이로 분할하거나 트림
+//            } else if (userMessage.length > 1024) {  // OpenAI API에서 처리 가능한 최대 길이는 4096 tokens 이지만, 안전하게 1024로 설정
+//                chatResponse.text = "Error: Message is too long. Please shorten your input."
+//            } else {
+//                errorMessage.visibility = View.GONE
+//                sendMessageToChatGPT(userMessage)
+//            }
+//        }
 
 
 //        autoPromptButton1.setOnClickListener {
@@ -122,49 +122,60 @@ class ChatMainActivity : AppCompatActivity() {
             Log.d(TAG, "AutoPrompt1 clicked")
                 if (::userdto.isInitialized) {  // userdto가 초기화되었는지 확인
                     // val userInfo = UserPreferences.getUserInfo(this)
-                    val prompt = UserPreferences.createPrompt1(userdto)
+                    val exerciseType = exerciseTypeInput.text.toString()
+                    val exerciseDurationTime = exerciseDurationTimeInput.text.toString()
+                    val exerciseDurationDay = exerciseDurationDayInput.text.toString()
+                    val prompt = UserPreferences.createPrompt1(userdto, exerciseType, exerciseDurationTime, exerciseDurationDay)
                     // 로그 추가: 프롬프트 생성 확인
                     Log.d(TAG, "Prompt: $prompt")
-                    userInput.setText(prompt) // EditText에 설정
+                    sendMessageToChatGPT(prompt)
+                    // userInput.setText(prompt) // EditText에 설정
                 } else {
                     // 로그 추가: userdto 초기화되지 않음
                     Log.e(TAG, "userdto is not initialized")
                 }
+
+
+
         }
 
 
-        autoPromptButton2.setOnClickListener {
-            Log.d(TAG, "AutoPrompt2 clicked")
-            if (::userdto.isInitialized) {
-            val prompt = UserPreferences.createPrompt2(userdto)
-            userInput.setText(prompt)
-        } else {
-                Log.e(TAG, "userdto is not initialized")
-        }
-    }
-
-        autoPromptButton3.setOnClickListener {
-            Log.d(TAG, "AutoPrompt3 clicked")
-            if (::userdto.isInitialized) {
-            val prompt = UserPreferences.createPrompt3(userdto)
-            userInput.setText(prompt)
-        } else {
-                Log.e(TAG, "userdto is not initialized")
-        }
-    }
-
-        autoPromptButton4.setOnClickListener {
-            Log.d(TAG, "AutoPrompt4 clicked")
-            if (::userdto.isInitialized) {
-                val prompt = UserPreferences.createPrompt4(userdto)
-                userInput.setText(prompt)
-            } else {
-                Log.e(TAG, "userdto is not initialized")
-            }
-        }
+//        autoPromptButton2.setOnClickListener {
+//            Log.d(TAG, "AutoPrompt2 clicked")
+//            if (::userdto.isInitialized) {
+//            val prompt = UserPreferences.createPrompt2(userdto)
+//            userInput.setText(prompt)
+//        } else {
+//                Log.e(TAG, "userdto is not initialized")
+//        }
+//    }
+//
+//        autoPromptButton3.setOnClickListener {
+//            Log.d(TAG, "AutoPrompt3 clicked")
+//            if (::userdto.isInitialized) {
+//            val prompt = UserPreferences.createPrompt3(userdto)
+//            userInput.setText(prompt)
+//        } else {
+//                Log.e(TAG, "userdto is not initialized")
+//        }
+//    }
+//
+//        autoPromptButton4.setOnClickListener {
+//            Log.d(TAG, "AutoPrompt4 clicked")
+//            if (::userdto.isInitialized) {
+//                val prompt = UserPreferences.createPrompt4(userdto)
+//                userInput.setText(prompt)
+//            } else {
+//                Log.e(TAG, "userdto is not initialized")
+//            }
+//        }
 
         clearButton.setOnClickListener {
-            userInput.text.clear()
+            //userInput.text.clear()
+            exerciseTypeInput.text.clear()
+            exerciseDurationTimeInput.text.clear()
+            exerciseDurationDayInput.text.clear()
+
             chatResponse.text = "" // 결과 창의 내용을 지운다.
             errorMessage.visibility = View.INVISIBLE
         }

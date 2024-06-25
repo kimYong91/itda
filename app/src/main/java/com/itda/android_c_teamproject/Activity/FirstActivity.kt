@@ -161,6 +161,11 @@ class FirstActivity : AppCompatActivity() {
                     }
                 }
 
+            gptButton.setOnClickListener {
+                val intent = Intent(this@FirstActivity, PopupChatActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                Toast.makeText(this@FirstActivity, "챗봇 버튼 클릭됨", Toast.LENGTH_SHORT).show()
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                     TODO("Not yet implemented")
                 }
