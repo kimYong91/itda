@@ -36,15 +36,18 @@ class FirstActivity : AppCompatActivity() {
         binding = ActivityFirstBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 메인화면 이미지
         mainImage = findViewById(R.id.mainImage)
 
-        // 가로 모드인지 확인하고 이미지의 가시성을 설정합니다
+        // 가로 모드인지 확인하고 이미지의 가시성을 설정
+        // 메인 화면 가로모드 경우 이미지 사라지기
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             mainImage.visibility = ImageView.GONE
         } else {
             mainImage.visibility = ImageView.VISIBLE
         }
 
+        // 메인화면 좌측 상단 사용자 정보 선택란
         val items = arrayOf("정보", "개인정보", "건강정보", "로그아웃")
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, items)
@@ -59,11 +62,23 @@ class FirstActivity : AppCompatActivity() {
             ) {
                 when (position) {
                     1 -> {
-                        startActivity(Intent(this@FirstActivity, UpdateUserPersonalActivity::class.java))
+                        startActivity(
+                            Intent(
+                                this@FirstActivity,
+                                UpdateUserPersonalActivity::class.java
+                            )
+                        )
                     }
+
                     2 -> {
-                        startActivity(Intent(this@FirstActivity, UpdateUserHealthActivity::class.java))
+                        startActivity(
+                            Intent(
+                                this@FirstActivity,
+                                UpdateUserHealthActivity::class.java
+                            )
+                        )
                     }
+
                     3 -> {
                         logout()
                     }
@@ -98,18 +113,20 @@ class FirstActivity : AppCompatActivity() {
             // 로그인 시 저장된 사용자 이름을 가져옴
             val username = sharedPreferences.getString("username", "") ?: ""
 
-            RetrofitClient.api.getUserHealthInfo("Bearer $token", username).enqueue(object : Callback<UserDTO> {
-                override fun onResponse(call: Call<UserDTO>, response: Response<UserDTO>) {
-                    if (response.isSuccessful) {
-                        val user = response.body()
-                        Log.d(TAG, "onResponse: ${user}")
+            RetrofitClient.api.getUserHealthInfo("Bearer $token", username)
+                .enqueue(object : Callback<UserDTO> {
+                    override fun onResponse(call: Call<UserDTO>, response: Response<UserDTO>) {
+                        // 로그인 시, 사용자 정보 메인 화면 상단에 표시
+                        if (response.isSuccessful) {
+                            val user = response.body()
+                            Log.d(TAG, "onResponse: ${user}")
 
                             textName.text = "${username}님"
                             textAge.text = "나이 : ${user?.userAge.toString()}세"
                             textWeight.text = "몸무게 : ${user?.userWeight.toString()}kg"
                             textHeight.text = "키 : ${user?.userHeight.toString()}cm"
                             textBasalMetabolism.text =
-                                "평균기초대사량 : ${user?.basalMetabolism.toString()}"
+                                "기초대사량 : ${user?.basalMetabolism.toString()}"
 
                         } else {
                             Log.d(TAG, "onResponse: 응답 실패 ${response.code()}")
@@ -121,22 +138,22 @@ class FirstActivity : AppCompatActivity() {
                     }
                 })
 
-
+            // 프롬프트 된 운동 추천 화면으로 이동
             textRecommendExercise.setOnClickListener {
                 val intent = Intent(this@FirstActivity, ChatMainActivity::class.java)
-
-
-
                 startActivity(intent)
                 Toast.makeText(this@FirstActivity, "추천 운동 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
 
+            // 식단 화면으로 이동
             textFoodMenu.setOnClickListener {
                 Toast.makeText(this@FirstActivity, "식단 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
 
+            // 유틸 화면으로 이동
             val items2 = arrayOf("   유틸", "스탑워치", "카운터", "기능3")
-            val adapter2 = ArrayAdapter(this@FirstActivity, android.R.layout.simple_spinner_item, items2)
+            val adapter2 =
+                ArrayAdapter(this@FirstActivity, android.R.layout.simple_spinner_item, items2)
             adapter2.setDropDownViewResource(R.layout.spinner_item2)
             binding.spinner2.adapter = adapter2
             binding.spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -147,30 +164,40 @@ class FirstActivity : AppCompatActivity() {
                     id: Long
                 ) {
                     when (position) {
+                        // 스탑워치 유틸 화면으로 이동
                         1 -> {
                             startActivity(Intent(this@FirstActivity, StopWatchActivity::class.java))
                         }
-
+                        // 카운터 유틸 화면으로 이동
                         2 -> {
                             startActivity(Intent(this@FirstActivity, CounterActivity::class.java))
                         }
-
+                        // 만보기 유틸 화면으로 이동
                         3 -> {
 
                         }
                     }
                 }
 
-            gptButton.setOnClickListener {
-                val intent = Intent(this@FirstActivity, PopupChatActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
-                Toast.makeText(this@FirstActivity, "챗봇 버튼 클릭됨", Toast.LENGTH_SHORT).show()
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    TODO("Not yet implemented")
-                }
 
+                }
             }
+
+            // 로그아웃 화면으로 이동
+            textFoodMenu.setOnClickListener {
+                val intent = Intent(this@FirstActivity, ChatMainActivity::class.java)
+                startActivity(intent)
+                Toast.makeText(this@FirstActivity, "로그아웃 버튼 클릭됨", Toast.LENGTH_SHORT).show()
+            }
+
+            // 챗봇 화면으로 이동
+            gptButton.setOnClickListener {
+                logout()
+                Toast.makeText(this@FirstActivity, "챗봇 버튼 클릭됨", Toast.LENGTH_SHORT).show()
+            }
+
+            // 회의 후 삭제 예정
             textGpt.setOnClickListener {
                 Toast.makeText(this@FirstActivity, "GPT 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
@@ -206,7 +233,6 @@ class FirstActivity : AppCompatActivity() {
 //        }
 //
 //    }
-
 
 
     private fun getToken(): String {
@@ -245,6 +271,7 @@ class FirstActivity : AppCompatActivity() {
             mainImage.visibility = ImageView.VISIBLE
         }
     }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
