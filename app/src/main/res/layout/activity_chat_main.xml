@@ -6,94 +6,205 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="50dp"
     tools:context=".Activity.ChatMainActivity">
 
-<!--    <EditText-->
-<!--        android:id="@+id/userInput"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:hint="Type your message" />-->
-
-    <EditText
-        android:id="@+id/exerciseTypeInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="운동 종류를 입력하세요" />
-
-    <EditText
-        android:id="@+id/exerciseDurationTimeInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="일일 운동 시간을 입력하세요" />
-
-    <EditText
-        android:id="@+id/exerciseDurationDayInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="운동 기간을 입력하세요" />
-
-    <TextView
-        android:id="@+id/errorMessage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#FF0000"
-        android:visibility="gone"
-        android:layout_marginTop="8dp" />
+    <!--    <EditText-->
+    <!--        android:id="@+id/userInput"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:hint="Type your message" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-<!--        <Button-->
-<!--            android:id="@+id/sendButton"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:text="Send" />-->
-
-        <Button
-            android:id="@+id/autoPromptButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="추천 운동" />
-
-        <Button
-            android:id="@+id/stopButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Stop"
-            />
-
-        <Space
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_gravity="start"
+            android:layout_weight="3">
+
+            <!-- 운동 일수 -->
+            <Spinner
+                android:id="@+id/exerciseDurationDayInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round"
+                android:padding="3sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1" />
 
-        <Button
-            android:id="@+id/clearButton"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Clear" />
+            android:layout_gravity="start"
+            android:layout_weight="3">
 
-        <!-- 처음 화면으로 돌아가기 버튼-->
-        <Button
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
+            <!-- 일일 운동 시간 -->
+            <Spinner
+                android:id="@+id/exerciseDurationTimeInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round"
+                android:padding="3sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="back" />
+            android:layout_gravity="start"
+            android:layout_weight="3">
 
+            <!-- 직업 -->
+            <Spinner
+                android:id="@+id/job"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round"
+                android:padding="3sp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_weight="3">
+
+            <!-- 식습관 -->
+            <Spinner
+                android:id="@+id/dailyFoodIntake"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/round"
+                android:padding="3sp" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
 
+    <EditText
+        android:id="@+id/exerciseTypeInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:hint="운동 종류 (예: 헬스, 요가, 수영 등)"/>
 
+
+    <EditText
+        android:id="@+id/editExercisePreference"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:hint="운동 취향 (예: 유산소 운동, 근력 운동 등)" />
+
+    <EditText
+        android:id="@+id/editExerciseGoal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:hint="운동 목적 (예: 다이어트, 근력증가 등)" />
+
+    <EditText
+        android:id="@+id/editExerciseFacility"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+            android:hint="운동 장소 (예: 헬스장, 공원, 산 등)" />
+
+    <EditText
+        android:id="@+id/editHealth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:hint="건강 (예: 감기, 팔 다침, 이상없음 등)" />
+
+    <TextView
+        android:id="@+id/errorMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="#FF0000"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <!--        <Button-->
+        <!--            android:id="@+id/sendButton"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:text="Send" />-->
+
+        <TextView
+            android:id="@+id/autoPromptButton1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/round"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:text="추천 운동" />
+
+        <TextView
+            android:id="@+id/stopButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/round"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:text="Stop" />
+
+        <TextView
+            android:id="@+id/clearButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/round"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:text="Clear" />
+
+        <!-- 처음 화면으로 돌아가기 버튼-->
+        <TextView
+            android:id="@+id/backButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/round"
+            android:padding="10dp"
+            android:gravity="center_horizontal"
+            android:text="back" />
+
+
+    </LinearLayout>
 
 
     <!--    로딩시 나타나는 이미지 삽입-->
@@ -103,8 +214,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone" />
-
-
 
 
     <ScrollView
@@ -120,8 +229,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:visibility="gone"
-                android:text="요청중" />
+                android:text="요청중"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/chatResponse"

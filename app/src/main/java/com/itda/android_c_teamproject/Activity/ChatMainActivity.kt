@@ -1,20 +1,20 @@
 package com.itda.android_c_teamproject.Activity
 
 import android.annotation.SuppressLint
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.BuildConfig
 import com.itda.android_c_teamproject.R
+import com.itda.android_c_teamproject.databinding.ActivityChatMainBinding
 import com.itda.android_c_teamproject.model.ChatRequest
 import com.itda.android_c_teamproject.model.Response.ChatResponse
 import com.itda.android_c_teamproject.model.Message
@@ -31,15 +31,6 @@ private const val TAG = "ChatMainActivity"
 
 class ChatMainActivity : AppCompatActivity() {
     //private lateinit var userInput: EditText
-    private lateinit var exerciseTypeInput: EditText
-    private lateinit var exerciseDurationTimeInput: EditText
-    private lateinit var exerciseDurationDayInput: EditText
-//    private lateinit var sendButton: Button
-    private lateinit var autoPromptButton1: Button
-    private lateinit var clearButton: Button
-    private lateinit var stopButton: Button
-    private lateinit var backButton: Button
-    private lateinit var chatResponse: TextView
     private lateinit var loadingTextView: TextView
     private lateinit var loadingIndicator: ProgressBar
     private lateinit var errorMessage: TextView
@@ -48,12 +39,18 @@ class ChatMainActivity : AppCompatActivity() {
     private lateinit var userdto: UserDTO
     var initTime = 0L
 
+    private lateinit var binding: ActivityChatMainBinding
+
+    private var selectedExerciseDurationDayInput: String? = null
+    private var selectedExerciseDurationTimeInput: String? = null
+    private var selectedJob: String? = null
+    private var selectedDailyFoodIntake: String? = null
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_chat_main)
-
-
+        binding = ActivityChatMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // 로그 추가: onCreate 메서드가 호출되었음을 확인
         Log.d(TAG, "onCreate called")
@@ -61,71 +58,205 @@ class ChatMainActivity : AppCompatActivity() {
         // API Key를 로그로 출력
         Log.d("API_KEY_LOG", "API Key: ${BuildConfig.API_KEY}")
 
-        //userInput = findViewById(R.id.userInput)
-        exerciseTypeInput = findViewById(R.id.exerciseTypeInput)
-        exerciseDurationTimeInput = findViewById(R.id.exerciseDurationTimeInput)
-        exerciseDurationDayInput = findViewById(R.id.exerciseDurationDayInput)
-//        sendButton = findViewById(R.id.sendButton)
-        autoPromptButton1 = findViewById(R.id.autoPromptButton1)
-        clearButton = findViewById(R.id.clearButton)
-        stopButton = findViewById(R.id.stopButton)
-        backButton = findViewById(R.id.backButton)
-        chatResponse = findViewById(R.id.chatResponse)
         loadingTextView = findViewById(R.id.loadingTextView)   // 실행 할 때 "요청중" 메세지
         loadingIndicator = findViewById(R.id.loadingIndicator)  // 실행할 때 로딩 이미지
         errorMessage = findViewById(R.id.errorMessage)
 
-        // 백엔드에서 UserDTO 객체를 가져 오는 가정
-        fetchUserDTOFromBackend()
+        binding.run {
 
-//        sendButton.setOnClickListener {
-//            // 추가로 버튼 클릭 시에도 로그 출력 (필요시)
-//            Log.d("API_KEY_LOG", "Button clicked - API Key: ${BuildConfig.API_KEY}")
-//
-//            val userMessage = userInput.text.toString()
-//
-//
-//            // chatResponse.text = "요청중"
-//
-//            //  API 요청의 크기 조정
-//            // 입력 란에 아무런 명령이 입력 되지 않은 경우, 실행 되지 않고 입력 하라는 메세지 출력
-//            if (userMessage.isEmpty()) {
-//                errorMessage.text = "입력 되지 않았습니다"
-//                errorMessage.visibility = View.VISIBLE
-//
-//                // 너무 긴 질문이 타임아웃을 유발할 수 있으므로, 질문을 적절한 길이로 분할하거나 트림
-//            } else if (userMessage.length > 1024) {  // OpenAI API에서 처리 가능한 최대 길이는 4096 tokens 이지만, 안전하게 1024로 설정
-//                chatResponse.text = "Error: Message is too long. Please shorten your input."
-//            } else {
-//                errorMessage.visibility = View.GONE
-//                sendMessageToChatGPT(userMessage)
-//            }
-//        }
+            // 백엔드에서 UserDTO 객체를 가져 오는 가정
+            fetchUserDTOFromBackend()
 
-
-//        autoPromptButton1.setOnClickListener {
-//            try {
-//                val prompt = UserPreferences.createPrompt1(userdto)
-//
-//                // 로그 추가
-//                Log.d("AutoPrompt1", "Prompt: $prompt")
-//
-//                userInput.setText(prompt)
-//            } catch (e: Exception) {
-//                Log.e("AutoPrompt1", "Error: ${e.message}")
-//                e.printStackTrace()
-//            }
-//            // sendMessageToChatGPT(prompt)
-//        }
-
-        autoPromptButton1.setOnClickListener {
-            Log.d(TAG, "AutoPrompt1 clicked")
+            autoPromptButton1.setOnClickListener {
+                Log.d(TAG, "AutoPrompt1 clicked")
                 if (::userdto.isInitialized) {  // userdto가 초기화되었는지 확인
                     // val userInfo = UserPreferences.getUserInfo(this)
                     val exerciseType = exerciseTypeInput.text.toString()
-                    val exerciseDurationTime = exerciseDurationTimeInput.text.toString()
-                    val exerciseDurationDay = exerciseDurationDayInput.text.toString()
-                    val prompt = UserPreferences.createPrompt1(userdto, exerciseType, exerciseDurationTime, exerciseDurationDay)
+                    val exerciseDurationTime = exerciseDurationTimeInput.toString()
+                    val exerciseDurationDay = exerciseDurationDayInput.toString()
+                    val exercisePreference = editExercisePreference.toString()
+                    val exerciseGoal = editExerciseGoal.toString()
+                    val exerciseFacility = editExerciseFacility.toString()
+                    val health = editHealth.toString()
+                    val itemsExerciseDay =
+                        arrayOf("운동 일수", "1일", "2일", "3일", "4일", "5일", "6일", "7일")
+                    val adapterExerciseDay =
+                        ArrayAdapter(
+                            this@ChatMainActivity,
+                            android.R.layout.simple_spinner_item,
+                            itemsExerciseDay
+                        )
+                    adapterExerciseDay.setDropDownViewResource(R.layout.spinner_item2)
+                    exerciseDurationDayInput.adapter = adapterExerciseDay
+                    exerciseDurationDayInput.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                selectedExerciseDurationDayInput = when (position) {
+                                    1 -> "1일"
+                                    2 -> "2일"
+                                    3 -> "3일"
+                                    4 -> "4일"
+                                    5 -> "5일"
+                                    6 -> "6일"
+                                    7 -> "7일"
+                                    else -> ""
+                                }
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+                        } // exerciseDurationDayInput
+
+
+                    val itemsExerciseTime = arrayOf(
+                        "운동 시간",
+                        "1시간",
+                        "2시간",
+                        "3시간",
+                        "4시간",
+                        "5시간",
+                        "6시간",
+                        "7시간",
+                        "8시간",
+                        "9시간",
+                        "10시간",
+                        "11시간",
+                        "12시간"
+                    )
+                    val adapterExerciseTime =
+                        ArrayAdapter(
+                            this@ChatMainActivity,
+                            android.R.layout.simple_spinner_item,
+                            itemsExerciseTime
+                        )
+                    adapterExerciseTime.setDropDownViewResource(R.layout.spinner_item2)
+                    exerciseDurationTimeInput.adapter = adapterExerciseTime
+                    exerciseDurationTimeInput.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                selectedExerciseDurationTimeInput = when (position) {
+                                    1 -> "1"
+                                    2 -> "2"
+                                    3 -> "3"
+                                    4 -> "4"
+                                    5 -> "5"
+                                    6 -> "6"
+                                    7 -> "7"
+                                    8 -> "8"
+                                    9 -> "9"
+                                    10 -> "10"
+                                    11 -> "11"
+                                    12 -> "12"
+                                    else -> null
+                                }
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+                        } // exerciseDurationTimeInput
+
+
+                    val itemsJob = arrayOf(
+                        "직업",
+                        "사무직, 활동 없음",
+                        "부분 활동 서비스직",
+                        "주 활동 서비스직",
+                        "육체 노동"
+                    )
+                    val adapterJob =
+                        ArrayAdapter(
+                            this@ChatMainActivity,
+                            android.R.layout.simple_spinner_item,
+                            itemsJob
+                        )
+                    adapterJob.setDropDownViewResource(R.layout.spinner_item2)
+                    job.adapter = adapterJob
+                    job.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                selectedJob = when (position) {
+                                    1 -> "사무직, 활동 없음"
+                                    2 -> "부분 활동 서비스직"
+                                    3 -> "주 활동 서비스직"
+                                    4 -> "육체 노동"
+                                    else -> null
+                                }
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+                        } // job
+
+
+                    val itemsDailyFoodIntake = arrayOf(
+                        "하루 식사 횟수",
+                        "1회",
+                        "2회",
+                        "3회"
+                    )
+                    val adapterDailyFoodIntake =
+                        ArrayAdapter(
+                            this@ChatMainActivity,
+                            android.R.layout.simple_spinner_item,
+                            itemsDailyFoodIntake
+                        )
+                    adapterDailyFoodIntake.setDropDownViewResource(R.layout.spinner_item2)
+                    dailyFoodIntake.adapter = adapterDailyFoodIntake
+                    dailyFoodIntake.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                selectedDailyFoodIntake = when (position) {
+                                    1 -> "1끼"
+                                    2 -> "2끼"
+                                    3 -> "3끼"
+                                    else -> null
+                                }
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+                        } // dailyFoodIntake
+
+
+                    val prompt = UserPreferences.createPrompt1(
+                        userdto,
+                        exerciseType,
+                        exerciseDurationTime,
+                        exerciseDurationDay,
+                        selectedExerciseDurationDayInput.toString(),
+                        selectedExerciseDurationTimeInput.toString(),
+                        selectedJob.toString(),
+                        selectedDailyFoodIntake.toString(),
+                        exercisePreference,
+                        exerciseGoal,
+                        exerciseFacility,
+                        health
+                    )
+
                     // 로그 추가: 프롬프트 생성 확인
                     Log.d(TAG, "Prompt: $prompt")
                     sendMessageToChatGPT(prompt)
@@ -136,63 +267,30 @@ class ChatMainActivity : AppCompatActivity() {
                 }
 
 
+            }
+
+
+            clearButton.setOnClickListener {
+                exerciseTypeInput.text.clear()
+
+                chatResponse.text = "" // 결과 창의 내용을 지운다.
+                errorMessage.visibility = View.INVISIBLE
+            }
+
+            backButton.setOnClickListener {
+                val intent = Intent(this@ChatMainActivity, FirstActivity::class.java)
+                startActivity(intent)
+            }
+
+            stopButton.setOnClickListener {
+                call?.cancel() // 네트워크 호출 취소
+                call = null // 새로운 요청을 받을 수 있게 초기화
+                loadingIndicator.visibility = View.GONE // 로딩 인디케이터 숨기기
+                loadingTextView.visibility = View.GONE // 요청중 숨기기
+                chatResponse.text = "작업이 중지되었습니다."
+            }
 
         }
-
-
-//        autoPromptButton2.setOnClickListener {
-//            Log.d(TAG, "AutoPrompt2 clicked")
-//            if (::userdto.isInitialized) {
-//            val prompt = UserPreferences.createPrompt2(userdto)
-//            userInput.setText(prompt)
-//        } else {
-//                Log.e(TAG, "userdto is not initialized")
-//        }
-//    }
-//
-//        autoPromptButton3.setOnClickListener {
-//            Log.d(TAG, "AutoPrompt3 clicked")
-//            if (::userdto.isInitialized) {
-//            val prompt = UserPreferences.createPrompt3(userdto)
-//            userInput.setText(prompt)
-//        } else {
-//                Log.e(TAG, "userdto is not initialized")
-//        }
-//    }
-//
-//        autoPromptButton4.setOnClickListener {
-//            Log.d(TAG, "AutoPrompt4 clicked")
-//            if (::userdto.isInitialized) {
-//                val prompt = UserPreferences.createPrompt4(userdto)
-//                userInput.setText(prompt)
-//            } else {
-//                Log.e(TAG, "userdto is not initialized")
-//            }
-//        }
-
-        clearButton.setOnClickListener {
-            //userInput.text.clear()
-            exerciseTypeInput.text.clear()
-            exerciseDurationTimeInput.text.clear()
-            exerciseDurationDayInput.text.clear()
-
-            chatResponse.text = "" // 결과 창의 내용을 지운다.
-            errorMessage.visibility = View.INVISIBLE
-        }
-
-        backButton.setOnClickListener {
-            val intent = Intent(this, FirstActivity::class.java)
-            startActivity(intent)
-        }
-
-        stopButton.setOnClickListener {
-            call?.cancel() // 네트워크 호출 취소
-            call = null // 새로운 요청을 받을 수 있게 초기화
-            loadingIndicator.visibility = View.GONE // 로딩 인디케이터 숨기기
-            loadingTextView.visibility = View.GONE // 요청중 숨기기
-            chatResponse.text = "작업이 중지되었습니다."
-        }
-
     }
 
     private fun sendMessageToChatGPT(message: String) {
@@ -219,9 +317,9 @@ class ChatMainActivity : AppCompatActivity() {
                     loadingIndicator.visibility = View.GONE // 로딩 인디케이터 숨기기
                     loadingTextView.visibility = View.GONE // 요청중 숨기기
                     if (call.isCanceled) {
-                        chatResponse.text = "작업이 중지되었습니다."
+                        binding.chatResponse.text = "작업이 중지되었습니다."
                     } else {
-                        chatResponse.text = "Error: ${t.message}"
+                        binding.chatResponse.text = "Error: ${t.message}"
                         Log.e("ChatGPT", "Error: ${t.printStackTrace()}")
                     }
                 }
@@ -234,15 +332,16 @@ class ChatMainActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         val chatResponseData = response.body()
                         val reply = chatResponseData?.choices?.get(0)?.message?.content
-                        chatResponse.text = reply
+                        binding.chatResponse.text = reply
                     } else {
-                        chatResponse.text = "Error: ${response.errorBody()?.string()}"
+                        binding.chatResponse.text = "Error: ${response.errorBody()?.string()}"
                         Log.e("ChatGPT", "Error: ${response.errorBody()?.string()}")
                     }
                 }
             }
         })
     }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -282,6 +381,7 @@ class ChatMainActivity : AppCompatActivity() {
             }
         })
     }
+
     private fun getToken(): String {
         val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
         return sharedPreferences.getString("token", null) ?: ""
