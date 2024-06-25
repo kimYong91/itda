@@ -13,8 +13,8 @@
         android:id="@+id/textName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:text="이름"
+        android:layout_marginTop="30dp"
+        android:text="사용자ID"
         android:layout_alignParentRight="true"/>
 
     <LinearLayout

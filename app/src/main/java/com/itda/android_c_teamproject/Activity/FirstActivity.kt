@@ -185,15 +185,15 @@ class FirstActivity : AppCompatActivity() {
             }
 
             // 로그아웃 화면으로 이동
-            textFoodMenu.setOnClickListener {
-                val intent = Intent(this@FirstActivity, ChatMainActivity::class.java)
-                startActivity(intent)
+            buttonLogout.setOnClickListener {
+                logout()
                 Toast.makeText(this@FirstActivity, "로그아웃 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
 
             // 챗봇 화면으로 이동
             gptButton.setOnClickListener {
-                logout()
+                val intent = Intent(this@FirstActivity, PopupChatActivity::class.java)
+                startActivity(intent)
                 Toast.makeText(this@FirstActivity, "챗봇 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
 
