@@ -95,7 +95,9 @@
         android:layout_height="60dp"
         android:layout_below="@+id/mainImage"
         android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="30dp"
+        >
 
         <TextView
             android:id="@+id/textRecommendExercise"
@@ -143,7 +145,7 @@
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:layout_below="@+id/linearLayout"
         android:gravity="end"
         android:orientation="horizontal"
