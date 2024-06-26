@@ -1,7 +1,6 @@
 package com.itda.android_c_teamproject.Activity
 
 import android.annotation.SuppressLint
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,11 +11,11 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.BuildConfig
-import com.itda.android_c_teamproject.databinding.ActivityChatMainBinding
 import com.itda.android_c_teamproject.R
+import com.itda.android_c_teamproject.databinding.ActivityChatMainBinding
 import com.itda.android_c_teamproject.model.ChatRequest
-import com.itda.android_c_teamproject.model.Response.ChatResponse
 import com.itda.android_c_teamproject.model.Message
+import com.itda.android_c_teamproject.model.Response.ChatResponse
 import com.itda.android_c_teamproject.model.dto.UserDTO
 import com.itda.android_c_teamproject.network.ApiClient
 import com.itda.android_c_teamproject.network.OpenAIService
@@ -62,6 +61,7 @@ class ChatMainActivity : AppCompatActivity() {
 
             // 자동 프롬프트 버튼
             autoPromptButton1.setOnClickListener {
+
                 Log.d(TAG, "AutoPrompt1 clicked")
                 if (::userdto.isInitialized) {
                     val exerciseType = exerciseTypeInput.text.toString()
@@ -257,38 +257,6 @@ class ChatMainActivity : AppCompatActivity() {
                     Log.e(TAG, "userdto is not initialized")
                 }
 
-                val fileName = "itda.txt"   // 저장할 파일 이름
-
-                if (chatResponse != null) {
-                    val inputData = chatResponse.text.toString()
-
-                    val fileOutput = openFileOutput(fileName, MODE_PRIVATE)
-                    fileOutput.write(inputData.toByteArray())
-                    fileOutput.close()
-
-                    if (fileName != null) {
-
-                        // 1. 안드로이드 Context 메서드 사용
-                        deleteFile(fileName)    // context에서 파일 삭제
-
-                        // 2. File 클래스와 경로 사용
-                        try {
-                            // 파일 경로 가져오기
-                            val fileStreamPath = getFileStreamPath(fileName)
-                            // 경로 확인
-                            Log.d("mylog", "onCreate: ${fileStreamPath}")
-
-                            // 파일 경로가 존재하면 삭제
-                            if (fileStreamPath != null) {
-                                fileStreamPath.delete()
-                            }
-                        } catch (e: FileNotFoundException) {
-                            e.printStackTrace()
-                        }
-
-                    }
-                }
-
             } // end autoPromptButton1
 
             clearButton.setOnClickListener {
@@ -302,13 +270,13 @@ class ChatMainActivity : AppCompatActivity() {
                 errorMessage.visibility = View.INVISIBLE
             }
 
-        // 뒤로 가기 버튼
+            // 뒤로 가기 버튼
             backButton.setOnClickListener {
                 val intent = Intent(this@ChatMainActivity, FirstActivity::class.java)
                 startActivity(intent)
             }
 
-        // 중지 버튼
+            // 중지 버튼
             stopButton.setOnClickListener {
                 call?.cancel() // 네트워크 호출 취소
                 call = null // 새로운 요청을 받을 수 있게 초기화
@@ -360,6 +328,22 @@ class ChatMainActivity : AppCompatActivity() {
                         val chatResponseData = response.body()
                         val reply = chatResponseData?.choices?.get(0)?.message?.content
                         binding.chatResponse.text = reply
+
+                        val fileName = "itda.txt"   // 저장할 파일 이름
+
+                        val inputData = reply.toString()
+
+                        try {
+
+                            val fileOutput = openFileOutput(fileName, MODE_PRIVATE)
+                            fileOutput.write(inputData.toByteArray())
+                            fileOutput.close()
+                            Log.d("FileIO", "파일 쓰기 성공: $fileName")
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            Log.e("FileIO", "파일 쓰기 실패")
+                        }
+
                     } else {
                         binding.chatResponse.text = "Error: ${response.errorBody()?.string()}"
                         Log.e("ChatGPT", "Error: ${response.errorBody()?.string()}")
@@ -368,6 +352,7 @@ class ChatMainActivity : AppCompatActivity() {
             }
         })
     }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -407,6 +392,7 @@ class ChatMainActivity : AppCompatActivity() {
             }
         })
     }
+
     private fun getToken(): String {
         val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
         return sharedPreferences.getString("token", null) ?: ""
@@ -417,7 +403,3 @@ class ChatMainActivity : AppCompatActivity() {
         return sharedPreferences.getString("username", null) ?: ""
     }
 }
-
-
-
-
