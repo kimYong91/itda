@@ -14,6 +14,7 @@ import com.itda.android_c_teamproject.model.dto.UserHealthDTO
 import com.itda.android_c_teamproject.model.dto.UserPersonalDTO
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.PATCH
@@ -58,7 +59,9 @@ interface ApiService {
     @POST("/itda/findUsername")
     fun findUsername(@Body userFindNameDTO: UserFindNameDTO): Call<UserFindNameResponse>
 
-    fun userFindName(@Body userFindNameDTO: UserFindNameDTO): Call<UserFindNameResponse>
+    // 아이디 삭제
+    @DELETE("/userDelete")
+    fun userDelete(@Header("Authorization") token: String, @Query("username") username: String): Call<Void>
 
 
 

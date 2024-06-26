@@ -203,8 +203,11 @@ class ChatMainActivity : AppCompatActivity() {
                         "하루 식사",
                         "1회",
                         "2회",
-                        "3회"
+                        "3회",
+                        "4회",
+                        "5회"
                     )
+
                     val adapterDailyFoodIntake =
                         ArrayAdapter(
                             this@ChatMainActivity,
@@ -225,6 +228,8 @@ class ChatMainActivity : AppCompatActivity() {
                                     1 -> "1끼"
                                     2 -> "2끼"
                                     3 -> "3끼"
+                                    4 -> "4끼"
+                                    5 -> "5끼"
                                     else -> null
                                 }
                             }

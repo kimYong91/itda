@@ -45,7 +45,7 @@ class FirstActivity : AppCompatActivity() {
         }
 
         // 메인화면 좌측 상단 사용자 정보 선택란
-        val items = arrayOf("정보", "개인정보", "건강정보", "운동 계획", "로그아웃")
+        val items = arrayOf("정보", "개인정보", "건강정보", "운동 계획", "로그아웃", "탈퇴")
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, items)
         binding.spinner.adapter = adapter
@@ -83,6 +83,15 @@ class FirstActivity : AppCompatActivity() {
                     4 -> {
                         logout()
 
+                    }
+
+                    5 -> {
+                        startActivity(
+                            Intent(
+                                this@FirstActivity,
+                                DeleteUserActivity::class.java
+                            )
+                        )
                     }
                 }
             }

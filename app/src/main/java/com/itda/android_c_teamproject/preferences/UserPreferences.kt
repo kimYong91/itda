@@ -31,7 +31,7 @@ object UserPreferences {
             일은 ${selectedJob}일을 하는데 건강은 ${health}이고, 운동 취향은 ${exercisePreference}이고, 하루 ${dailyFoodIntake} 먹는데,
             ${exerciseGoal}을(를) 목표로 ${exerciseFacility}에서 ${exerciseType}을(를) 하루에 ${exerciseDurationTimeInput}시간씩 하려고해
             이 정보를 바탕으로 무슨 운동을 하고 식단은 어떻게 할지를 적절한 쉬는시간도 같이 포함해서 ${exerciseDurationDayInput}동안의 운동 스케줄을 만들어 주고 
-            하루 하루 운동 소비 칼로리 알려주고 총 칼로리 계산해 줘.
+            하루 하루 운동 소비 칼로리 알려주고 총 칼로리 계산해 줘. 추가로 글은 사족은 빼고 보기 쉽게, 식단은 한국에서 쉽게 구할 수 있는 제료들만 추천해주고, 필요한 계획들만 잘 정리해서 한글로 보여줘
             """.trimIndent()
 
         Log.d("createPrompt1", "Generated prompt: $prompt")
