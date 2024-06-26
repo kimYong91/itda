@@ -6,9 +6,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.BuildConfig
+import com.itda.android_c_teamproject.databinding.ActivityChatMainBinding
+import com.itda.android_c_teamproject.R
 import com.itda.android_c_teamproject.databinding.ActivityChatMainBinding
 import com.itda.android_c_teamproject.model.ChatRequest
 import com.itda.android_c_teamproject.model.Response.ChatResponse
@@ -33,6 +39,13 @@ class ChatMainActivity : AppCompatActivity() {
     private lateinit var userdto: UserDTO
     var initTime = 0L
 
+    private lateinit var binding: ActivityChatMainBinding
+
+    private var selectedExerciseDurationDayInput: String? = null
+    private var selectedExerciseDurationTimeInput: String? = null
+    private var selectedJob: String? = null
+    private var selectedDailyFoodIntake: String? = null
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,16 +60,210 @@ class ChatMainActivity : AppCompatActivity() {
 
         // 백엔드에서 UserDTO 객체를 가져 오는 가정
         fetchUserDTOFromBackend()
+        loadingTextView = findViewById(R.id.loadingTextView)   // 실행 할 때 "요청중" 메세지
+        loadingIndicator = findViewById(R.id.loadingIndicator)  // 실행할 때 로딩 이미지
+        errorMessage = findViewById(R.id.errorMessage)
+
+        binding.run {
+
+            // 백엔드에서 UserDTO 객체를 가져 오는 가정
+            fetchUserDTOFromBackend()
 
         // 자동 프롬프트 버튼
         binding.autoPromptButton1.setOnClickListener {
             Log.d(TAG, "AutoPrompt1 clicked")
+            autoPromptButton1.setOnClickListener {
+                Log.d(TAG, "AutoPrompt1 clicked")
                 if (::userdto.isInitialized) {  // userdto가 초기화되었는지 확인
                     // val userInfo = UserPreferences.getUserInfo(this)
                     val exerciseType = binding.exerciseTypeInput.text.toString()
                     val exerciseDurationTime = binding.exerciseDurationTimeInput.text.toString()
                     val exerciseDurationDay = binding.exerciseDurationDayInput.text.toString()
                     val prompt = UserPreferences.createPrompt1(userdto, exerciseType, exerciseDurationTime, exerciseDurationDay)
+                    val exerciseType = exerciseTypeInput.text.toString()
+                    val exercisePreference = editExercisePreference.text.toString()
+                    val exerciseGoal = editExerciseGoal.text.toString()
+                    val exerciseFacility = editExerciseFacility.text.toString()
+                    val health = editHealth.text.toString()
+
+
+                    val itemsExerciseDay =
+                        arrayOf("운동 일수", "1일", "2일", "3일", "4일", "5일", "6일", "7일")
+                    val adapterExerciseDay =
+                        ArrayAdapter(
+                            this@ChatMainActivity,
+                            android.R.layout.simple_spinner_item,
+                            itemsExerciseDay
+                        )
+                    adapterExerciseDay.setDropDownViewResource(R.layout.spinner_item2)
+                    exerciseDurationDayInput.adapter = adapterExerciseDay
+                    exerciseDurationDayInput.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                selectedExerciseDurationDayInput = when (position) {
+                                    1 -> "1일"
+                                    2 -> "2일"
+                                    3 -> "3일"
+                                    4 -> "4일"
+                                    5 -> "5일"
+                                    6 -> "6일"
+                                    7 -> "7일"
+                                    else -> ""
+                                }
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+                        } // exerciseDurationDayInput
+
+
+                    val itemsExerciseTime = arrayOf(
+                        "운동 시간",
+                        "1시간",
+                        "2시간",
+                        "3시간",
+                        "4시간",
+                        "5시간",
+                        "6시간",
+                        "7시간",
+                        "8시간",
+                        "9시간",
+                        "10시간",
+                        "11시간",
+                        "12시간"
+                    )
+                    val adapterExerciseTime =
+                        ArrayAdapter(
+                            this@ChatMainActivity,
+                            android.R.layout.simple_spinner_item,
+                            itemsExerciseTime
+                        )
+                    adapterExerciseTime.setDropDownViewResource(R.layout.spinner_item2)
+                    exerciseDurationTimeInput.adapter = adapterExerciseTime
+                    exerciseDurationTimeInput.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                selectedExerciseDurationTimeInput = when (position) {
+                                    1 -> "1"
+                                    2 -> "2"
+                                    3 -> "3"
+                                    4 -> "4"
+                                    5 -> "5"
+                                    6 -> "6"
+                                    7 -> "7"
+                                    8 -> "8"
+                                    9 -> "9"
+                                    10 -> "10"
+                                    11 -> "11"
+                                    12 -> "12"
+                                    else -> null
+                                }
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+                        } // exerciseDurationTimeInput
+
+
+                    val itemsJob = arrayOf(
+                        "직업",
+                        "사무직, 활동 없음",
+                        "부분 활동 서비스직",
+                        "주 활동 서비스직",
+                        "육체 노동"
+                    )
+                    val adapterJob =
+                        ArrayAdapter(
+                            this@ChatMainActivity,
+                            android.R.layout.simple_spinner_item,
+                            itemsJob
+                        )
+                    adapterJob.setDropDownViewResource(R.layout.spinner_item2)
+                    job.adapter = adapterJob
+                    job.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                selectedJob = when (position) {
+                                    1 -> "사무직, 활동 없음"
+                                    2 -> "부분 활동 서비스직"
+                                    3 -> "주 활동 서비스직"
+                                    4 -> "육체 노동"
+                                    else -> null
+                                }
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+                        } // job
+
+
+                    val itemsDailyFoodIntake = arrayOf(
+                        "하루 식사 횟수",
+                        "1회",
+                        "2회",
+                        "3회"
+                    )
+                    val adapterDailyFoodIntake =
+                        ArrayAdapter(
+                            this@ChatMainActivity,
+                            android.R.layout.simple_spinner_item,
+                            itemsDailyFoodIntake
+                        )
+                    adapterDailyFoodIntake.setDropDownViewResource(R.layout.spinner_item2)
+                    dailyFoodIntake.adapter = adapterDailyFoodIntake
+                    dailyFoodIntake.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                selectedDailyFoodIntake = when (position) {
+                                    1 -> "1끼"
+                                    2 -> "2끼"
+                                    3 -> "3끼"
+                                    else -> null
+                                }
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                            }
+                        } // dailyFoodIntake
+
+
+                    val prompt = UserPreferences.createPrompt1(
+                        userdto,
+                        selectedJob.toString(),
+                        health,
+                        exercisePreference,
+                        selectedDailyFoodIntake.toString(),
+                        exerciseGoal,
+                        exerciseFacility,
+                        exerciseType,
+                        selectedExerciseDurationTimeInput.toString(),
+                        selectedExerciseDurationDayInput.toString()
+                    )
+
                     // 로그 추가: 프롬프트 생성 확인
                     Log.d(TAG, "Prompt: $prompt")
                     sendMessageToChatGPT(prompt)
@@ -68,6 +275,9 @@ class ChatMainActivity : AppCompatActivity() {
         }
 
 
+            }
+
+
         // 모두 삭제 버튼
         binding.clearButton.setOnClickListener {
             binding.exerciseTypeInput.text.clear()
@@ -77,11 +287,22 @@ class ChatMainActivity : AppCompatActivity() {
             binding.errorMessage.visibility = View.INVISIBLE
         }
 
+            clearButton.setOnClickListener {
+                exerciseTypeInput.text.clear()
+
+                chatResponse.text = "" // 결과 창의 내용을 지운다.
+                errorMessage.visibility = View.INVISIBLE
+            }
+
         // 뒤로 가기 버튼
         binding.backButton.setOnClickListener {
             val intent = Intent(this, FirstActivity::class.java)
             startActivity(intent)
         }
+            backButton.setOnClickListener {
+                val intent = Intent(this@ChatMainActivity, FirstActivity::class.java)
+                startActivity(intent)
+            }
 
         // 중지 버튼
         binding.stopButton.setOnClickListener {
@@ -90,6 +311,15 @@ class ChatMainActivity : AppCompatActivity() {
             binding.loadingIndicator.visibility = View.GONE // 로딩 인디케이터 숨기기
             binding.loadingTextView.visibility = View.GONE // 요청중 숨기기
             binding.chatResponse.text = "작업이 중지되었습니다."
+        }
+            stopButton.setOnClickListener {
+                call?.cancel() // 네트워크 호출 취소
+                call = null // 새로운 요청을 받을 수 있게 초기화
+                loadingIndicator.visibility = View.GONE // 로딩 인디케이터 숨기기
+                loadingTextView.visibility = View.GONE // 요청중 숨기기
+                chatResponse.text = "작업이 중지되었습니다."
+            }
+
         }
     }
 
