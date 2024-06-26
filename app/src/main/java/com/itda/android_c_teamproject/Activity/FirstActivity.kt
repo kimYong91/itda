@@ -1,6 +1,5 @@
 package com.itda.android_c_teamproject.Activity
 
-
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,7 +10,6 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.R
@@ -26,25 +24,24 @@ import retrofit2.Response
 private const val TAG = "FirstActivity"
 
 class FirstActivity : AppCompatActivity() {
-    lateinit var binding: ActivityFirstBinding
+    private lateinit var binding: ActivityFirstBinding
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var mainImage: ImageView
-    var initTime = 0L
+    private var initTime = 0L
     private lateinit var userdto: UserDTO
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFirstBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // 메인화면 이미지
-        mainImage = findViewById(R.id.mainImage)
+        val mainImage = binding.mainImage
 
         // 가로 모드인지 확인하고 이미지의 가시성을 설정
-        // 메인 화면 가로모드 경우 이미지 사라지기
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            mainImage.visibility = ImageView.GONE
+            mainImage.visibility = View.GONE
         } else {
-            mainImage.visibility = ImageView.VISIBLE
+            mainImage.visibility = View.VISIBLE
         }
 
         // 메인화면 좌측 상단 사용자 정보 선택란
@@ -54,33 +51,15 @@ class FirstActivity : AppCompatActivity() {
         binding.spinner.adapter = adapter
         adapter.setDropDownViewResource(R.layout.spinner_item)
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 when (position) {
                     1 -> {
-                        startActivity(
-                            Intent(
-                                this@FirstActivity,
-                                UpdateUserPersonalActivity::class.java
-                            )
-                        )
+                        startActivity(Intent(this@FirstActivity, UpdateUserPersonalActivity::class.java))
                     }
-
                     2 -> {
-                        startActivity(
-                            Intent(
-                                this@FirstActivity,
-                                UpdateUserHealthActivity::class.java
-                            )
-                        )
+                        startActivity(Intent(this@FirstActivity, UpdateUserHealthActivity::class.java))
                     }
-
-                    3 -> {
-                        logout()
+                    3 -> { logout()
                     }
                 }
             }
@@ -96,13 +75,13 @@ class FirstActivity : AppCompatActivity() {
         val token = getToken()
         if (token.isNullOrEmpty()) {
             startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
-            finish() // finish()를 추가하여 FirstActivity를 종료합니다.
+            finish() // finish()를 추가 하여 FirstActivity 를 종료
             return
         }
 
 
-
         binding.run {
+
             if (token.isNullOrEmpty()) {
                 startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
             }
@@ -125,8 +104,7 @@ class FirstActivity : AppCompatActivity() {
                             textAge.text = "나이 : ${user?.userAge.toString()}세"
                             textWeight.text = "몸무게 : ${user?.userWeight.toString()}kg"
                             textHeight.text = "키 : ${user?.userHeight.toString()}cm"
-                            textBasalMetabolism.text =
-                                "기초대사량 : ${user?.basalMetabolism.toString()}"
+                            textBasalMetabolism.text = "기초대사량 : ${user?.basalMetabolism.toString()}"
 
                         } else {
                             Log.d(TAG, "onResponse: 응답 실패 ${response.code()}")
@@ -175,7 +153,6 @@ class FirstActivity : AppCompatActivity() {
                         // 만보기 유틸 화면으로 이동
                         3 -> {
                             startActivity(Intent(this@FirstActivity, PedometerActivity::class.java))
-
                         }
                     }
                 }
@@ -185,11 +162,11 @@ class FirstActivity : AppCompatActivity() {
                 }
             }
 
-            // 로그아웃 화면으로 이동
-            buttonLogout.setOnClickListener {
-                logout()
-                Toast.makeText(this@FirstActivity, "로그아웃 버튼 클릭됨", Toast.LENGTH_SHORT).show()
-            }
+//            // 로그아웃 화면으로 이동
+//            buttonLogout.setOnClickListener {
+//                logout()
+//                Toast.makeText(this@FirstActivity, "로그아웃 버튼 클릭됨", Toast.LENGTH_SHORT).show()
+//            }
 
             // 챗봇 화면으로 이동
             gptButton.setOnClickListener {
@@ -198,43 +175,8 @@ class FirstActivity : AppCompatActivity() {
                 Toast.makeText(this@FirstActivity, "챗봇 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
 
-            // 회의 후 삭제 예정
-            textGpt.setOnClickListener {
-                Toast.makeText(this@FirstActivity, "GPT 버튼 클릭됨", Toast.LENGTH_SHORT).show()
-            }
         }
     }
-
-
-//        val recommendExerciseButton: Button = findViewById(R.id.recommendExerciseButton)
-//
-//        val foodMenuButton: Button = findViewById(R.id.foodMenuButton)
-//
-//        val stopwatchButton: Button = findViewById(R.id.stopwatchButton)
-//
-//        val gptButton: Button = findViewById(R.id.gptButton)
-//
-//
-//        recommendExerciseButton.setOnClickListener{
-//            val intent = Intent(this, ChatMainActivity::class.java)
-//            startActivity(intent)
-//            Toast.makeText(this, "추천 운동 버튼 클릭됨", Toast.LENGTH_SHORT).show()
-//        }
-//
-//        foodMenuButton.setOnClickListener{
-//            Toast.makeText(this, "식단 버튼 클릭됨", Toast.LENGTH_SHORT).show()
-//        }
-//
-//        stopwatchButton.setOnClickListener{
-//            Toast.makeText(this, "스탑워치 버튼 클릭됨", Toast.LENGTH_SHORT).show()
-//        }
-//
-//        gptButton.setOnClickListener{
-//            Toast.makeText(this, "GPT 버튼 클릭됨", Toast.LENGTH_SHORT).show()
-//        }
-//
-//    }
-
 
     private fun getToken(): String {
         val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
@@ -257,8 +199,6 @@ class FirstActivity : AppCompatActivity() {
         val intent = Intent(this@FirstActivity, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
-
-        // 현재 액티비티 종료
         finish()
     }
 
@@ -267,9 +207,9 @@ class FirstActivity : AppCompatActivity() {
 
         // 가로/세로 모드 변경 시 이미지의 가시성을 설정합니다
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            mainImage.visibility = ImageView.GONE
+            binding.mainImage.visibility = View.GONE
         } else {
-            mainImage.visibility = ImageView.VISIBLE
+            binding.mainImage.visibility = View.VISIBLE
         }
     }
 
@@ -285,5 +225,4 @@ class FirstActivity : AppCompatActivity() {
         }
         return super.onKeyDown(keyCode, event)
     }
-
 }

@@ -2,8 +2,6 @@ package com.itda.android_c_teamproject.Activity
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.IntentService
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -15,29 +13,20 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.widget.Button
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.google.android.gms.location.ActivityRecognition
-import com.google.android.gms.location.ActivityRecognitionClient
-import com.google.android.gms.location.ActivityRecognitionResult
-import com.google.android.gms.location.DetectedActivity
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.android.gms.tasks.Task
-import com.itda.android_c_teamproject.R
+import com.itda.android_c_teamproject.databinding.ActivityPedometerBinding
 
-import java.lang.Void
+
+private const val TAG = "PedometerActivity"
 
 // 만보기 앱
 class PedometerActivity : AppCompatActivity(), SensorEventListener {
+
     // SensorManager와 SensorEventListener를 사용하여 걸음 수 센서를 초기화하고 데이터 변경을 감지
-    private lateinit var textView: TextView
+    private lateinit var binding: ActivityPedometerBinding
     private lateinit var sensorManager: SensorManager
     private var stepCounterSensor: Sensor? = null
     private var steps = 0
@@ -46,19 +35,12 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pedometer)
+        binding = ActivityPedometerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        // textView 변수를 XML 레이아웃의 TextView 와 연결
-        textView = findViewById(R.id.textView)
-
-        // 나가기 버튼 (메인 화면으로 이동)
-        val exitButton: Button = findViewById(R.id.exitButton)
-
-        // 리셋 버튼
-        val resetButton: Button = findViewById(R.id.resetButton)
 
         // TextView를 처음에는 보이지 않도록 설정
-        textView.visibility = TextView.INVISIBLE
+        binding.textView.visibility = TextView.INVISIBLE
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
@@ -79,23 +61,21 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
         }
 
         // 나가기 버튼 클릭 시 메인 화면으로 이동
-        exitButton.setOnClickListener {
+        binding.exitButton.setOnClickListener {
             val intent = Intent(this, FirstActivity::class.java)
             startActivity(intent)
             finish()
         }
 
         // 리셋 버튼 클릭 시 걸음수 0으로 초기화
-        resetButton.setOnClickListener {
+        binding.resetButton.setOnClickListener {
             initialStepCount = steps + initialStepCount // 현재 걸음 수를 초기화 값에 더함
             steps = 0
-            textView.text = "걸음 수: 0"
+            binding.textView.text = "걸음 수: 0"
         }
     }
 
-
-
-    // 권한 요청 결과를 처리하는 메서드
+    // 권한 요청 결과를 처리 하는 메서드
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -113,16 +93,16 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
     @SuppressLint("MissingPermission")
     private fun startTracking() {
         if (stepCounterSensor == null) {
-            textView.text = "No Step Counter Sensor!"
-            textView.visibility = TextView.VISIBLE
+            binding.textView.text = "No Step Counter Sensor!"
+            binding.textView.visibility = TextView.VISIBLE
         } else {
             sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_NORMAL)
-            textView.text = "Tracking started..."
-            textView.visibility = TextView.VISIBLE
+            binding.textView.text = "Tracking started..."
+            binding.textView.visibility = TextView.VISIBLE
             // 2초 후에 텍스트를 "걸음 수: 0"으로 변경
             Handler(Looper.getMainLooper()).postDelayed({
-                textView.text = "걸음 수: $steps"
-                textView.visibility = TextView.VISIBLE
+                binding.textView.text = "걸음 수: $steps"
+                binding.textView.visibility = TextView.VISIBLE
             }, 2000)
         }
     }
@@ -136,7 +116,7 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
                 isInitialStepCountSet = true
             }
             steps = event.values[0].toInt() - initialStepCount
-            textView.text = "걸음 수: $steps"
+            binding.textView.text = "걸음 수: $steps"
         }
     }
 
@@ -176,9 +156,8 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
         steps = savedInstanceState.getInt("steps")
         initialStepCount = savedInstanceState.getInt("initialStepCount")
         isInitialStepCountSet = savedInstanceState.getBoolean("isInitialStepCountSet")
-        textView.text = "걸음 수: $steps"
+        binding.textView.text = "걸음 수: $steps"
     }
-
 
     // onDestroy 메서드에서 센서 리스너를 해제
     override fun onDestroy() {
