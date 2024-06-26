@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Activity.FirstActivity"
-    android:padding="50dp">
+    android:padding="40dp">
 
     <TextView
         android:id="@+id/textName"
@@ -189,7 +189,6 @@
             android:textColor="@android:color/black"
             android:textSize="16sp" />
     </LinearLayout>
-
 
     <!--    <Button-->
     <!--        android:id="@+id/gptButton"-->
