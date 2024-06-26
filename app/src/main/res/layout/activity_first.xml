@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Activity.FirstActivity"
-    android:padding="50dp">
+    android:padding="40dp">
 
     <TextView
         android:id="@+id/textName"
@@ -95,9 +95,7 @@
         android:layout_height="60dp"
         android:layout_below="@+id/mainImage"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:layout_marginBottom="30dp"
-        >
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/textRecommendExercise"
@@ -140,34 +138,64 @@
         </RelativeLayout>
 
 
+
+<!--        <Button-->
+<!--            android:id="@+id/stopwatchButton"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="스탑워치"-->
+<!--            android:textSize="15sp"-->
+<!--            android:background="@drawable/round"-->
+<!--            android:padding="10sp"/>-->
+
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:layout_below="@+id/linearLayout"
-        android:gravity="end"
+        android:layout_weight="1"
         android:orientation="horizontal"
         >
 
-<!--        <Button-->
-<!--            android:id="@+id/buttonLogout"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="로그아웃" />-->
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="로그아웃" />
 
+        <TextView
+            android:id="@+id/textGpt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="GPT"
+            android:textStyle="bold"
+            android:padding="7.5dp"
+            android:background="@drawable/round"
+            android:gravity="center_horizontal"
+             />
 
         <Button
             android:id="@+id/gptButton"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@drawable/round_button"
             android:text="챗봇"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
-
     </LinearLayout>
+
+
+    <!--    <Button-->
+    <!--        android:id="@+id/gptButton"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="GPT"-->
+    <!--        android:layout_centerInParent="true"/>-->
 
 </RelativeLayout>

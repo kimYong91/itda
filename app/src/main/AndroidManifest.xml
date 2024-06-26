@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!--사용자의 움직임 감지를 위한 권한 추가-->
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <!-- 인터넷 권한 추가 -->
@@ -19,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Itda"
         tools:targetApi="31">
+        <activity
+            android:name=".Activity.MemoActivity"
+            android:exported="false" />
         <activity
             android:name=".Activity.PedometerActivity"
             android:configChanges="orientation|screenSize"

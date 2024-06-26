@@ -25,6 +25,7 @@ import com.itda.android_c_teamproject.preferences.UserPreferences
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.FileNotFoundException
 
 
 private const val TAG = "ChatMainActivity"
@@ -96,7 +97,7 @@ class ChatMainActivity : AppCompatActivity() {
                                     5 -> "5일"
                                     6 -> "6일"
                                     7 -> "7일"
-                                    else -> ""
+                                    else -> null
                                 }
                             }
 
@@ -199,7 +200,7 @@ class ChatMainActivity : AppCompatActivity() {
 
 
                     val itemsDailyFoodIntake = arrayOf(
-                        "하루 식사 횟수",
+                        "하루 식사",
                         "1회",
                         "2회",
                         "3회"
@@ -255,9 +256,48 @@ class ChatMainActivity : AppCompatActivity() {
                     // 로그 추가: userdto 초기화되지 않음
                     Log.e(TAG, "userdto is not initialized")
                 }
+
+                val fileName = "itda.txt"   // 저장할 파일 이름
+
+                if (chatResponse != null) {
+                    val inputData = chatResponse.text.toString()
+
+                    val fileOutput = openFileOutput(fileName, MODE_PRIVATE)
+                    fileOutput.write(inputData.toByteArray())
+                    fileOutput.close()
+
+                    if (fileName != null) {
+
+                        // 1. 안드로이드 Context 메서드 사용
+                        deleteFile(fileName)    // context에서 파일 삭제
+
+                        // 2. File 클래스와 경로 사용
+                        try {
+                            // 파일 경로 가져오기
+                            val fileStreamPath = getFileStreamPath(fileName)
+                            // 경로 확인
+                            Log.d("mylog", "onCreate: ${fileStreamPath}")
+
+                            // 파일 경로가 존재하면 삭제
+                            if (fileStreamPath != null) {
+                                fileStreamPath.delete()
+                            }
+                        } catch (e: FileNotFoundException) {
+                            e.printStackTrace()
+                        }
+
+                    }
+                }
+
+            } // end autoPromptButton1
+
             }
 
             clearButton.setOnClickListener {
+                editHealth.text.clear()
+                editExercisePreference.text.clear()
+                editExerciseGoal.text.clear()
+                editExerciseFacility.text.clear()
                 exerciseTypeInput.text.clear()
 
                 chatResponse.text = "" // 결과 창의 내용을 지운다.
@@ -278,9 +318,8 @@ class ChatMainActivity : AppCompatActivity() {
                 loadingTextView.visibility = View.GONE // 요청중 숨기기
                 chatResponse.text = "작업이 중지되었습니다."
             }
-
-        }
-    }
+        } // end binding
+    } // end onCreate
 
     // 프롬프트 gpt 전달
     private fun sendMessageToChatGPT(message: String) {
