@@ -72,12 +72,12 @@ class ChatMainActivity : AppCompatActivity() {
                 if (::userdto.isInitialized) {  // userdto가 초기화되었는지 확인
                     // val userInfo = UserPreferences.getUserInfo(this)
                     val exerciseType = exerciseTypeInput.text.toString()
-                    val exerciseDurationTime = exerciseDurationTimeInput.toString()
-                    val exerciseDurationDay = exerciseDurationDayInput.toString()
-                    val exercisePreference = editExercisePreference.toString()
-                    val exerciseGoal = editExerciseGoal.toString()
-                    val exerciseFacility = editExerciseFacility.toString()
-                    val health = editHealth.toString()
+                    val exercisePreference = editExercisePreference.text.toString()
+                    val exerciseGoal = editExerciseGoal.text.toString()
+                    val exerciseFacility = editExerciseFacility.text.toString()
+                    val health = editHealth.text.toString()
+
+
                     val itemsExerciseDay =
                         arrayOf("운동 일수", "1일", "2일", "3일", "4일", "5일", "6일", "7일")
                     val adapterExerciseDay =
@@ -244,17 +244,15 @@ class ChatMainActivity : AppCompatActivity() {
 
                     val prompt = UserPreferences.createPrompt1(
                         userdto,
-                        exerciseType,
-                        exerciseDurationTime,
-                        exerciseDurationDay,
-                        selectedExerciseDurationDayInput.toString(),
-                        selectedExerciseDurationTimeInput.toString(),
                         selectedJob.toString(),
-                        selectedDailyFoodIntake.toString(),
+                        health,
                         exercisePreference,
+                        selectedDailyFoodIntake.toString(),
                         exerciseGoal,
                         exerciseFacility,
-                        health
+                        exerciseType,
+                        selectedExerciseDurationTimeInput.toString(),
+                        selectedExerciseDurationDayInput.toString()
                     )
 
                     // 로그 추가: 프롬프트 생성 확인
