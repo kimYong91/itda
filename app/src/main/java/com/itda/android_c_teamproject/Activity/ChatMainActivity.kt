@@ -1,6 +1,7 @@
 package com.itda.android_c_teamproject.Activity
 
 import android.annotation.SuppressLint
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,14 +9,11 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.BuildConfig
 import com.itda.android_c_teamproject.databinding.ActivityChatMainBinding
 import com.itda.android_c_teamproject.R
-import com.itda.android_c_teamproject.databinding.ActivityChatMainBinding
 import com.itda.android_c_teamproject.model.ChatRequest
 import com.itda.android_c_teamproject.model.Response.ChatResponse
 import com.itda.android_c_teamproject.model.Message
@@ -33,14 +31,10 @@ private const val TAG = "ChatMainActivity"
 
 class ChatMainActivity : AppCompatActivity() {
 
-
     private lateinit var binding: ActivityChatMainBinding
     private var call: Call<ChatResponse>? = null
     private lateinit var userdto: UserDTO
     var initTime = 0L
-
-    private lateinit var binding: ActivityChatMainBinding
-
     private var selectedExerciseDurationDayInput: String? = null
     private var selectedExerciseDurationTimeInput: String? = null
     private var selectedJob: String? = null
@@ -58,28 +52,17 @@ class ChatMainActivity : AppCompatActivity() {
         // API Key를 로그로 출력
         Log.d("API_KEY_LOG", "API Key: ${BuildConfig.API_KEY}")
 
-        // 백엔드에서 UserDTO 객체를 가져 오는 가정
-        fetchUserDTOFromBackend()
-        loadingTextView = findViewById(R.id.loadingTextView)   // 실행 할 때 "요청중" 메세지
-        loadingIndicator = findViewById(R.id.loadingIndicator)  // 실행할 때 로딩 이미지
-        errorMessage = findViewById(R.id.errorMessage)
 
         binding.run {
 
             // 백엔드에서 UserDTO 객체를 가져 오는 가정
             fetchUserDTOFromBackend()
 
-        // 자동 프롬프트 버튼
-        binding.autoPromptButton1.setOnClickListener {
-            Log.d(TAG, "AutoPrompt1 clicked")
+
+            // 자동 프롬프트 버튼
             autoPromptButton1.setOnClickListener {
                 Log.d(TAG, "AutoPrompt1 clicked")
-                if (::userdto.isInitialized) {  // userdto가 초기화되었는지 확인
-                    // val userInfo = UserPreferences.getUserInfo(this)
-                    val exerciseType = binding.exerciseTypeInput.text.toString()
-                    val exerciseDurationTime = binding.exerciseDurationTimeInput.text.toString()
-                    val exerciseDurationDay = binding.exerciseDurationDayInput.text.toString()
-                    val prompt = UserPreferences.createPrompt1(userdto, exerciseType, exerciseDurationTime, exerciseDurationDay)
+                if (::userdto.isInitialized) {
                     val exerciseType = exerciseTypeInput.text.toString()
                     val exercisePreference = editExercisePreference.text.toString()
                     val exerciseGoal = editExerciseGoal.text.toString()
@@ -272,20 +255,7 @@ class ChatMainActivity : AppCompatActivity() {
                     // 로그 추가: userdto 초기화되지 않음
                     Log.e(TAG, "userdto is not initialized")
                 }
-        }
-
-
             }
-
-
-        // 모두 삭제 버튼
-        binding.clearButton.setOnClickListener {
-            binding.exerciseTypeInput.text.clear()
-            binding.exerciseDurationTimeInput.text.clear()
-            binding.exerciseDurationDayInput.text.clear()
-            binding.chatResponse.text = "" // 결과 창의 내용을 지운다.
-            binding.errorMessage.visibility = View.INVISIBLE
-        }
 
             clearButton.setOnClickListener {
                 exerciseTypeInput.text.clear()
@@ -295,23 +265,12 @@ class ChatMainActivity : AppCompatActivity() {
             }
 
         // 뒤로 가기 버튼
-        binding.backButton.setOnClickListener {
-            val intent = Intent(this, FirstActivity::class.java)
-            startActivity(intent)
-        }
             backButton.setOnClickListener {
                 val intent = Intent(this@ChatMainActivity, FirstActivity::class.java)
                 startActivity(intent)
             }
 
         // 중지 버튼
-        binding.stopButton.setOnClickListener {
-            call?.cancel() // 네트워크 호출 취소
-            call = null // 새로운 요청을 받을 수 있게 초기화
-            binding.loadingIndicator.visibility = View.GONE // 로딩 인디케이터 숨기기
-            binding.loadingTextView.visibility = View.GONE // 요청중 숨기기
-            binding.chatResponse.text = "작업이 중지되었습니다."
-        }
             stopButton.setOnClickListener {
                 call?.cancel() // 네트워크 호출 취소
                 call = null // 새로운 요청을 받을 수 있게 초기화
