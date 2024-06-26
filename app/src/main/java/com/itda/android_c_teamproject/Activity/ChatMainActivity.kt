@@ -70,7 +70,6 @@ class ChatMainActivity : AppCompatActivity() {
 
         // 모두 삭제 버튼
         binding.clearButton.setOnClickListener {
-            //userInput.text.clear()
             binding.exerciseTypeInput.text.clear()
             binding.exerciseDurationTimeInput.text.clear()
             binding.exerciseDurationDayInput.text.clear()
