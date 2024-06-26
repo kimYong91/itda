@@ -54,10 +54,21 @@ class FirstActivity : AppCompatActivity() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 when (position) {
                     1 -> {
-                        startActivity(Intent(this@FirstActivity, UpdateUserPersonalActivity::class.java))
+                        startActivity(
+                            Intent(
+                                this@FirstActivity,
+                                UpdateUserPersonalActivity::class.java
+                            )
+                        )
                     }
+
                     2 -> {
-                        startActivity(Intent(this@FirstActivity, UpdateUserHealthActivity::class.java))
+                        startActivity(
+                            Intent(
+                                this@FirstActivity,
+                                UpdateUserHealthActivity::class.java
+                            )
+                        )
                     }
 
                     3 -> {
@@ -72,9 +83,9 @@ class FirstActivity : AppCompatActivity() {
                     4 -> {
                         logout()
 
+                    }
                 }
             }
-                }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")

@@ -291,8 +291,6 @@ class ChatMainActivity : AppCompatActivity() {
 
             } // end autoPromptButton1
 
-            }
-
             clearButton.setOnClickListener {
                 editHealth.text.clear()
                 editExercisePreference.text.clear()
