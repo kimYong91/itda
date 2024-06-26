@@ -60,7 +60,7 @@ interface ApiService {
     fun findUsername(@Body userFindNameDTO: UserFindNameDTO): Call<UserFindNameResponse>
 
     // 아이디 삭제
-    @DELETE("/userDelete")
+    @DELETE("/itda/userDelete")
     fun userDelete(@Header("Authorization") token: String, @Query("username") username: String): Call<Void>
 
 
