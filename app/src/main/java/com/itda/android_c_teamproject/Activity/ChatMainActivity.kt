@@ -59,6 +59,79 @@ class ChatMainActivity : AppCompatActivity() {
             fetchUserDTOFromBackend()
 
 
+            val itemsExerciseDay =
+                arrayOf("운동 일수", "1일", "2일", "3일", "4일", "5일", "6일", "7일")
+            val adapterExerciseDay =
+                ArrayAdapter(
+                    this@ChatMainActivity,
+                    android.R.layout.simple_spinner_item,
+                    itemsExerciseDay
+                )
+            adapterExerciseDay.setDropDownViewResource(R.layout.spinner_item2)
+            exerciseDurationDayInput.adapter = adapterExerciseDay
+
+
+            val itemsExerciseTime = arrayOf(
+                "운동 시간",
+                "1시간",
+                "2시간",
+                "3시간",
+                "4시간",
+                "5시간",
+                "6시간",
+                "7시간",
+                "8시간",
+                "9시간",
+                "10시간",
+                "11시간",
+                "12시간"
+            )
+            val adapterExerciseTime =
+                ArrayAdapter(
+                    this@ChatMainActivity,
+                    android.R.layout.simple_spinner_item,
+                    itemsExerciseTime
+                )
+            adapterExerciseTime.setDropDownViewResource(R.layout.spinner_item2)
+            exerciseDurationTimeInput.adapter = adapterExerciseTime
+
+
+            val itemsJob = arrayOf(
+                "직업",
+                "사무직, 활동 없음",
+                "부분 활동 서비스직",
+                "주 활동 서비스직",
+                "육체 노동"
+            )
+            val adapterJob =
+                ArrayAdapter(
+                    this@ChatMainActivity,
+                    android.R.layout.simple_spinner_item,
+                    itemsJob
+                )
+            adapterJob.setDropDownViewResource(R.layout.spinner_item2)
+            job.adapter = adapterJob
+
+
+            val itemsDailyFoodIntake = arrayOf(
+                "하루 식사",
+                "1회",
+                "2회",
+                "3회",
+                "4회",
+                "5회"
+            )
+
+            val adapterDailyFoodIntake =
+                ArrayAdapter(
+                    this@ChatMainActivity,
+                    android.R.layout.simple_spinner_item,
+                    itemsDailyFoodIntake
+                )
+            adapterDailyFoodIntake.setDropDownViewResource(R.layout.spinner_item2)
+            dailyFoodIntake.adapter = adapterDailyFoodIntake
+
+
             // 자동 프롬프트 버튼
             autoPromptButton1.setOnClickListener {
 
@@ -71,16 +144,7 @@ class ChatMainActivity : AppCompatActivity() {
                     val health = editHealth.text.toString()
 
 
-                    val itemsExerciseDay =
-                        arrayOf("운동 일수", "1일", "2일", "3일", "4일", "5일", "6일", "7일")
-                    val adapterExerciseDay =
-                        ArrayAdapter(
-                            this@ChatMainActivity,
-                            android.R.layout.simple_spinner_item,
-                            itemsExerciseDay
-                        )
-                    adapterExerciseDay.setDropDownViewResource(R.layout.spinner_item2)
-                    exerciseDurationDayInput.adapter = adapterExerciseDay
+
                     exerciseDurationDayInput.onItemSelectedListener =
                         object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(
@@ -107,29 +171,7 @@ class ChatMainActivity : AppCompatActivity() {
                         } // exerciseDurationDayInput
 
 
-                    val itemsExerciseTime = arrayOf(
-                        "운동 시간",
-                        "1시간",
-                        "2시간",
-                        "3시간",
-                        "4시간",
-                        "5시간",
-                        "6시간",
-                        "7시간",
-                        "8시간",
-                        "9시간",
-                        "10시간",
-                        "11시간",
-                        "12시간"
-                    )
-                    val adapterExerciseTime =
-                        ArrayAdapter(
-                            this@ChatMainActivity,
-                            android.R.layout.simple_spinner_item,
-                            itemsExerciseTime
-                        )
-                    adapterExerciseTime.setDropDownViewResource(R.layout.spinner_item2)
-                    exerciseDurationTimeInput.adapter = adapterExerciseTime
+
                     exerciseDurationTimeInput.onItemSelectedListener =
                         object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(
@@ -161,21 +203,6 @@ class ChatMainActivity : AppCompatActivity() {
                         } // exerciseDurationTimeInput
 
 
-                    val itemsJob = arrayOf(
-                        "직업",
-                        "사무직, 활동 없음",
-                        "부분 활동 서비스직",
-                        "주 활동 서비스직",
-                        "육체 노동"
-                    )
-                    val adapterJob =
-                        ArrayAdapter(
-                            this@ChatMainActivity,
-                            android.R.layout.simple_spinner_item,
-                            itemsJob
-                        )
-                    adapterJob.setDropDownViewResource(R.layout.spinner_item2)
-                    job.adapter = adapterJob
                     job.onItemSelectedListener =
                         object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(
@@ -199,23 +226,7 @@ class ChatMainActivity : AppCompatActivity() {
                         } // job
 
 
-                    val itemsDailyFoodIntake = arrayOf(
-                        "하루 식사",
-                        "1회",
-                        "2회",
-                        "3회",
-                        "4회",
-                        "5회"
-                    )
 
-                    val adapterDailyFoodIntake =
-                        ArrayAdapter(
-                            this@ChatMainActivity,
-                            android.R.layout.simple_spinner_item,
-                            itemsDailyFoodIntake
-                        )
-                    adapterDailyFoodIntake.setDropDownViewResource(R.layout.spinner_item2)
-                    dailyFoodIntake.adapter = adapterDailyFoodIntake
                     dailyFoodIntake.onItemSelectedListener =
                         object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(
