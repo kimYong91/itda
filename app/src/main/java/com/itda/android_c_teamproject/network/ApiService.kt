@@ -11,6 +11,7 @@ import com.itda.android_c_teamproject.model.Response.UserFindNameResponse
 import com.itda.android_c_teamproject.model.dto.UserFindPasswordDTO
 import com.itda.android_c_teamproject.model.Response.UserFindPasswordResponse
 import com.itda.android_c_teamproject.model.dto.UserHealthDTO
+import com.itda.android_c_teamproject.model.dto.UserUsedNameDTO
 import com.itda.android_c_teamproject.model.dto.UserPersonalDTO
 import retrofit2.Call
 import retrofit2.http.Body
@@ -50,6 +51,10 @@ interface ApiService {
     // 로그인 후 사용자 개인 정보 업데이트
     @PATCH("/itda/oneUserInfo/{id}")
     fun updateUserPersonalInfo(@Header("Authorization") token: String, @Path("id") id: String, @Body userPersonalDTO: UserPersonalDTO): Call<UserPersonalDTO>
+
+    // 아이디 생성시 기존 사용자와 아이디 같은지 검사
+    @GET("/itda/oneUsername")
+    fun UserUsedName(@Query("id") id: String): Call<UserUsedNameDTO>
 
     // 비밀번호 임시 생성
     @POST("/itda/findPassword")

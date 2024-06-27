@@ -84,6 +84,28 @@ class FindUserPasswordActivity : AppCompatActivity() {
                 }
             })
 
+            // 이메일에 '@', '.' 불포함시 에러메시지
+            editEmail.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                    // 입력 전
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    // 입력 중
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (!s.isNullOrBlank() && !s.toString().contains('@') && !s.toString().contains('.')) {
+                        editEmail.error = "정확한 이메일 주소를 입력해 주세요"
+                    }
+                }
+            })
+
 
             textFindingPassword.setOnClickListener {
 

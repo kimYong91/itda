@@ -1,6 +1,7 @@
 package com.itda.android_c_teamproject.Activity
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -25,9 +26,6 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
     lateinit var binding: ActivityUpdateUserPersonalBinding
     private lateinit var sharedPreferences: SharedPreferences
     lateinit var userPersonalDTO: UserPersonalDTO
-    lateinit var newEmail: String
-    lateinit var newDateOfBirth: String
-    lateinit var newPhoneNumber: String
     var initTime = 0L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,6 +98,52 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
                 }
             })
 
+            // 비밀번호 8글자 이하 입력시 에러메시지 생성
+            editPassword.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                    // 입력 전
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    // 입력 중
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (!s.isNullOrBlank() && s.length <= 8) {
+                        editPassword.error = "비밀번호가 너무 짧습니다."
+                    } else {
+                        editPassword.error = null
+                    }
+                }
+            })
+
+            // 이메일에 '@', '.' 불포함시 에러메시지
+            editEmail.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                    // 입력 전
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    // 입력 중
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (!s.isNullOrBlank() && !s.toString().contains('@') && !s.toString().contains('.')) {
+                        editEmail.error = "정확한 이메일 주소를 입력해 주세요"
+                    }
+                }
+            })
+
 
             RetrofitClient.api.getUserInfo("Bearer $token", username)
                 .enqueue(object : Callback<User> {
@@ -121,26 +165,10 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
             textUpdate.setOnClickListener {
 
                 val newPassword = editPassword.text.toString()
-                if (editEmail.text.contains("@") || editEmail.text.isNullOrBlank()) {
-                    newEmail = editEmail.text.toString()
-                } else {
-                    Toast.makeText(
-                        this@UpdateUserPersonalActivity, "이메일을 정확히 입력하세요", Toast.LENGTH_SHORT
-                    ).show()
-                }
-                if (editPhoneNumber.text.contains("-")) {
-                    Toast.makeText(this@UpdateUserPersonalActivity, "숫자만 입력하세요", Toast.LENGTH_SHORT)
-                        .show()
-                } else if (editPhoneNumber.text.isNullOrBlank()) {
-                    newPhoneNumber = editPhoneNumber.text.toString()
-                }
-                if (editDateOfBirth.text.contains("-") || editDateOfBirth.text.isNullOrBlank()) {
-                    newDateOfBirth = editDateOfBirth.text.toString()
-                } else {
-                    Toast.makeText(
-                        this@UpdateUserPersonalActivity, "'-' 포함하여 입력하세요", Toast.LENGTH_SHORT
-                    ).show()
-                }
+                val newEmail = editEmail.text.toString()
+                val newPhoneNumber = editPhoneNumber.text.toString()
+                val newDateOfBirth = editDateOfBirth.text.toString()
+
                 userPersonalDTO = UserPersonalDTO(
                     newPassword, newEmail, newPhoneNumber, newDateOfBirth
                 )

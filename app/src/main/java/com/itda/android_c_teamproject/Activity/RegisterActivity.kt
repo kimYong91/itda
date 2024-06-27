@@ -2,6 +2,8 @@ package com.itda.android_c_teamproject.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -11,12 +13,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.network.RetrofitClient
 import com.itda.android_c_teamproject.databinding.ActivityRegisterBinding
 import com.itda.android_c_teamproject.model.User
+import com.itda.android_c_teamproject.model.dto.UserUsedNameDTO
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class RegisterActivity : AppCompatActivity() {
     lateinit var binding: ActivityRegisterBinding
+    private val handler = Handler(Looper.getMainLooper())
+    private var checkIdRunnable: Runnable? = null
     var initTime = 0L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,14 +34,64 @@ class RegisterActivity : AppCompatActivity() {
                 startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
             }
 
-                buttonMale.setOnClickListener {
-                    textGender.text = "남"
-                }
+            buttonMale.setOnClickListener {
+                textGender.text = "남"
+            }
 
 
-                buttonFemale.setOnClickListener {
-                    textGender.text = "여"
+            buttonFemale.setOnClickListener {
+                textGender.text = "여"
+            }
+
+            // 아이디 입력 후 2초 후 존재하는 아이디인지 검사
+            editId.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                    // 입력 전
                 }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    checkIdRunnable?.let { handler.removeCallbacks(it) }
+                    checkIdRunnable = Runnable {
+                        val username = s.toString()
+                        if (username.isNotBlank()) {
+                            RetrofitClient.api.UserUsedName(username)
+                                .enqueue(object : Callback<UserUsedNameDTO> {
+                                    override fun onResponse(
+                                        call: Call<UserUsedNameDTO>,
+                                        response: Response<UserUsedNameDTO>
+                                    ) {
+                                        Log.d("RegisterActivity", "onResponse: ${response.body()}")
+                                        if (response.isSuccessful) {
+                                            val body = response.body()
+                                            if (body != null) {
+                                                editId.error = "이미 있는 아이디 입니다."
+                                            } else {
+                                                editId.error = null
+                                            }
+                                        } else {
+                                            editId.error = null
+                                        }
+                                    }
+
+                                    override fun onFailure(call: Call<UserUsedNameDTO>, t: Throwable) {
+                                        Log.d("RegisterActivity", "onFailure: ${t.message}")
+                                        editId.error = "네트워크 오류"
+                                    }
+                                })
+                        }
+                    }
+                    handler.postDelayed(checkIdRunnable!!, 2000) // 0.5초 후에 실행
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    // 입력 후
+                }
+            })
 
             // 생년월일 입력시 '-' 자동 생성, 문자 입력시 에러 메시지 생성
             editDateOfBirth.addTextChangedListener(object : TextWatcher {
@@ -88,6 +143,54 @@ class RegisterActivity : AppCompatActivity() {
                         editPhoneNumber.error = "숫자만 입력 가능합니다."
                     } else {
                         editDateOfBirth.error = null
+                    }
+                }
+            })
+
+            // 비밀번호 8글자 이하 입력시 에러메시지 생성
+            editPassword.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                    // 입력 전
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    if (!s.isNullOrBlank() && s.length <= 8) {
+                        editPassword.error = "비밀번호가 너무 짧습니다."
+                    } else {
+                        editPassword.error = null
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    // 입력 후
+                }
+            })
+
+            // 이메일에 '@', '.' 불포함시 에러메시지
+            editEmail.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                    // 입력 전
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    // 입력 중
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (!s.isNullOrBlank() && !s.toString().contains('@') && !s.toString()
+                            .contains('.')
+                    ) {
+                        editEmail.error = "정확한 이메일 주소를 입력해 주세요"
                     }
                 }
             })
@@ -152,7 +255,8 @@ class RegisterActivity : AppCompatActivity() {
                         }
                     })
                 } else if (email.contains("@")) {
-                    Toast.makeText(this@RegisterActivity, "이메일을 정확하게 입력해주세요", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@RegisterActivity, "이메일을 정확하게 입력해주세요", Toast.LENGTH_SHORT)
+                        .show()
                 } else if (dateOfBirth.contains("-")) {
                     Toast.makeText(this@RegisterActivity, "생년월일을 정확하게 입력해주세요", Toast.LENGTH_SHORT)
                         .show()
@@ -160,6 +264,7 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
     }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
