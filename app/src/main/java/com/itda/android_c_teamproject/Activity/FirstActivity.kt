@@ -105,18 +105,15 @@ class FirstActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
 
         val token = getToken()
-        if (token.isNullOrEmpty()) {
-            startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
-            finish() // finish()를 추가 하여 FirstActivity 를 종료
-            return
-        }
 
 
         binding.run {
 
             if (token.isNullOrEmpty()) {
                 startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
+                finish()
             }
+
             sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
 
             val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
