@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:hint="생년월일을 입력하세요 (1900-00-00)"
+        android:maxLength="10"
         />
 
     <EditText
@@ -41,6 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:hint="휴대폰 번호를 입력하세요 ('-'생략)"
+        android:maxLength="11"
         />
 
 

@@ -31,14 +31,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:inputType="textPassword"
-        android:hint="비밀번호를 입력하세요 (8 ~ 13 글자)" />
+        android:hint="비밀번호를 입력하세요 (8 ~ 13 글자)"
+        android:maxLength="13"/>
 
     <EditText
         android:id="@+id/editPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:hint="휴대폰 번호를 입력하세요 ('-'생략)" />
+        android:hint="휴대폰 번호를 입력하세요 ('-'생략)"
+        android:maxLength="11"/>
 
     <EditText
         android:id="@+id/editEmail"
@@ -88,7 +90,8 @@
         android:id="@+id/editDateOfBirth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="생년월일을 입렵하세요 (1900-00-00)" />
+        android:hint="생년월일을 입렵하세요 (1900-00-00)"
+        android:maxLength="10"/>
 
 
     <EditText

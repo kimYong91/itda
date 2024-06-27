@@ -2,6 +2,8 @@ package com.itda.android_c_teamproject.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.widget.Toast
@@ -29,6 +31,61 @@ class FindUserNameActivity : AppCompatActivity() {
                 startActivity(Intent(this@FindUserNameActivity, LoginActivity::class.java))
             }
 
+            // 생년월일 입력시 '-' 자동 생성, 문자 입력시 에러 메시지 생성
+            editDateOfBirth.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                    // 입력 전
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    s?.let { number ->
+                        val formatDateNumber = formatDateString(number.toString())
+                        if (editDateOfBirth.text.toString() != formatDateNumber) {
+                            editDateOfBirth.setText(formatDateNumber)
+                            editDateOfBirth.setSelection(formatDateNumber.length) // 커서 위치 조정
+                        }
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (!s.isNullOrBlank() && !s.all { it.isDigit() || it == '-' }) {
+                        editDateOfBirth.error = "숫자만 입력 가능합니다."
+                    } else {
+                        editDateOfBirth.error = null
+                    }
+                }
+            })
+
+            // 핸드폰 번호 입력시 숫자만 입력 가능, 문자 입력시 에러 메시지 생성
+            editPhoneNumber.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                    // 입력 전
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    // 입력 중
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (!s.isNullOrBlank() && !s.all { it.isDigit() }) {
+                        editPhoneNumber.error = "숫자만 입력 가능합니다."
+                    } else {
+                        editDateOfBirth.error = null
+                    }
+                }
+            })
+
+
             textFindingUserName.setOnClickListener {
                 val email = editEmail.text.toString()
                 val phoneNumber = editPhoneNumber.text.toString()
@@ -39,7 +96,7 @@ class FindUserNameActivity : AppCompatActivity() {
                         this@FindUserNameActivity,
                         "모든 정보를 입력해주세요",
                         Toast.LENGTH_SHORT
-                        ).show()
+                    ).show()
                 }
 
                 val userFindNameDTO = UserFindNameDTO(email, phoneNumber, dateOfBirth)
@@ -76,14 +133,11 @@ class FindUserNameActivity : AppCompatActivity() {
                         ).show()
                     }
                 })
-
             }
-
-
-
-
         }
     }
+
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -95,5 +149,17 @@ class FindUserNameActivity : AppCompatActivity() {
             }
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    private fun formatDateString(input: String): String {
+        val number = input.replace("-", "") // 입력된 문자열에서 "-" 제거
+        val sb = StringBuilder(number)
+        if (sb.length > 4) {
+            sb.insert(4, "-")
+        }
+        if (sb.length > 7) {
+            sb.insert(7, "-")
+        }
+        return sb.toString()
     }
 }

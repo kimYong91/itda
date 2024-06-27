@@ -2,6 +2,8 @@ package com.itda.android_c_teamproject.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.widget.Toast
@@ -27,16 +29,69 @@ class RegisterActivity : AppCompatActivity() {
                 startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
             }
 
-            if (buttonMale.isClickable) {
                 buttonMale.setOnClickListener {
                     textGender.text = "남"
                 }
-            }
-            if (buttonFemale.isClickable) {
+
+
                 buttonFemale.setOnClickListener {
                     textGender.text = "여"
                 }
-            }
+
+            // 생년월일 입력시 '-' 자동 생성, 문자 입력시 에러 메시지 생성
+            editDateOfBirth.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                    // 입력 전
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    s?.let { number ->
+                        val formattedNumber = formatDateString(number.toString())
+                        if (editDateOfBirth.text.toString() != formattedNumber) {
+                            editDateOfBirth.setText(formattedNumber)
+                            editDateOfBirth.setSelection(formattedNumber.length) // 커서 위치 조정
+                        }
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (!s.isNullOrBlank() && !s.all { it.isDigit() || it == '-' }) {
+                        editDateOfBirth.error = "숫자만 입력 가능합니다."
+                    } else {
+                        editDateOfBirth.error = null
+                    }
+                }
+            })
+
+            // 핸드폰 번호 입력시 숫자만 입력 가능, 문자 입력시 에러 메시지 생성
+            editPhoneNumber.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                    // 입력 전
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    // 입력 중
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (!s.isNullOrBlank() && !s.all { it.isDigit() }) {
+                        editPhoneNumber.error = "숫자만 입력 가능합니다."
+                    } else {
+                        editDateOfBirth.error = null
+                    }
+                }
+            })
+
 
             textRegister.setOnClickListener {
                 val username = editId.text.toString()
@@ -116,5 +171,17 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    private fun formatDateString(input: String): String {
+        val number = input.replace("-", "")
+        val sb = StringBuilder(number)
+        if (sb.length > 4) {
+            sb.insert(4, "-")
+        }
+        if (sb.length > 7) {
+            sb.insert(7, "-")
+        }
+        return sb.toString()
     }
 }
