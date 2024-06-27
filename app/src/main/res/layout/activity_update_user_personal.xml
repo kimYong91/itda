@@ -57,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:hint="비밀번호"
+        android:hint="비밀번호를 입력하세요"
         android:inputType="textPassword"
         />
     <EditText
@@ -65,21 +65,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="이메일"
+        android:hint="이메일을 입력하세요"
         />
     <EditText
         android:id="@+id/editPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="전화번호"
+        android:hint="휴대폰 번호를 입력하세요 ('-'생략)"
         />
     <EditText
         android:id="@+id/editDateOfBirth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="생년월일 (1900-00-00)"
+        android:hint="생년월일을 입력하세요 (1900-00-00)"
         />
 
 

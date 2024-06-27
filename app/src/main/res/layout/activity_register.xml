@@ -38,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:hint="휴대폰 번호를 입력하세요 ('-'생략 하세요)" />
+        android:hint="휴대폰 번호를 입력하세요 ('-'생략)" />
 
     <EditText
         android:id="@+id/editEmail"
