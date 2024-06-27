@@ -52,7 +52,7 @@ interface ApiService {
     @PATCH("/itda/oneUserInfo/{id}")
     fun updateUserPersonalInfo(@Header("Authorization") token: String, @Path("id") id: String, @Body userPersonalDTO: UserPersonalDTO): Call<UserPersonalDTO>
 
-    // 아이디 생성시 기존 사용자와 아이디 같은지 검사
+    // 아이디 입력시 기존 사용자와 아이디 같은지 검사
     @GET("/itda/oneUsername")
     fun UserUsedName(@Query("id") id: String): Call<UserUsedNameDTO>
 
