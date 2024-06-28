@@ -51,7 +51,12 @@ class FirstActivity : AppCompatActivity() {
         binding.spinner.adapter = adapter
         adapter.setDropDownViewResource(R.layout.spinner_item)
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 when (position) {
                     1 -> {
                         startActivity(
@@ -95,6 +100,7 @@ class FirstActivity : AppCompatActivity() {
                     }
 
                 } // end when
+
             } // end onItemSelected
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -184,7 +190,9 @@ class FirstActivity : AppCompatActivity() {
                         3 -> {
                             startActivity(Intent(this@FirstActivity, PedometerActivity::class.java))
                         }
+
                     } // end when
+
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -206,6 +214,7 @@ class FirstActivity : AppCompatActivity() {
             }
 
         } // end binding
+
     } // end onCreate
 
     private fun getToken(): String {

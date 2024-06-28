@@ -22,7 +22,7 @@ class MemoActivity : AppCompatActivity() {
 
 
         binding.run {
-                val fileName = "itda.txt"   // 저장할 파일 이름
+            val fileName = "itda.txt"   // 저장할 파일 이름
             // 파일 존재 여부 확인
             val file = File(filesDir, fileName)
             if (!file.exists()) {

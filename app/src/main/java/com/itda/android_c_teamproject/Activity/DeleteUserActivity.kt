@@ -32,26 +32,45 @@ class DeleteUserActivity : AppCompatActivity() {
                     Callback<Void> {
                     override fun onResponse(call: Call<Void>, response: Response<Void>) {
                         if (response.isSuccessful) {
-                            Toast.makeText(this@DeleteUserActivity, "${username}님이 탈퇴 되었습니다.", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this@DeleteUserActivity, LoginActivity::class.java))
+                            Toast.makeText(
+                                this@DeleteUserActivity,
+                                "${username}님이 탈퇴 되었습니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            startActivity(
+                                Intent(
+                                    this@DeleteUserActivity,
+                                    LoginActivity::class.java
+                                )
+                            )
                             Log.d(TAG, "onResponse: ${username}삭제 되었습니다.")
                         } else {
                             Log.d(TAG, "onResponse: 없는 아이디 입니다.")
-                            Toast.makeText(this@DeleteUserActivity, "없는 아이디 입니다.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@DeleteUserActivity,
+                                "없는 아이디 입니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
 
                     override fun onFailure(call: Call<Void>, t: Throwable) {
                         Log.d(TAG, "onFailure: 네트워크 연결에 실패하였습니다.")
-                        Toast.makeText(this@DeleteUserActivity, "네트워크 연결에 실패하였습니다.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@DeleteUserActivity,
+                            "네트워크 연결에 실패하였습니다.",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
                 }) // end RetrofitClient
 
             } // end textDelete
+
         } // end binding
 
     } // end onCreate
+
     private fun getToken(): String {
         val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
         return sharedPreferences.getString("token", null) ?: ""

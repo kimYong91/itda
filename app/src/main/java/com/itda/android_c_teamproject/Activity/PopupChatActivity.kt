@@ -112,9 +112,13 @@ class PopupChatActivity : AppCompatActivity() {
                         binding.chatResponse.text = "Error: ${response.errorBody()?.string()}"
                         Log.e("ChatGPT", "Error: ${response.errorBody()?.string()}")
                     }
+
                 } // end runOnUiThread
+
             } // end onResponse
+
         }) // end call?
+
     } // end sendMessageToChatGPT
 
     private fun fetchUserDTOFromBackend() {
@@ -132,6 +136,7 @@ class PopupChatActivity : AppCompatActivity() {
                     Log.e(TAG, "Response message: ${response.message()}")
                     Log.e(TAG, "Response body: ${response.errorBody()?.string()}")
                 }
+
             }
 
             override fun onFailure(call: Call<UserDTO>, t: Throwable) {

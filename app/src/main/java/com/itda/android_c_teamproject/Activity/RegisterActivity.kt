@@ -78,15 +78,18 @@ class RegisterActivity : AppCompatActivity() {
                                         }
                                     }
 
-                                    override fun onFailure(call: Call<UserUsedNameDTO>, t: Throwable) {
+                                    override fun onFailure(
+                                        call: Call<UserUsedNameDTO>,
+                                        t: Throwable
+                                    ) {
                                         Log.d("RegisterActivity", "onFailure: ${t.message}")
                                         editId.error = "네트워크 오류"
                                     }
-                                })
-                        }
-                    }
+                                }) // end UserUsedName
+                        } // end if
+                    } // end checkIdRunnable
                     handler.postDelayed(checkIdRunnable!!, 2000) // 0.5초 후에 실행
-                }
+                } // end onTextChanged
 
                 override fun afterTextChanged(s: Editable?) {
                     // 입력 후

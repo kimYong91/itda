@@ -49,7 +49,8 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
         // 활동 인식 권한이 부여 되었는지 확인
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION)
             // 권한이 없으면 권한 요청
-            != PackageManager.PERMISSION_GRANTED) {
+            != PackageManager.PERMISSION_GRANTED
+        ) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),
@@ -96,7 +97,11 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
             binding.textView.text = "No Step Counter Sensor!"
             binding.textView.visibility = TextView.VISIBLE
         } else {
-            sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_NORMAL)
+            sensorManager.registerListener(
+                this,
+                stepCounterSensor,
+                SensorManager.SENSOR_DELAY_NORMAL
+            )
             binding.textView.text = "Tracking started..."
             binding.textView.visibility = TextView.VISIBLE
             // 2초 후에 텍스트를 "걸음 수: 0"으로 변경
@@ -104,7 +109,8 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
                 binding.textView.text = "걸음 수: $steps"
                 binding.textView.visibility = TextView.VISIBLE
             }, 2000)
-        }
+
+        } // end else
     }
 
 
@@ -127,12 +133,15 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
             SensorManager.SENSOR_STATUS_ACCURACY_HIGH -> {
                 Log.d("SensorAccuracy", "High accuracy")
             }
+
             SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM -> {
                 Log.d("SensorAccuracy", "Medium accuracy")
             }
+
             SensorManager.SENSOR_STATUS_ACCURACY_LOW -> {
                 Log.d("SensorAccuracy", "Low accuracy")
             }
+
             SensorManager.SENSOR_STATUS_UNRELIABLE -> {
                 Log.d("SensorAccuracy", "Unreliable accuracy")
             }
@@ -143,7 +152,7 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
-// onSaveInstanceState 및 onRestoreInstanceState 메서드를 사용하여 걸음 수 상태를 저장하고 복원하도록 유지
+    // onSaveInstanceState 및 onRestoreInstanceState 메서드를 사용하여 걸음 수 상태를 저장하고 복원하도록 유지
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt("steps", steps)

@@ -100,7 +100,9 @@ class FindUserPasswordActivity : AppCompatActivity() {
                 }
 
                 override fun afterTextChanged(s: Editable?) {
-                    if (!s.isNullOrBlank() && !s.toString().contains('@') && !s.toString().contains('.')) {
+                    if (!s.isNullOrBlank() && !s.toString().contains('@') && !s.toString()
+                            .contains('.')
+                    ) {
                         editEmail.error = "정확한 이메일 주소를 입력해 주세요"
                     }
                 }
@@ -156,9 +158,13 @@ class FindUserPasswordActivity : AppCompatActivity() {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
+
                     }) // end RetrofitClient
+
             } // end textFindingPassword
+
         } // end binding
+
     } // end onCreate
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

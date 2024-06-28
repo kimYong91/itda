@@ -90,7 +90,7 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
                 }
 
                 override fun afterTextChanged(s: Editable?) {
-                    if (!s.isNullOrBlank() && !s.all { it.isDigit()}) {
+                    if (!s.isNullOrBlank() && !s.all { it.isDigit() }) {
                         editDateOfBirth.error = "숫자만 입력 가능합니다."
                     } else {
                         editDateOfBirth.error = null
@@ -138,7 +138,9 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
                 }
 
                 override fun afterTextChanged(s: Editable?) {
-                    if (!s.isNullOrBlank() && !s.toString().contains('@') && !s.toString().contains('.')) {
+                    if (!s.isNullOrBlank() && !s.toString().contains('@') && !s.toString()
+                            .contains('.')
+                    ) {
                         editEmail.error = "정확한 이메일 주소를 입력해 주세요"
                     }
                 }
@@ -211,6 +213,7 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
         return sharedPreferences.getString("token", null) ?: ""
     }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
