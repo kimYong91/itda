@@ -93,8 +93,9 @@ class FirstActivity : AppCompatActivity() {
                             )
                         )
                     }
-                }
-            }
+
+                } // end when
+            } // end onItemSelected
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
@@ -143,7 +144,7 @@ class FirstActivity : AppCompatActivity() {
                     override fun onFailure(call: Call<UserDTO>, t: Throwable) {
                         Log.d(TAG, "onFailure: 네트워크 실패")
                     }
-                })
+                }) // end getUserHealthInfo
 
             // 프롬프트 된 운동 추천 화면으로 이동
             textRecommendExercise.setOnClickListener {
@@ -183,13 +184,13 @@ class FirstActivity : AppCompatActivity() {
                         3 -> {
                             startActivity(Intent(this@FirstActivity, PedometerActivity::class.java))
                         }
-                    }
+                    } // end when
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
 
                 }
-            }
+            } // end onItemSelectedListener
 
 //            // 로그아웃 화면으로 이동
 //            buttonLogout.setOnClickListener {
@@ -204,8 +205,8 @@ class FirstActivity : AppCompatActivity() {
                 Toast.makeText(this@FirstActivity, "챗봇 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
 
-        }
-    }
+        } // end binding
+    } // end onCreate
 
     private fun getToken(): String {
         val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)

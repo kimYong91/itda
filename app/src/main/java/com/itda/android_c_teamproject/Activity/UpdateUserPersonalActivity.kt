@@ -201,10 +201,10 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
                     override fun onFailure(call: Call<UserPersonalDTO>, t: Throwable) {
                         Log.d(TAG, "onFailure: 네트워크 요청 실패")
                     }
-                })
-            }
-        }
-    }
+                }) // end updateUserPersonalInfo
+            } // end textUpdate
+        } // end binding
+    } // end onCreate
 
 
     private fun getToken(): String {

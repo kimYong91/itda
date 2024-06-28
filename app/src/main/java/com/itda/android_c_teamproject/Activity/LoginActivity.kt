@@ -58,14 +58,14 @@ class LoginActivity : AppCompatActivity() {
                             Toast.makeText(this@LoginActivity, "로그인 실패했습니다.", Toast.LENGTH_SHORT).show()
                             Log.d("mylog", "onResponse: ${response.code()}")
                         }
-                    }
+                    } // end onResponse
 
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                         Toast.makeText(this@LoginActivity, "로그인 네트워크 요청 실패했습니다.", Toast.LENGTH_SHORT).show()
                         Log.d("mylog", "onFailure: ${t.message}")
                     }
-                })
-            }
+                }) // end login
+            } // end textLogin
 
             textRegister.setOnClickListener {
                 startActivity(Intent(this@LoginActivity, RegisterActivity::class.java))
@@ -77,9 +77,9 @@ class LoginActivity : AppCompatActivity() {
             textFindPassword.setOnClickListener {
                 startActivity(Intent(this@LoginActivity, FindUserPasswordActivity::class.java))
             }
-        }
+        } // end binding
 
-    }
+    } // end onCreate
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {

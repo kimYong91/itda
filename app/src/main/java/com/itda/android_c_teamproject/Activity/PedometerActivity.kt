@@ -73,7 +73,7 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
             steps = 0
             binding.textView.text = "걸음 수: 0"
         }
-    }
+    } // end onCreate
 
     // 권한 요청 결과를 처리 하는 메서드
     override fun onRequestPermissionsResult(

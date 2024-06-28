@@ -91,7 +91,7 @@ class RegisterActivity : AppCompatActivity() {
                 override fun afterTextChanged(s: Editable?) {
                     // 입력 후
                 }
-            })
+            }) // end editId
 
             // 생년월일 입력시 '-' 자동 생성, 문자 입력시 에러 메시지 생성
             editDateOfBirth.addTextChangedListener(object : TextWatcher {
@@ -121,7 +121,7 @@ class RegisterActivity : AppCompatActivity() {
                         editDateOfBirth.error = null
                     }
                 }
-            })
+            }) // end editDateOfBirth
 
             // 핸드폰 번호 입력시 숫자만 입력 가능, 문자 입력시 에러 메시지 생성
             editPhoneNumber.addTextChangedListener(object : TextWatcher {
@@ -145,7 +145,7 @@ class RegisterActivity : AppCompatActivity() {
                         editDateOfBirth.error = null
                     }
                 }
-            })
+            }) // end editPhoneNumber
 
             // 비밀번호 8글자 이하 입력시 에러메시지 생성
             editPassword.addTextChangedListener(object : TextWatcher {
@@ -169,7 +169,7 @@ class RegisterActivity : AppCompatActivity() {
                 override fun afterTextChanged(s: Editable?) {
                     // 입력 후
                 }
-            })
+            }) // end editPassword
 
             // 이메일에 '@', '.' 불포함시 에러메시지
             editEmail.addTextChangedListener(object : TextWatcher {
@@ -193,7 +193,7 @@ class RegisterActivity : AppCompatActivity() {
                         editEmail.error = "정확한 이메일 주소를 입력해 주세요"
                     }
                 }
-            })
+            }) // end editEmail
 
 
             textRegister.setOnClickListener {
@@ -261,9 +261,9 @@ class RegisterActivity : AppCompatActivity() {
                     Toast.makeText(this@RegisterActivity, "생년월일을 정확하게 입력해주세요", Toast.LENGTH_SHORT)
                         .show()
                 }
-            }
-        }
-    }
+            } // end textRegister
+        } // end binding
+    } // end onCreate
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
 

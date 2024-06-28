@@ -46,12 +46,12 @@ class DeleteUserActivity : AppCompatActivity() {
                         Toast.makeText(this@DeleteUserActivity, "네트워크 연결에 실패하였습니다.", Toast.LENGTH_SHORT).show()
                     }
 
-                })
+                }) // end RetrofitClient
 
-            }
-        }
+            } // end textDelete
+        } // end binding
 
-    }
+    } // end onCreate
     private fun getToken(): String {
         val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
         return sharedPreferences.getString("token", null) ?: ""

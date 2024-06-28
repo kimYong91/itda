@@ -69,7 +69,7 @@ class PopupChatActivity : AppCompatActivity() {
             binding.loadingTextView.visibility = View.GONE
             binding.chatResponse.text = "작업이 중지되었습니다."
         }
-    }
+    } // end onCreate
 
     private fun sendMessageToChatGPT(message: String) {
         if (call != null && call!!.isExecuted) {
@@ -98,7 +98,7 @@ class PopupChatActivity : AppCompatActivity() {
                         Log.e("ChatGPT", "Error: ${t.printStackTrace()}")
                     }
                 }
-            }
+            } // end onFailure
 
             override fun onResponse(call: Call<ChatResponse>, response: Response<ChatResponse>) {
                 runOnUiThread {
@@ -112,10 +112,10 @@ class PopupChatActivity : AppCompatActivity() {
                         binding.chatResponse.text = "Error: ${response.errorBody()?.string()}"
                         Log.e("ChatGPT", "Error: ${response.errorBody()?.string()}")
                     }
-                }
-            }
-        })
-    }
+                } // end runOnUiThread
+            } // end onResponse
+        }) // end call?
+    } // end sendMessageToChatGPT
 
     private fun fetchUserDTOFromBackend() {
         var token = getToken()
@@ -137,7 +137,7 @@ class PopupChatActivity : AppCompatActivity() {
             override fun onFailure(call: Call<UserDTO>, t: Throwable) {
                 Log.e(TAG, "Error fetching UserDTO", t)
             }
-        })
+        }) // end getUserHealthInfo
     }
 
     private fun getToken(): String {

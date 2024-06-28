@@ -64,6 +64,6 @@ class MemoActivity : AppCompatActivity() {
             textExit.setOnClickListener {
                 startActivity(Intent(this@MemoActivity, FirstActivity::class.java))
             }
-        }
-    }
+        } // end binding
+    } // end onCreate
 }

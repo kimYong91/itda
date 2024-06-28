@@ -195,7 +195,7 @@ class ChatMainActivity : AppCompatActivity() {
                                     12 -> "12"
                                     else -> null
                                 }
-                            }
+                            } // end onItemSelected
 
                             override fun onNothingSelected(parent: AdapterView<*>?) {
 
@@ -262,7 +262,7 @@ class ChatMainActivity : AppCompatActivity() {
                         exerciseType,
                         selectedExerciseDurationTimeInput.toString(),
                         selectedExerciseDurationDayInput.toString()
-                    )
+                    ) // end prompt
 
                     // 로그 추가: 프롬프트 생성 확인
                     Log.d(TAG, "Prompt: $prompt")
@@ -284,13 +284,13 @@ class ChatMainActivity : AppCompatActivity() {
 
                 chatResponse.text = "" // 결과 창의 내용을 지운다.
                 errorMessage.visibility = View.INVISIBLE
-            }
+            } // end clearButton
 
             // 뒤로 가기 버튼
             backButton.setOnClickListener {
                 val intent = Intent(this@ChatMainActivity, FirstActivity::class.java)
                 startActivity(intent)
-            }
+            } // end backButton
 
             // 중지 버튼
             stopButton.setOnClickListener {
@@ -299,7 +299,7 @@ class ChatMainActivity : AppCompatActivity() {
                 loadingIndicator.visibility = View.GONE // 로딩 인디케이터 숨기기
                 loadingTextView.visibility = View.GONE // 요청중 숨기기
                 chatResponse.text = "작업이 중지되었습니다."
-            }
+            } // end stopButton
         } // end binding
     } // end onCreate
 
@@ -333,8 +333,8 @@ class ChatMainActivity : AppCompatActivity() {
                         binding.chatResponse.text = "Error: ${t.message}"
                         Log.e("ChatGPT", "Error: ${t.printStackTrace()}")
                     }
-                }
-            }
+                } // end runOnUiThread
+            } // end onFailure
 
             override fun onResponse(call: Call<ChatResponse>, response: Response<ChatResponse>) {
                 runOnUiThread {
@@ -364,10 +364,10 @@ class ChatMainActivity : AppCompatActivity() {
                         binding.chatResponse.text = "Error: ${response.errorBody()?.string()}"
                         Log.e("ChatGPT", "Error: ${response.errorBody()?.string()}")
                     }
-                }
-            }
-        })
-    }
+                } // end runOnUiThread
+            } // end onResponse
+        }) // end call?
+    } // end sendMessageToChatGPT
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
 

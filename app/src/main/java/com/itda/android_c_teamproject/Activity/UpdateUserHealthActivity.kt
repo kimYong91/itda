@@ -96,16 +96,17 @@ class UpdateUserHealthActivity : AppCompatActivity() {
                                 Log.d(TAG, "onFailure: 네트워크 요청 실패")
                             }
 
-                        })
-            }
-        }
+                        }) // end updateUserHealthInfo
+            } // end textUpdate
+        } // end binding
 
-    }
+    } // end onCreate
 
     private fun getToken(): String {
         val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
         return sharedPreferences.getString("token", null) ?: ""
     }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {

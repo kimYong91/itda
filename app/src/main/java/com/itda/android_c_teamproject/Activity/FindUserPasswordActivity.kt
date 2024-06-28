@@ -58,7 +58,7 @@ class FindUserPasswordActivity : AppCompatActivity() {
                         editDateOfBirth.error = null
                     }
                 }
-            })
+            }) // end editDateOfBirth
 
             // 핸드폰 번호 입력시 숫자만 입력 가능, 문자 입력시 에러 메시지 생성
             editPhoneNumber.addTextChangedListener(object : TextWatcher {
@@ -82,7 +82,7 @@ class FindUserPasswordActivity : AppCompatActivity() {
                         editDateOfBirth.error = null
                     }
                 }
-            })
+            }) // end editPhoneNumber
 
             // 이메일에 '@', '.' 불포함시 에러메시지
             editEmail.addTextChangedListener(object : TextWatcher {
@@ -104,7 +104,7 @@ class FindUserPasswordActivity : AppCompatActivity() {
                         editEmail.error = "정확한 이메일 주소를 입력해 주세요"
                     }
                 }
-            })
+            }) // end editEmail
 
 
             textFindingPassword.setOnClickListener {
@@ -156,10 +156,10 @@ class FindUserPasswordActivity : AppCompatActivity() {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-                    })
-            }
-        }
-    }
+                    }) // end RetrofitClient
+            } // end textFindingPassword
+        } // end binding
+    } // end onCreate
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
 
