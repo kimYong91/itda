@@ -86,9 +86,13 @@ class RegisterActivity : AppCompatActivity() {
                                         editId.error = "네트워크 오류"
                                     }
                                 }) // end UserUsedName
+
                         } // end if
+
                     } // end checkIdRunnable
-                    handler.postDelayed(checkIdRunnable!!, 2000) // 0.5초 후에 실행
+
+                    handler.postDelayed(checkIdRunnable!!, 2000) // 2초 후에 실행
+
                 } // end onTextChanged
 
                 override fun afterTextChanged(s: Editable?) {
