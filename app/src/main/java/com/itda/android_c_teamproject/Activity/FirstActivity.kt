@@ -27,7 +27,6 @@ class FirstActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFirstBinding
     private lateinit var sharedPreferences: SharedPreferences
     private var initTime = 0L
-    private lateinit var userdto: UserDTO
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -220,11 +219,6 @@ class FirstActivity : AppCompatActivity() {
     private fun getToken(): String {
         val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
         return sharedPreferences.getString("token", null) ?: ""
-    }
-
-    private fun getUsername(): String {
-        val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
-        return sharedPreferences.getString("username", null) ?: ""
     }
 
     private fun logout() {
