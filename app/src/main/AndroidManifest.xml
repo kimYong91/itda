@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Itda"
         tools:targetApi="31">
         <activity
+            android:name=".Activity.CalorieCounterActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.DeleteUserActivity"
             android:exported="false" />
         <activity
@@ -25,7 +28,7 @@
         <activity
             android:name=".Activity.PedometerActivity"
             android:configChanges="orientation|screenSize"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".Activity.CounterActivity"
             android:exported="false" />
@@ -34,7 +37,7 @@
             android:exported="false" />
         <activity
             android:name=".Activity.PopupChatActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".Activity.UpdateUserHealthActivity"
             android:exported="false" />

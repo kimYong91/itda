@@ -154,13 +154,13 @@ class ChatMainActivity : AppCompatActivity() {
                                 id: Long
                             ) {
                                 selectedExerciseDurationDayInput = when (position) {
-                                    1 -> "1일"
-                                    2 -> "2일"
-                                    3 -> "3일"
-                                    4 -> "4일"
-                                    5 -> "5일"
-                                    6 -> "6일"
-                                    7 -> "7일"
+                                    1 -> "1"
+                                    2 -> "2"
+                                    3 -> "3"
+                                    4 -> "4"
+                                    5 -> "5"
+                                    6 -> "6"
+                                    7 -> "7"
                                     else -> null
                                 }
                             }
@@ -241,6 +241,7 @@ class ChatMainActivity : AppCompatActivity() {
                                     5 -> "5끼"
                                     else -> null
                                 }
+                                Log.d(TAG, "식사 횟수")
                             }
 
                             override fun onNothingSelected(parent: AdapterView<*>?) {
