@@ -35,10 +35,10 @@ class ChatMainActivity : AppCompatActivity() {
     private var call: Call<ChatResponse>? = null
     private lateinit var userdto: UserDTO
     var initTime = 0L
-    private var selectedExerciseDurationDayInput: String? = null
-    private var selectedExerciseDurationTimeInput: String? = null
-    private var selectedJob: String? = null
-    private var selectedDailyFoodIntake: String? = null
+    private lateinit var selectedExerciseDurationDayInput: String
+    private lateinit var selectedExerciseDurationTimeInput: String
+    private lateinit var selectedJob: String
+    private lateinit var selectedDailyFoodIntake: String
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +70,31 @@ class ChatMainActivity : AppCompatActivity() {
             adapterExerciseDay.setDropDownViewResource(R.layout.spinner_item2)
             exerciseDurationDayInput.adapter = adapterExerciseDay
 
+            exerciseDurationDayInput.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        selectedExerciseDurationDayInput = when (position) {
+                            1 -> "1"
+                            2 -> "2"
+                            3 -> "3"
+                            4 -> "4"
+                            5 -> "5"
+                            6 -> "6"
+                            7 -> "7"
+                            else -> ""
+                        }
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                    }
+                } // exerciseDurationDayInput
+
 
             val itemsExerciseTime = arrayOf(
                 "운동 시간",
@@ -95,6 +120,36 @@ class ChatMainActivity : AppCompatActivity() {
             adapterExerciseTime.setDropDownViewResource(R.layout.spinner_item2)
             exerciseDurationTimeInput.adapter = adapterExerciseTime
 
+            exerciseDurationTimeInput.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        selectedExerciseDurationTimeInput = when (position) {
+                            1 -> "1"
+                            2 -> "2"
+                            3 -> "3"
+                            4 -> "4"
+                            5 -> "5"
+                            6 -> "6"
+                            7 -> "7"
+                            8 -> "8"
+                            9 -> "9"
+                            10 -> "10"
+                            11 -> "11"
+                            12 -> "12"
+                            else -> ""
+                        }
+                    } // end onItemSelected
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                    }
+                } // exerciseDurationTimeInput
+
 
             val itemsJob = arrayOf(
                 "직업",
@@ -111,6 +166,28 @@ class ChatMainActivity : AppCompatActivity() {
                 )
             adapterJob.setDropDownViewResource(R.layout.spinner_item2)
             job.adapter = adapterJob
+
+            job.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        selectedJob = when (position) {
+                            1 -> "사무직, 활동 없음"
+                            2 -> "부분 활동 서비스직"
+                            3 -> "주 활동 서비스직"
+                            4 -> "육체 노동"
+                            else -> ""
+                        }
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                    }
+                } // job
 
 
             val itemsDailyFoodIntake = arrayOf(
@@ -132,10 +209,33 @@ class ChatMainActivity : AppCompatActivity() {
             dailyFoodIntake.adapter = adapterDailyFoodIntake
 
 
+            dailyFoodIntake.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        selectedDailyFoodIntake = when (position) {
+                            1 -> "1끼"
+                            2 -> "2끼"
+                            3 -> "3끼"
+                            4 -> "4끼"
+                            5 -> "5끼"
+                            else -> ""
+                        }
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+                    }
+                } // dailyFoodIntake
+
+
             // 자동 프롬프트 버튼
             autoPromptButton1.setOnClickListener {
 
-                Log.d(TAG, "AutoPrompt1 clicked")
                 if (::userdto.isInitialized) {
                     val exerciseType = exerciseTypeInput.text.toString()
                     val exercisePreference = editExercisePreference.text.toString()
@@ -143,124 +243,17 @@ class ChatMainActivity : AppCompatActivity() {
                     val exerciseFacility = editExerciseFacility.text.toString()
                     val health = editHealth.text.toString()
 
-
-
-                    exerciseDurationDayInput.onItemSelectedListener =
-                        object : AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                selectedExerciseDurationDayInput = when (position) {
-                                    1 -> "1"
-                                    2 -> "2"
-                                    3 -> "3"
-                                    4 -> "4"
-                                    5 -> "5"
-                                    6 -> "6"
-                                    7 -> "7"
-                                    else -> null
-                                }
-                            }
-
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                            }
-                        } // exerciseDurationDayInput
-
-
-                    exerciseDurationTimeInput.onItemSelectedListener =
-                        object : AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                selectedExerciseDurationTimeInput = when (position) {
-                                    1 -> "1"
-                                    2 -> "2"
-                                    3 -> "3"
-                                    4 -> "4"
-                                    5 -> "5"
-                                    6 -> "6"
-                                    7 -> "7"
-                                    8 -> "8"
-                                    9 -> "9"
-                                    10 -> "10"
-                                    11 -> "11"
-                                    12 -> "12"
-                                    else -> null
-                                }
-                            } // end onItemSelected
-
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                            }
-                        } // exerciseDurationTimeInput
-
-
-                    job.onItemSelectedListener =
-                        object : AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                selectedJob = when (position) {
-                                    1 -> "사무직, 활동 없음"
-                                    2 -> "부분 활동 서비스직"
-                                    3 -> "주 활동 서비스직"
-                                    4 -> "육체 노동"
-                                    else -> null
-                                }
-                            }
-
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                            }
-                        } // job
-
-
-                    dailyFoodIntake.onItemSelectedListener =
-                        object : AdapterView.OnItemSelectedListener {
-                            override fun onItemSelected(
-                                parent: AdapterView<*>?,
-                                view: View?,
-                                position: Int,
-                                id: Long
-                            ) {
-                                selectedDailyFoodIntake = when (position) {
-                                    1 -> "1끼"
-                                    2 -> "2끼"
-                                    3 -> "3끼"
-                                    4 -> "4끼"
-                                    5 -> "5끼"
-                                    else -> null
-                                }
-                                Log.d(TAG, "식사 횟수")
-                            }
-
-                            override fun onNothingSelected(parent: AdapterView<*>?) {
-
-                            }
-                        } // dailyFoodIntake
-
-
                     val prompt = UserPreferences.createPrompt1(
                         userdto,
-                        selectedJob.toString(),
+                        selectedJob,
                         health,
                         exercisePreference,
-                        selectedDailyFoodIntake.toString(),
+                        selectedDailyFoodIntake,
                         exerciseGoal,
                         exerciseFacility,
                         exerciseType,
-                        selectedExerciseDurationTimeInput.toString(),
-                        selectedExerciseDurationDayInput.toString()
+                        selectedExerciseDurationTimeInput,
+                        selectedExerciseDurationDayInput
                     ) // end prompt
 
                     // 로그 추가: 프롬프트 생성 확인
