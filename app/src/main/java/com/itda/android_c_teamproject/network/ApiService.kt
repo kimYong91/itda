@@ -33,7 +33,8 @@ interface ApiService {
     @GET("/itda/oneUserHealthDTO")
     fun getUserHealthInfo(@Header("Authorization") token: String, @Query("id") id: String): Call<UserDTO>
 
-    @POST("/path/to/chat/api") // 실제 엔드포인트로 변경
+    // 실제 엔드포인트로 변경
+    @POST("/path/to/chat/api")
     fun getChatResponse(@Body request: ChatRequest): Call<ChatResponse>
 
     // 회원 가입
@@ -68,6 +69,7 @@ interface ApiService {
     @DELETE("/itda/userDelete")
     fun userDelete(@Header("Authorization") token: String, @Query("username") username: String): Call<Void>
 
-
+    @POST("refresh-token")
+    fun refreshToken(@Header("Refresh-Token") refreshToken: String, @Header("Username") username: String): Call<String>
 
 }
