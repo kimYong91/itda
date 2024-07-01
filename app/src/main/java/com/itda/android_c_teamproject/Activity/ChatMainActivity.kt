@@ -11,7 +11,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.itda.android_c_teamproject.BuildConfig
 import com.itda.android_c_teamproject.databinding.ActivityChatMainBinding
 import com.itda.android_c_teamproject.R
 import com.itda.android_c_teamproject.model.ChatRequest
@@ -50,7 +49,7 @@ class ChatMainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate called")
 
         // API Key를 로그로 출력
-        Log.d("API_KEY_LOG", "API Key: ${BuildConfig.API_KEY}")
+
 
 
         binding.run {
