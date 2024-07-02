@@ -11,9 +11,11 @@ import com.itda.android_c_teamproject.model.Response.UserFindNameResponse
 import com.itda.android_c_teamproject.model.dto.UserFindPasswordDTO
 import com.itda.android_c_teamproject.model.Response.UserFindPasswordResponse
 import com.itda.android_c_teamproject.model.dto.UserHealthDTO
+import com.itda.android_c_teamproject.model.dto.UserUsedNameDTO
 import com.itda.android_c_teamproject.model.dto.UserPersonalDTO
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.PATCH
@@ -50,6 +52,10 @@ interface ApiService {
     @PATCH("/itda/oneUserInfo/{id}")
     fun updateUserPersonalInfo(@Header("Authorization") token: String, @Path("id") id: String, @Body userPersonalDTO: UserPersonalDTO): Call<UserPersonalDTO>
 
+    // 아이디 입력시 기존 사용자와 아이디 같은지 검사
+    @GET("/itda/oneUsername")
+    fun UserUsedName(@Query("id") id: String): Call<UserUsedNameDTO>
+
     // 비밀번호 임시 생성
     @POST("/itda/findPassword")
     fun findUserPassword(@Body userFindPasswordDTO: UserFindPasswordDTO): Call<UserFindPasswordResponse>
@@ -58,7 +64,9 @@ interface ApiService {
     @POST("/itda/findUsername")
     fun findUsername(@Body userFindNameDTO: UserFindNameDTO): Call<UserFindNameResponse>
 
-    fun userFindName(@Body userFindNameDTO: UserFindNameDTO): Call<UserFindNameResponse>
+    // 아이디 삭제
+    @DELETE("/itda/userDelete")
+    fun userDelete(@Header("Authorization") token: String, @Query("username") username: String): Call<Void>
 
 
 

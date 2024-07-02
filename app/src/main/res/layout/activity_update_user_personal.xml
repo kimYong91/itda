@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".Activity.UpdateUserPersonalActivity"
     android:orientation="vertical"
-    android:padding="50dp">
+    android:padding="40dp">
 
     <TextView
         android:id="@+id/textUsername"
@@ -57,29 +57,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:hint="비밀번호"
         android:inputType="textPassword"
+        android:hint="비밀번호를 입력하세요 (8 ~ 13 글자)"
+        android:maxLength="13"
         />
     <EditText
         android:id="@+id/editEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="이메일"
+        android:hint="이메일을 입력하세요"
         />
     <EditText
         android:id="@+id/editPhoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="전화번호"
+        android:hint="휴대폰 번호를 입력하세요 ('-'생략)"
+        android:maxLength="11"
         />
     <EditText
         android:id="@+id/editDateOfBirth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="생년월일 (1900-00-00)"
+        android:hint="생년월일을 입력하세요 (1900-00-00)"
+        android:maxLength="10"
         />
 
 

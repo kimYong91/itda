@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="50dp"
+    android:padding="40dp"
     tools:context=".Activity.UpdateUserHealthActivity">
 
     <TextView
@@ -96,14 +96,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:hint="몸무게" />
+        android:hint="몸무게를 입력하세요" />
 
     <EditText
         android:id="@+id/editHeight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="키" />
+        android:hint="키를 입력하세요" />
 
 
     <LinearLayout

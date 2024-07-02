@@ -3,7 +3,9 @@ package com.itda.android_c_teamproject.Activity
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.BuildConfig
 import com.itda.android_c_teamproject.databinding.ActivityPopupChatBinding
@@ -26,6 +28,7 @@ class PopupChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPopupChatBinding
     private var call: Call<ChatResponse>? = null
     private lateinit var userdto: UserDTO
+    var initTime = 0L
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,7 +72,7 @@ class PopupChatActivity : AppCompatActivity() {
             binding.loadingTextView.visibility = View.GONE
             binding.chatResponse.text = "작업이 중지되었습니다."
         }
-    }
+    } // end onCreate
 
     private fun sendMessageToChatGPT(message: String) {
         if (call != null && call!!.isExecuted) {
@@ -98,7 +101,7 @@ class PopupChatActivity : AppCompatActivity() {
                         Log.e("ChatGPT", "Error: ${t.printStackTrace()}")
                     }
                 }
-            }
+            } // end onFailure
 
             override fun onResponse(call: Call<ChatResponse>, response: Response<ChatResponse>) {
                 runOnUiThread {
@@ -112,10 +115,14 @@ class PopupChatActivity : AppCompatActivity() {
                         binding.chatResponse.text = "Error: ${response.errorBody()?.string()}"
                         Log.e("ChatGPT", "Error: ${response.errorBody()?.string()}")
                     }
-                }
-            }
-        })
-    }
+
+                } // end runOnUiThread
+
+            } // end onResponse
+
+        }) // end call?
+
+    } // end sendMessageToChatGPT
 
     private fun fetchUserDTOFromBackend() {
         var token = getToken()
@@ -132,12 +139,13 @@ class PopupChatActivity : AppCompatActivity() {
                     Log.e(TAG, "Response message: ${response.message()}")
                     Log.e(TAG, "Response body: ${response.errorBody()?.string()}")
                 }
+
             }
 
             override fun onFailure(call: Call<UserDTO>, t: Throwable) {
                 Log.e(TAG, "Error fetching UserDTO", t)
             }
-        })
+        }) // end getUserHealthInfo
     }
 
     private fun getToken(): String {
@@ -148,5 +156,17 @@ class PopupChatActivity : AppCompatActivity() {
     private fun getUsername(): String {
         val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
         return sharedPreferences.getString("username", null) ?: ""
+    }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 뒤로가기 버튼을 누른지 3초 이내가 아니거나 처음 누를 경우
+            if (System.currentTimeMillis() - initTime > 3000) {
+                Toast.makeText(this, "종료하려면 한 번 더 누르세요.", Toast.LENGTH_SHORT).show()
+                initTime = System.currentTimeMillis()
+                return true
+            }
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }

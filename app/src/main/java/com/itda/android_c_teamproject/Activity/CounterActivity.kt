@@ -26,8 +26,10 @@ class CounterActivity : AppCompatActivity() {
             buttonExit.setOnClickListener {
                 startActivity(Intent(this@CounterActivity, FirstActivity::class.java))
             }
-        }
-    }
+
+        } // end binding
+
+    } // end onCreate
 
     // 액티비티가 일시적으로 소멸될 때
     // Bundle 객체에 임시 상태 데이터를 지정할 수 있음.

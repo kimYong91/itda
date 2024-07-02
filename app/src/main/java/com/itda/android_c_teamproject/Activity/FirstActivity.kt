@@ -27,7 +27,6 @@ class FirstActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFirstBinding
     private lateinit var sharedPreferences: SharedPreferences
     private var initTime = 0L
-    private lateinit var userdto: UserDTO
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,24 +44,63 @@ class FirstActivity : AppCompatActivity() {
         }
 
         // 메인화면 좌측 상단 사용자 정보 선택란
-        val items = arrayOf("정보", "개인정보", "건강정보", "로그아웃")
+        val items = arrayOf("정보", "개인정보", "건강정보", "운동 계획", "로그아웃", "탈퇴")
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, items)
         binding.spinner.adapter = adapter
         adapter.setDropDownViewResource(R.layout.spinner_item)
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 when (position) {
                     1 -> {
-                        startActivity(Intent(this@FirstActivity, UpdateUserPersonalActivity::class.java))
+                        startActivity(
+                            Intent(
+                                this@FirstActivity,
+                                UpdateUserPersonalActivity::class.java
+                            )
+                        )
                     }
+
                     2 -> {
-                        startActivity(Intent(this@FirstActivity, UpdateUserHealthActivity::class.java))
+                        startActivity(
+                            Intent(
+                                this@FirstActivity,
+                                UpdateUserHealthActivity::class.java
+                            )
+                        )
                     }
-                    3 -> { logout()
+
+                    3 -> {
+                        startActivity(
+                            Intent(
+                                this@FirstActivity,
+                                MemoActivity::class.java
+                            )
+                        )
                     }
-                }
-            }
+
+                    4 -> {
+                        logout()
+
+                    }
+
+                    5 -> {
+                        startActivity(
+                            Intent(
+                                this@FirstActivity,
+                                DeleteUserActivity::class.java
+                            )
+                        )
+                    }
+
+                } // end when
+
+            } // end onItemSelected
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
@@ -73,18 +111,15 @@ class FirstActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
 
         val token = getToken()
-        if (token.isNullOrEmpty()) {
-            startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
-            finish() // finish()를 추가 하여 FirstActivity 를 종료
-            return
-        }
 
 
         binding.run {
 
             if (token.isNullOrEmpty()) {
                 startActivity(Intent(this@FirstActivity, LoginActivity::class.java))
+                finish()
             }
+
             sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
 
             val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
@@ -114,7 +149,7 @@ class FirstActivity : AppCompatActivity() {
                     override fun onFailure(call: Call<UserDTO>, t: Throwable) {
                         Log.d(TAG, "onFailure: 네트워크 실패")
                     }
-                })
+                }) // end getUserHealthInfo
 
             // 프롬프트 된 운동 추천 화면으로 이동
             textRecommendExercise.setOnClickListener {
@@ -154,13 +189,15 @@ class FirstActivity : AppCompatActivity() {
                         3 -> {
                             startActivity(Intent(this@FirstActivity, PedometerActivity::class.java))
                         }
-                    }
+
+                    } // end when
+
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
 
                 }
-            }
+            } // end onItemSelectedListener
 
 //            // 로그아웃 화면으로 이동
 //            buttonLogout.setOnClickListener {
@@ -175,17 +212,13 @@ class FirstActivity : AppCompatActivity() {
                 Toast.makeText(this@FirstActivity, "챗봇 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
 
-        }
-    }
+        } // end binding
+
+    } // end onCreate
 
     private fun getToken(): String {
         val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
         return sharedPreferences.getString("token", null) ?: ""
-    }
-
-    private fun getUsername(): String {
-        val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
-        return sharedPreferences.getString("username", null) ?: ""
     }
 
     private fun logout() {

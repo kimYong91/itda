@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.FindUserNameActivity"
-    android:padding="50dp"
+    android:padding="40dp"
     android:orientation="vertical">
 
     <TextView
@@ -32,7 +32,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:hint="생년월일을 입력하세요"
+        android:hint="생년월일을 입력하세요 (1900-00-00)"
+        android:maxLength="10"
         />
 
     <EditText
@@ -40,7 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:hint="전화번호를 입력하세요"
+        android:hint="휴대폰 번호를 입력하세요 ('-'생략)"
+        android:maxLength="11"
         />
 
 

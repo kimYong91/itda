@@ -2,6 +2,8 @@ package com.itda.android_c_teamproject.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.KeyEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +29,88 @@ class FindUserPasswordActivity : AppCompatActivity() {
                 finish()
             }
 
+            // 생년월일 입력시 '-' 자동 생성, 문자 입력시 에러 메시지 생성
+            editDateOfBirth.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                    // 입력 전
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    // 입력 중
+                    s?.let { number ->
+                        val formattedNumber = formatDateString(number.toString())
+                        if (editDateOfBirth.text.toString() != formattedNumber) {
+                            editDateOfBirth.setText(formattedNumber)
+                            editDateOfBirth.setSelection(formattedNumber.length) // 커서 위치 조정
+                        }
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (!s.isNullOrBlank() && !s.all { it.isDigit() || it == '-' }) {
+                        editDateOfBirth.error = "숫자만 입력 가능합니다."
+                    } else {
+                        editDateOfBirth.error = null
+                    }
+                }
+            }) // end editDateOfBirth
+
+            // 핸드폰 번호 입력시 숫자만 입력 가능, 문자 입력시 에러 메시지 생성
+            editPhoneNumber.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                    // 입력 전
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    // 입력 중
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (!s.isNullOrBlank() && !s.all { it.isDigit() }) {
+                        editDateOfBirth.error = "숫자만 입력 가능합니다."
+                    } else {
+                        editDateOfBirth.error = null
+                    }
+                }
+            }) // end editPhoneNumber
+
+            // 이메일에 '@', '.' 불포함시 에러메시지
+            editEmail.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                    // 입력 전
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    // 입력 중
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    if (!s.isNullOrBlank() && !s.toString().contains('@') && !s.toString()
+                            .contains('.')
+                    ) {
+                        editEmail.error = "정확한 이메일 주소를 입력해 주세요"
+                    }
+                }
+            }) // end editEmail
+
+
             textFindingPassword.setOnClickListener {
+
                 val username = editUsername.text.toString()
                 val email = editEmail.text.toString()
                 val phoneNumber = editPhoneNumber.text.toString()
@@ -42,11 +125,15 @@ class FindUserPasswordActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
-                val userFindPasswordDTO = UserFindPasswordDTO(username, email, phoneNumber, dateOfBirth)
+                val userFindPasswordDTO =
+                    UserFindPasswordDTO(username, email, phoneNumber, dateOfBirth)
 
                 RetrofitClient.api.findUserPassword(userFindPasswordDTO)
                     .enqueue(object : Callback<UserFindPasswordResponse> {
-                        override fun onResponse(call: Call<UserFindPasswordResponse>, response: Response<UserFindPasswordResponse>) {
+                        override fun onResponse(
+                            call: Call<UserFindPasswordResponse>,
+                            response: Response<UserFindPasswordResponse>
+                        ) {
                             if (response.isSuccessful) {
                                 val newPassword = response.body()?.newPassword
                                 textFindPassword.text = newPassword
@@ -71,10 +158,15 @@ class FindUserPasswordActivity : AppCompatActivity() {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-                    })
-            }
-        }
-    }
+
+                    }) // end RetrofitClient
+
+            } // end textFindingPassword
+
+        } // end binding
+
+    } // end onCreate
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -86,5 +178,17 @@ class FindUserPasswordActivity : AppCompatActivity() {
             }
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    private fun formatDateString(input: String): String {
+        val number = input.replace("-", "") // 입력된 문자열에서 "-" 제거
+        val sb = StringBuilder(number)
+        if (sb.length > 4) {
+            sb.insert(4, "-")
+        }
+        if (sb.length > 7) {
+            sb.insert(7, "-")
+        }
+        return sb.toString()
     }
 }

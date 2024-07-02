@@ -50,7 +50,7 @@ class StopWatchActivity : AppCompatActivity() {
             buttonExit.setOnClickListener {
                 startActivity(Intent(this@StopWatchActivity, FirstActivity::class.java))
             }
-        }
+        } // end binding
 
     }
 

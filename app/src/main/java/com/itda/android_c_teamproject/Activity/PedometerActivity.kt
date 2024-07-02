@@ -13,7 +13,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.KeyEvent
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -32,6 +34,7 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
     private var steps = 0
     private var initialStepCount = 0
     private var isInitialStepCountSet = false
+    var initTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +52,8 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
         // 활동 인식 권한이 부여 되었는지 확인
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION)
             // 권한이 없으면 권한 요청
-            != PackageManager.PERMISSION_GRANTED) {
+            != PackageManager.PERMISSION_GRANTED
+        ) {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),
@@ -73,7 +77,7 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
             steps = 0
             binding.textView.text = "걸음 수: 0"
         }
-    }
+    } // end onCreate
 
     // 권한 요청 결과를 처리 하는 메서드
     override fun onRequestPermissionsResult(
@@ -96,7 +100,11 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
             binding.textView.text = "No Step Counter Sensor!"
             binding.textView.visibility = TextView.VISIBLE
         } else {
-            sensorManager.registerListener(this, stepCounterSensor, SensorManager.SENSOR_DELAY_NORMAL)
+            sensorManager.registerListener(
+                this,
+                stepCounterSensor,
+                SensorManager.SENSOR_DELAY_NORMAL
+            )
             binding.textView.text = "Tracking started..."
             binding.textView.visibility = TextView.VISIBLE
             // 2초 후에 텍스트를 "걸음 수: 0"으로 변경
@@ -104,7 +112,8 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
                 binding.textView.text = "걸음 수: $steps"
                 binding.textView.visibility = TextView.VISIBLE
             }, 2000)
-        }
+
+        } // end else
     }
 
 
@@ -127,12 +136,15 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
             SensorManager.SENSOR_STATUS_ACCURACY_HIGH -> {
                 Log.d("SensorAccuracy", "High accuracy")
             }
+
             SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM -> {
                 Log.d("SensorAccuracy", "Medium accuracy")
             }
+
             SensorManager.SENSOR_STATUS_ACCURACY_LOW -> {
                 Log.d("SensorAccuracy", "Low accuracy")
             }
+
             SensorManager.SENSOR_STATUS_UNRELIABLE -> {
                 Log.d("SensorAccuracy", "Unreliable accuracy")
             }
@@ -143,7 +155,7 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
-// onSaveInstanceState 및 onRestoreInstanceState 메서드를 사용하여 걸음 수 상태를 저장하고 복원하도록 유지
+    // onSaveInstanceState 및 onRestoreInstanceState 메서드를 사용하여 걸음 수 상태를 저장하고 복원하도록 유지
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt("steps", steps)
@@ -164,5 +176,17 @@ class PedometerActivity : AppCompatActivity(), SensorEventListener {
         super.onDestroy()
         // 액티비티가 파괴될 때 센서 리스너 등록을 해제합니다.
         sensorManager.unregisterListener(this)
+    }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            // 뒤로가기 버튼을 누른지 3초 이내가 아니거나 처음 누를 경우
+            if (System.currentTimeMillis() - initTime > 3000) {
+                Toast.makeText(this, "종료하려면 한 번 더 누르세요.", Toast.LENGTH_SHORT).show()
+                initTime = System.currentTimeMillis()
+                return true
+            }
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }

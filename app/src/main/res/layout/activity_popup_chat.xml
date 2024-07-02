@@ -4,7 +4,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/popup_background"
     android:orientation="vertical"
     android:padding="16dp"
     tools:context=".Activity.PopupChatActivity">
@@ -28,19 +27,23 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
+        <TextView
             android:id="@+id/sendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Send" />
+            android:padding="15dp"
+            android:background="@drawable/round"
+            android:text="보내기" />
 
-        <Button
+        <TextView
             android:id="@+id/stopButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Stop" />
+            android:padding="15dp"
+            android:background="@drawable/round"
+            android:text=" 멈춤 " />
 
         <Space
             android:layout_width="0dp"
@@ -48,19 +51,23 @@
             android:layout_marginTop="10dp"
             android:layout_weight="1" />
 
-        <Button
+        <TextView
             android:id="@+id/clearButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Clear" />
+            android:padding="15dp"
+            android:background="@drawable/round"
+            android:text="지우기" />
 
-        <Button
+        <TextView
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="back" />
+            android:padding="15dp"
+            android:background="@drawable/round"
+            android:text="나가기" />
     </LinearLayout>
 
     <ProgressBar
@@ -78,6 +85,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
+            <TextView
+                android:id="@+id/chatResponse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
             <TextView
                 android:id="@+id/loadingTextView"
                 android:layout_width="match_parent"
@@ -86,11 +100,6 @@
                 android:visibility="gone"
                 android:text="요청중" />
 
-            <TextView
-                android:id="@+id/chatResponse"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
         </FrameLayout>
     </ScrollView>
 </LinearLayout>

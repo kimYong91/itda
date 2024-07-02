@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Activity.FirstActivity"
-    android:padding="50dp">
+    android:padding="40dp">
 
     <TextView
         android:id="@+id/textName"
@@ -151,22 +151,22 @@
         android:orientation="horizontal"
         >
 
-<!--        <Button-->
-<!--            android:id="@+id/buttonLogout"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="로그아웃" />-->
+        <!--        <Button-->
+        <!--            android:id="@+id/buttonLogout"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:text="로그아웃" />-->
 
 
-        <Button
+        <TextView
             android:id="@+id/gptButton"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/round_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round"
             android:text="챗봇"
-            android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="15sp"
+            android:padding="20dp"/>
 
     </LinearLayout>
 
