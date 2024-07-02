@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.databinding.ActivityChatMainBinding
 import com.itda.android_c_teamproject.BuildConfig
 import com.itda.android_c_teamproject.R
-import com.itda.android_c_teamproject.databinding.ActivityChatMainBinding
 import com.itda.android_c_teamproject.model.ChatRequest
 import com.itda.android_c_teamproject.model.Message
 import com.itda.android_c_teamproject.model.Response.ChatResponse
@@ -120,7 +119,6 @@ class ChatMainActivity : AppCompatActivity() {
                 )
             adapterExerciseTime.setDropDownViewResource(R.layout.spinner_item2)
             exerciseDurationTimeInput.adapter = adapterExerciseTime
-
             exerciseDurationTimeInput.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(
@@ -167,7 +165,6 @@ class ChatMainActivity : AppCompatActivity() {
                 )
             adapterJob.setDropDownViewResource(R.layout.spinner_item2)
             job.adapter = adapterJob
-
             job.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(
@@ -208,8 +205,6 @@ class ChatMainActivity : AppCompatActivity() {
                 )
             adapterDailyFoodIntake.setDropDownViewResource(R.layout.spinner_item2)
             dailyFoodIntake.adapter = adapterDailyFoodIntake
-
-
             dailyFoodIntake.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(

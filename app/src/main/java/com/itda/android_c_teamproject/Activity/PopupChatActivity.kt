@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.view.ViewAnimationUtils
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.itda.android_c_teamproject.BuildConfig
@@ -38,6 +40,29 @@ class PopupChatActivity : AppCompatActivity() {
 
         Log.d(TAG, "onCreate called")
         Log.d("API_KEY_LOG", "API Key: ${BuildConfig.API_KEY}")
+
+
+        // 인텐트로 전달된 값을 사용하여 애니메이션을 적용
+        binding.root.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                binding.root.viewTreeObserver.removeOnPreDrawListener(this)
+
+                val startX = intent.getIntExtra("startX", binding.root.width / 2)
+                val startY = intent.getIntExtra("startY", binding.root.height / 2)
+                val startWidth = intent.getIntExtra("startWidth", 0)
+                val startHeight = intent.getIntExtra("startHeight", 0)
+
+                val finalRadius = Math.hypot(binding.root.width.toDouble(), binding.root.height.toDouble()).toFloat()
+
+                val circularReveal = ViewAnimationUtils.createCircularReveal(
+                    binding.root, startX, startY, startWidth.toFloat(), finalRadius
+                )
+                circularReveal.duration = 1500 // 애니메이션 지속 시간 조절
+                circularReveal.start()
+
+                return true
+            }
+        })
 
 
         fetchUserDTOFromBackend()
