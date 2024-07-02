@@ -61,8 +61,6 @@ class LoginActivity : AppCompatActivity() {
                                 .show()
                             Log.d("mylog", "onResponse: ${response.code()}")
 
-                            // 실패 시 refreshToken 호출
-                            refreshToken()
                         }
 
                     } // end onResponse
@@ -105,40 +103,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
         return super.onKeyDown(keyCode, event)
-    }
-    private fun refreshToken() {
-        val sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
-        val refreshToken = sharedPreferences.getString("refreshToken", "") ?: ""
-
-        RetrofitClient.api.refreshToken(refreshToken, username).enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-                if (response.isSuccessful) {
-                    val newAccessToken = response.body() ?: ""
-                    // 새로 발급받은 accessToken을 SharedPreferences에 저장
-                    sharedPreferences.edit().putString("token", newAccessToken).apply()
-                    // 다시 로그인 시도
-                    loginWithNewToken(newAccessToken)
-                } else {
-                    // refreshToken도 실패하면 로그아웃 처리 또는 다시 로그인 화면으로 이동 등의 처리
-                    handleRefreshTokenFailure()
-                }
-            }
-
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                // 네트워크 오류 등의 경우 처리
-                handleRefreshTokenFailure()
-            }
-        })
-    }
-
-    private fun handleRefreshTokenFailure() {
-        // refreshToken이 실패한 경우 처리할 로직을 여기에 구현
-        // 예: 로그아웃 처리, 다시 로그인 화면으로 이동 등
-    }
-
-    private fun loginWithNewToken(newAccessToken: String) {
-        // 새로 발급받은 accessToken으로 다시 로그인 시도하는 로직을 여기에 구현
-        // 예: Retrofit을 사용하여 새로운 accessToken으로 로그인 요청
     }
 
 }

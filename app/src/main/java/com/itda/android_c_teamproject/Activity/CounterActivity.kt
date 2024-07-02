@@ -9,8 +9,8 @@ import com.itda.android_c_teamproject.databinding.ActivityCounterBinding
 
 class CounterActivity : AppCompatActivity() {
     lateinit var binding: ActivityCounterBinding
-    var count = 0
-    var initTime = 0L
+    private var count = 0
+    private var initTime = 0L
     // 액티비티가 생성될 때 savedInstanceState가 매개변수로 전달됨
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

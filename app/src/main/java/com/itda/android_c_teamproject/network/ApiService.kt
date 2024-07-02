@@ -69,7 +69,6 @@ interface ApiService {
     @DELETE("/itda/userDelete")
     fun userDelete(@Header("Authorization") token: String, @Query("username") username: String): Call<Void>
 
-    @POST("refresh-token")
-    fun refreshToken(@Header("Refresh-Token") refreshToken: String, @Header("Username") username: String): Call<String>
-
+    @GET("/itda/SecurityBarrier")
+    fun securityBarrier(@Header("Authorization") token: String): Call<String>
 }
