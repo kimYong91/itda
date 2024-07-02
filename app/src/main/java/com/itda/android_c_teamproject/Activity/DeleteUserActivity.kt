@@ -18,7 +18,7 @@ class DeleteUserActivity : AppCompatActivity() {
     private val TAG = "DeleteUserActivity"
     private lateinit var binding: ActivityDeleteUserBinding
     private lateinit var sharedPreferences: SharedPreferences
-    var initTime = 0L
+    private var initTime = 0L
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDeleteUserBinding.inflate(layoutInflater)
@@ -29,54 +29,82 @@ class DeleteUserActivity : AppCompatActivity() {
         val username = sharedPreferences.getString("username", "") ?: ""
 
         binding.run {
-            textDelete.setOnClickListener {
-                RetrofitClient.api.userDelete("Bearer ${token}", username).enqueue(object :
-                    Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                        if (response.isSuccessful) {
-                            Toast.makeText(
-                                this@DeleteUserActivity,
-                                "${username}님이 탈퇴 되었습니다.",
-                                Toast.LENGTH_SHORT
-                            ).show()
+
+            RetrofitClient.api.securityBarrier("Bearer $token").enqueue(object : Callback<String> {
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+
+                    if (response.isSuccessful) {
+                        textExit.setOnClickListener {
                             startActivity(
                                 Intent(
                                     this@DeleteUserActivity,
-                                    LoginActivity::class.java
+                                    FirstActivity::class.java
                                 )
                             )
-                            Log.d(TAG, "onResponse: ${username}삭제 되었습니다.")
-                        } else {
-                            Log.d(TAG, "onResponse: 없는 아이디 입니다.")
-                            Toast.makeText(
-                                this@DeleteUserActivity,
-                                "없는 아이디 입니다.",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            finish()
                         }
+
+                        textDelete.setOnClickListener {
+                            RetrofitClient.api.userDelete("Bearer ${token}", username)
+                                .enqueue(object :
+                                    Callback<Void> {
+                                    override fun onResponse(
+                                        call: Call<Void>,
+                                        response: Response<Void>
+                                    ) {
+                                        if (response.isSuccessful) {
+                                            Toast.makeText(
+                                                this@DeleteUserActivity,
+                                                "${username}님이 탈퇴 되었습니다.",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                            startActivity(
+                                                Intent(
+                                                    this@DeleteUserActivity,
+                                                    LoginActivity::class.java
+                                                )
+                                            )
+                                            Log.d(TAG, "onResponse: ${username}삭제 되었습니다.")
+                                        } else {
+                                            Log.d(TAG, "onResponse: 없는 아이디 입니다.")
+                                            Toast.makeText(
+                                                this@DeleteUserActivity,
+                                                "없는 아이디 입니다.",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+
+                                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                                        Log.d(TAG, "onFailure: 네트워크 연결에 실패하였습니다.")
+                                        Toast.makeText(
+                                            this@DeleteUserActivity,
+                                            "네트워크 연결에 실패하였습니다.",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+
+                                }) // end RetrofitClient
+
+                        } // end textDelete
+
+                    } else if (response.code() == 403) {
+                        Toast.makeText(this@DeleteUserActivity, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+                        logout()
                     }
 
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
-                        Log.d(TAG, "onFailure: 네트워크 연결에 실패하였습니다.")
-                        Toast.makeText(
-                            this@DeleteUserActivity,
-                            "네트워크 연결에 실패하였습니다.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                }
 
-                }) // end RetrofitClient
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    Toast.makeText(this@DeleteUserActivity, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+                    logout()
+                }
 
-            } // end textDelete
+            })
 
         } // end binding
 
     } // end onCreate
-
-    private fun getToken(): String {
-        val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
-        return sharedPreferences.getString("token", null) ?: ""
-    }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
 
@@ -89,5 +117,24 @@ class DeleteUserActivity : AppCompatActivity() {
             }
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    private fun getToken(): String {
+        val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
+        return sharedPreferences.getString("token", null) ?: ""
+    }
+
+    private fun logout() {
+        // SharedPreferences에서 저장된 토큰과 사용자 이름 삭제
+        sharedPreferences.edit()
+            .remove("token")
+            .remove("username")
+            .apply()
+
+        // 로그인 액티비티로 이동
+        val intent = Intent(this@DeleteUserActivity, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }

@@ -1,7 +1,9 @@
 package com.itda.android_c_teamproject.Activity
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -24,7 +26,6 @@ import com.itda.android_c_teamproject.preferences.UserPreferences
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.FileNotFoundException
 
 
 private const val TAG = "ChatMainActivity"
@@ -34,11 +35,12 @@ class ChatMainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatMainBinding
     private var call: Call<ChatResponse>? = null
     private lateinit var userdto: UserDTO
-    var initTime = 0L
+    private var initTime = 0L
     private lateinit var selectedExerciseDurationDayInput: String
     private lateinit var selectedExerciseDurationTimeInput: String
     private lateinit var selectedJob: String
     private lateinit var selectedDailyFoodIntake: String
+    private lateinit var sharedPreferences: SharedPreferences
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,50 +52,56 @@ class ChatMainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate called")
 
         // API Key를 로그로 출력
-
+        Log.d("API_KEY_LOG", "API Key: ${BuildConfig.API_KEY}")
+        sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
+        val token = getToken()
 
 
         binding.run {
+            RetrofitClient.api.securityBarrier("Bearer $token").enqueue(object : Callback<String> {
+                override fun onResponse(call: Call<String>, response: Response<String>) {
 
-            // 백엔드에서 UserDTO 객체를 가져 오는 가정
-            fetchUserDTOFromBackend()
+                    if (response.isSuccessful) {
+
+                        // 백엔드에서 UserDTO 객체를 가져 오는 가정
+                        fetchUserDTOFromBackend()
 
 
-            val itemsExerciseDay =
-                arrayOf("운동 일수", "1일", "2일", "3일", "4일", "5일", "6일", "7일")
-            val adapterExerciseDay =
-                ArrayAdapter(
-                    this@ChatMainActivity,
-                    android.R.layout.simple_spinner_item,
-                    itemsExerciseDay
-                )
-            adapterExerciseDay.setDropDownViewResource(R.layout.spinner_item2)
-            exerciseDurationDayInput.adapter = adapterExerciseDay
+                        val itemsExerciseDay =
+                            arrayOf("운동 일수", "1일", "2일", "3일", "4일", "5일", "6일", "7일")
+                        val adapterExerciseDay =
+                            ArrayAdapter(
+                                this@ChatMainActivity,
+                                android.R.layout.simple_spinner_item,
+                                itemsExerciseDay
+                            )
+                        adapterExerciseDay.setDropDownViewResource(R.layout.spinner_item2)
+                        exerciseDurationDayInput.adapter = adapterExerciseDay
 
-            exerciseDurationDayInput.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        selectedExerciseDurationDayInput = when (position) {
-                            1 -> "1"
-                            2 -> "2"
-                            3 -> "3"
-                            4 -> "4"
-                            5 -> "5"
-                            6 -> "6"
-                            7 -> "7"
-                            else -> ""
-                        }
-                    }
+                        exerciseDurationDayInput.onItemSelectedListener =
+                            object : AdapterView.OnItemSelectedListener {
+                                override fun onItemSelected(
+                                    parent: AdapterView<*>?,
+                                    view: View?,
+                                    position: Int,
+                                    id: Long
+                                ) {
+                                    selectedExerciseDurationDayInput = when (position) {
+                                        1 -> "1"
+                                        2 -> "2"
+                                        3 -> "3"
+                                        4 -> "4"
+                                        5 -> "5"
+                                        6 -> "6"
+                                        7 -> "7"
+                                        else -> ""
+                                    }
+                                }
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
 
-                    }
-                } // exerciseDurationDayInput
+                                }
+                            } // exerciseDurationDayInput
 
 
             val itemsExerciseTime = arrayOf(
@@ -144,10 +152,10 @@ class ChatMainActivity : AppCompatActivity() {
                         }
                     } // end onItemSelected
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
 
-                    }
-                } // exerciseDurationTimeInput
+                                }
+                            } // exerciseDurationTimeInput
 
 
             val itemsJob = arrayOf(
@@ -165,6 +173,7 @@ class ChatMainActivity : AppCompatActivity() {
                 )
             adapterJob.setDropDownViewResource(R.layout.spinner_item2)
             job.adapter = adapterJob
+
             job.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(
@@ -182,20 +191,20 @@ class ChatMainActivity : AppCompatActivity() {
                         }
                     }
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
 
-                    }
-                } // job
+                                }
+                            } // job
 
 
-            val itemsDailyFoodIntake = arrayOf(
-                "하루 식사",
-                "1회",
-                "2회",
-                "3회",
-                "4회",
-                "5회"
-            )
+                        val itemsDailyFoodIntake = arrayOf(
+                            "하루 식사",
+                            "1회",
+                            "2회",
+                            "3회",
+                            "4회",
+                            "5회"
+                        )
 
             val adapterDailyFoodIntake =
                 ArrayAdapter(
@@ -223,62 +232,76 @@ class ChatMainActivity : AppCompatActivity() {
                         }
                     }
 
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                                override fun onNothingSelected(parent: AdapterView<*>?) {
 
+                                }
+                            } // dailyFoodIntake
+
+
+                        // 자동 프롬프트 버튼
+                        autoPromptButton1.setOnClickListener {
+
+                            if (::userdto.isInitialized) {
+                                val exerciseType = exerciseTypeInput.text.toString()
+                                val exercisePreference = editExercisePreference.text.toString()
+                                val exerciseGoal = editExerciseGoal.text.toString()
+                                val exerciseFacility = editExerciseFacility.text.toString()
+                                val health = editHealth.text.toString()
+
+                                val prompt = UserPreferences.createPrompt1(
+                                    userdto,
+                                    selectedJob,
+                                    health,
+                                    exercisePreference,
+                                    selectedDailyFoodIntake,
+                                    exerciseGoal,
+                                    exerciseFacility,
+                                    exerciseType,
+                                    selectedExerciseDurationTimeInput,
+                                    selectedExerciseDurationDayInput
+                                ) // end prompt
+
+                                // 로그 추가: 프롬프트 생성 확인
+                                Log.d(TAG, "Prompt: $prompt")
+                                sendMessageToChatGPT(prompt)
+                                // userInput.setText(prompt) // EditText에 설정
+                            } else {
+                                // 로그 추가: userdto 초기화되지 않음
+                                Log.e(TAG, "userdto is not initialized")
+                            }
+
+                        } // end autoPromptButton1
+
+                        clearButton.setOnClickListener {
+                            editHealth.text.clear()
+                            editExercisePreference.text.clear()
+                            editExerciseGoal.text.clear()
+                            editExerciseFacility.text.clear()
+                            exerciseTypeInput.text.clear()
+
+                            chatResponse.text = "" // 결과 창의 내용을 지운다.
+                            errorMessage.visibility = View.INVISIBLE
+                        } // end clearButton
+
+                        // 뒤로 가기 버튼
+                        backButton.setOnClickListener {
+                            val intent = Intent(this@ChatMainActivity, FirstActivity::class.java)
+                            startActivity(intent)
+                        } // end backButton
+
+
+                    } else if (response.code() == 403) {
+                        Toast.makeText(this@ChatMainActivity, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+                        logout()
                     }
-                } // dailyFoodIntake
 
-
-            // 자동 프롬프트 버튼
-            autoPromptButton1.setOnClickListener {
-
-                if (::userdto.isInitialized) {
-                    val exerciseType = exerciseTypeInput.text.toString()
-                    val exercisePreference = editExercisePreference.text.toString()
-                    val exerciseGoal = editExerciseGoal.text.toString()
-                    val exerciseFacility = editExerciseFacility.text.toString()
-                    val health = editHealth.text.toString()
-
-                    val prompt = UserPreferences.createPrompt1(
-                        userdto,
-                        selectedJob,
-                        health,
-                        exercisePreference,
-                        selectedDailyFoodIntake,
-                        exerciseGoal,
-                        exerciseFacility,
-                        exerciseType,
-                        selectedExerciseDurationTimeInput,
-                        selectedExerciseDurationDayInput
-                    ) // end prompt
-
-                    // 로그 추가: 프롬프트 생성 확인
-                    Log.d(TAG, "Prompt: $prompt")
-                    sendMessageToChatGPT(prompt)
-                    // userInput.setText(prompt) // EditText에 설정
-                } else {
-                    // 로그 추가: userdto 초기화되지 않음
-                    Log.e(TAG, "userdto is not initialized")
                 }
 
-            } // end autoPromptButton1
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    logout()
+                }
 
-            clearButton.setOnClickListener {
-                editHealth.text.clear()
-                editExercisePreference.text.clear()
-                editExerciseGoal.text.clear()
-                editExerciseFacility.text.clear()
-                exerciseTypeInput.text.clear()
-
-                chatResponse.text = "" // 결과 창의 내용을 지운다.
-                errorMessage.visibility = View.INVISIBLE
-            } // end clearButton
-
-            // 뒤로 가기 버튼
-            backButton.setOnClickListener {
-                val intent = Intent(this@ChatMainActivity, FirstActivity::class.java)
-                startActivity(intent)
-            } // end backButton
+            })
 
             // 중지 버튼
             stopButton.setOnClickListener {
@@ -416,5 +439,19 @@ class ChatMainActivity : AppCompatActivity() {
     private fun getUsername(): String {
         val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
         return sharedPreferences.getString("username", null) ?: ""
+    }
+
+    private fun logout() {
+        // SharedPreferences에서 저장된 토큰과 사용자 이름 삭제
+        sharedPreferences.edit()
+            .remove("token")
+            .remove("username")
+            .apply()
+
+        // 로그인 액티비티로 이동
+        val intent = Intent(this@ChatMainActivity, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }

@@ -1,6 +1,8 @@
 package com.itda.android_c_teamproject.Activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -30,7 +32,8 @@ class PopupChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPopupChatBinding
     private var call: Call<ChatResponse>? = null
     private lateinit var userdto: UserDTO
-    var initTime = 0L
+    private var initTime = 0L
+    private lateinit var sharedPreferences: SharedPreferences
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +44,7 @@ class PopupChatActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate called")
         Log.d("API_KEY_LOG", "API Key: ${BuildConfig.API_KEY}")
 
+        val token = getToken()
 
         // 인텐트로 전달된 값을 사용하여 애니메이션을 적용
         binding.root.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
@@ -66,36 +70,55 @@ class PopupChatActivity : AppCompatActivity() {
 
 
         fetchUserDTOFromBackend()
+        binding.run {
+            RetrofitClient.api.securityBarrier("Bearer $token").enqueue(object : Callback<String> {
+                override fun onResponse(call: Call<String>, response: Response<String>) {
 
-        binding.sendButton.setOnClickListener {
-            val userMessage = binding.userInput.text.toString()
-            if (userMessage.isEmpty()) {
-                binding.errorMessage.text = "입력 되지 않았습니다"
-                binding.errorMessage.visibility = View.VISIBLE
-            } else if (userMessage.length > 1024) {
-                binding.chatResponse.text = "Error: Message is too long. Please shorten your input."
-            } else {
-                binding.errorMessage.visibility = View.GONE
-                sendMessageToChatGPT(userMessage)
+                    if (response.isSuccessful) {
+                        sendButton.setOnClickListener {
+                            val userMessage = userInput.text.toString()
+                            if (userMessage.isEmpty()) {
+                                errorMessage.text = "입력 되지 않았습니다"
+                                errorMessage.visibility = View.VISIBLE
+                            } else if (userMessage.length > 1024) {
+                                chatResponse.text =
+                                    "Error: Message is too long. Please shorten your input."
+                            } else {
+                                errorMessage.visibility = View.GONE
+                                sendMessageToChatGPT(userMessage)
+                            }
+                        }
+
+                        clearButton.setOnClickListener {
+                            userInput.text.clear()
+                            chatResponse.text = ""
+                            errorMessage.visibility = View.INVISIBLE
+                        }
+
+                        backButton.setOnClickListener {
+                            finish()
+                        }
+                    } else if (response.code() == 403) {
+                        Toast.makeText(this@PopupChatActivity, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+                        logout()
+                    }
+
+                }
+
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    Toast.makeText(this@PopupChatActivity, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+                    logout()
+                }
+
+            })
+            stopButton.setOnClickListener {
+                call?.cancel()
+                call = null
+                loadingIndicator.visibility = View.GONE
+                loadingTextView.visibility = View.GONE
+                chatResponse.text = "작업이 중지되었습니다."
             }
-        }
 
-        binding.clearButton.setOnClickListener {
-            binding.userInput.text.clear()
-            binding.chatResponse.text = ""
-            binding.errorMessage.visibility = View.INVISIBLE
-        }
-
-        binding.backButton.setOnClickListener {
-            finish()
-        }
-
-        binding.stopButton.setOnClickListener {
-            call?.cancel()
-            call = null
-            binding.loadingIndicator.visibility = View.GONE
-            binding.loadingTextView.visibility = View.GONE
-            binding.chatResponse.text = "작업이 중지되었습니다."
         }
     } // end onCreate
 
@@ -182,6 +205,7 @@ class PopupChatActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
         return sharedPreferences.getString("username", null) ?: ""
     }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -193,5 +217,19 @@ class PopupChatActivity : AppCompatActivity() {
             }
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    private fun logout() {
+        // SharedPreferences에서 저장된 토큰과 사용자 이름 삭제
+        sharedPreferences.edit()
+            .remove("token")
+            .remove("username")
+            .apply()
+
+        // 로그인 액티비티로 이동
+        val intent = Intent(this@PopupChatActivity, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }

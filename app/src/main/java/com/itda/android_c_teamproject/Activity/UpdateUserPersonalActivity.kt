@@ -34,10 +34,14 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
         val token = getToken()
+        val username = sharedPreferences.getString("username", "") ?: ""
 
         binding.run {
 
-            val username = sharedPreferences.getString("username", "") ?: ""
+            RetrofitClient.api.securityBarrier("Bearer $token").enqueue(object : Callback<String> {
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+
+                    if (response.isSuccessful) {
 
             textExit.setOnClickListener {
                 startActivity(Intent(this@UpdateUserPersonalActivity, FirstActivity::class.java))
@@ -204,8 +208,25 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
                         Log.d(TAG, "onFailure: 네트워크 요청 실패")
                     }
                 }) // end updateUserPersonalInfo
+
             } // end textUpdate
+
+                    } else if (response.code() == 403) {
+                        Toast.makeText(this@UpdateUserPersonalActivity, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+                        logout()
+                    }
+
+                }
+
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    Toast.makeText(this@UpdateUserPersonalActivity, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+                    logout()
+                }
+
+            })
+
         } // end binding
+
     } // end onCreate
 
 
@@ -237,5 +258,19 @@ class UpdateUserPersonalActivity : AppCompatActivity() {
             sb.insert(7, "-")
         }
         return sb.toString()
+    }
+
+    private fun logout() {
+        // SharedPreferences에서 저장된 토큰과 사용자 이름 삭제
+        sharedPreferences.edit()
+            .remove("token")
+            .remove("username")
+            .apply()
+
+        // 로그인 액티비티로 이동
+        val intent = Intent(this@UpdateUserPersonalActivity, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }
