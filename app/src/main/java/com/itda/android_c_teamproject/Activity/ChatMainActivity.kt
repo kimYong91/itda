@@ -10,9 +10,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.itda.android_c_teamproject.databinding.ActivityChatMainBinding
 import com.itda.android_c_teamproject.BuildConfig
 import com.itda.android_c_teamproject.R
-import com.itda.android_c_teamproject.databinding.ActivityChatMainBinding
 import com.itda.android_c_teamproject.model.ChatRequest
 import com.itda.android_c_teamproject.model.Message
 import com.itda.android_c_teamproject.model.Response.ChatResponse
@@ -50,7 +50,7 @@ class ChatMainActivity : AppCompatActivity() {
         Log.d(TAG, "onCreate called")
 
         // API Key를 로그로 출력
-        Log.d("API_KEY_LOG", "API Key: ${BuildConfig.API_KEY}")
+
 
 
         binding.run {
@@ -119,7 +119,6 @@ class ChatMainActivity : AppCompatActivity() {
                 )
             adapterExerciseTime.setDropDownViewResource(R.layout.spinner_item2)
             exerciseDurationTimeInput.adapter = adapterExerciseTime
-
             exerciseDurationTimeInput.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(
@@ -166,7 +165,6 @@ class ChatMainActivity : AppCompatActivity() {
                 )
             adapterJob.setDropDownViewResource(R.layout.spinner_item2)
             job.adapter = adapterJob
-
             job.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(
@@ -207,8 +205,6 @@ class ChatMainActivity : AppCompatActivity() {
                 )
             adapterDailyFoodIntake.setDropDownViewResource(R.layout.spinner_item2)
             dailyFoodIntake.adapter = adapterDailyFoodIntake
-
-
             dailyFoodIntake.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener {
                     override fun onItemSelected(
