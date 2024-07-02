@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")    // kapt 추가  (Room 사용)
+
+    id("kotlin-parcelize")
 }
 
 // ChatGPT api key 보안 설정
@@ -88,6 +90,20 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.okhttp3:okhttp:4.9.0")             // 추가
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0") // 추가
+
+    // 라이프사이클 구성요소
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.2")
+
+    // RecyclerView
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+
+    // Kotlin Android Extensions에 대한 레거시 지원
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

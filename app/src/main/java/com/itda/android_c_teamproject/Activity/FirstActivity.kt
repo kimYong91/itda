@@ -161,6 +161,7 @@ class FirstActivity : AppCompatActivity() {
             // 식단 화면으로 이동
             textFoodMenu.setOnClickListener {
                 Toast.makeText(this@FirstActivity, "식단 버튼 클릭됨", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this@FirstActivity, DietActivity::class.java))
             }
 
             // 유틸 화면으로 이동
@@ -211,6 +212,7 @@ class FirstActivity : AppCompatActivity() {
                 startActivity(intent)
                 Toast.makeText(this@FirstActivity, "챗봇 버튼 클릭됨", Toast.LENGTH_SHORT).show()
             }
+
 
         } // end binding
 

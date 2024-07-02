@@ -4,6 +4,7 @@
     <!-- 사용자의 움직임 감지를 위한 권한 추가 -->
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" /> <!-- 인터넷 권한 추가 -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -66,6 +67,40 @@
             android:name=".Activity.LoginActivity"
             android:exported="false" /> <!-- StepCountService 추가 -->
         <service android:name=".Activity.PedometerActivity$StepCountService" />
+
+        <activity
+            android:name=".Activity.MealDetailActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity.AddMealActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Itda">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity.DietActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Itda" />
+        <activity
+            android:name=".Activity.MealActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Itda">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

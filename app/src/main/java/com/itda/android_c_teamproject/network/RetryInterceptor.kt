@@ -8,14 +8,12 @@ import java.io.IOException
 class RetryInterceptor (private val maxRetry: Int) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        var response: Response? = null
         var exception: IOException? = null
         var retryCount = 0
 
         while (retryCount < maxRetry) {
             try {
-                response = chain.proceed(chain.request())
-                return response
+                return chain.proceed(chain.request())
             } catch (e: IOException) {
                 exception = e
                 retryCount++
