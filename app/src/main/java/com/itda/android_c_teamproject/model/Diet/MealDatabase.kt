@@ -5,9 +5,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
 import com.itda.android_c_teamproject.model.Meal
 
 @Database(entities = [Meal::class], version = 1, exportSchema = false)
+@TypeConverters(DateTypeConverter::class)
 abstract class MealDatabase : RoomDatabase() {
     abstract fun mealDao(): MealDao
 

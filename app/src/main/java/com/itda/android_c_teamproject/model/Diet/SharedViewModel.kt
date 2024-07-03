@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.itda.android_c_teamproject.model.Meal
+import java.util.Date
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
     private val mealDao: MealDao = MealDatabase.getDatabase(application).mealDao()
@@ -28,8 +29,10 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     val totalCarbs: LiveData<Float> get() = _totalCarbs
 
     init {
-        loadMealsFromDatabase() // 데이터베이스에서 초기 데이터를 로드합니다.
+       loadMealsByDate(Date()) // 데이터베이스에서 초기 데이터를 로드합니다.
     }
+
+
 
     fun setMealType(mealType: String) {
         _mealType.value = mealType
@@ -75,4 +78,18 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    private val _selectedDate = MutableLiveData<Date>(Date()) // 현재 날짜를 기본값으로 설정
+    val selectedDate: LiveData<Date> get() = _selectedDate
+
+    fun setSelectedDate(date: Date) {
+        _selectedDate.value = date
+        loadMealsByDate(date)
+    }
+
+    private fun loadMealsByDate(date: Date) {
+        mealDao.getMealsByDate(date).observeForever { mealList ->
+            _meals.value = mealList.toMutableList()
+            updateTotalNutritionalValues()
+        }
+    }
 }

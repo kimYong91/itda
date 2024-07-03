@@ -1,13 +1,17 @@
 package com.itda.android_c_teamproject.Activity
 
+import android.app.DatePickerDialog
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.itda.android_c_teamproject.databinding.ActivityDietBinding
 import com.itda.android_c_teamproject.model.Diet.SharedViewModel
+import java.util.Calendar
 
 class DietActivity : AppCompatActivity() {
 
@@ -20,6 +24,24 @@ class DietActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDietBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val tvSelectedDate: TextView = binding.tvSelectedDate
+        val calendar = Calendar.getInstance()
+
+        tvSelectedDate.setOnClickListener {
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            val datePickerDialog = DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+                calendar.set(selectedYear, selectedMonth, selectedDay)
+                val selectedDate = calendar.time
+                sharedViewModel.setSelectedDate(selectedDate)
+                tvSelectedDate.text = "${selectedYear}년 ${selectedMonth + 1}월 ${selectedDay}일"
+            }, year, month, day)
+
+            datePickerDialog.show()
+        }
 
         // 총 영양 정보를 관찰하여 UI 업데이트
         sharedViewModel.totalEnergy.observe(this, Observer { updateTotalNutritionalValues() })

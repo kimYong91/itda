@@ -5,6 +5,7 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity(tableName = "meal_table_A")
 data class Meal(
@@ -16,6 +17,7 @@ data class Meal(
     @ColumnInfo(name = "protein") var protein: Float,
     @ColumnInfo(name = "fat") var fat: Float,
     @ColumnInfo(name = "carbs") var carbs: Float,
+    @ColumnInfo(name = "date") var date: Date = Date()
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -24,8 +26,8 @@ data class Meal(
         parcel.readFloat(),
         parcel.readFloat(),
         parcel.readFloat(),
-        parcel.readFloat()
-
+        parcel.readFloat(),
+        Date(parcel.readLong()) // Date 읽기 추가
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -36,6 +38,7 @@ data class Meal(
         parcel.writeFloat(protein)
         parcel.writeFloat(fat)
         parcel.writeFloat(carbs)
+        parcel.writeLong(date.time) // Date 쓰기 추가
     }
 
     override fun describeContents(): Int {
