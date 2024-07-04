@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.itda.android_c_teamproject.activity.AddMealActivity
 import com.itda.android_c_teamproject.databinding.ActivityDietBinding
 import com.itda.android_c_teamproject.model.Diet.SharedViewModel
 import java.util.Calendar

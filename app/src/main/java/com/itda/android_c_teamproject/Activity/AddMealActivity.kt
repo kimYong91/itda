@@ -1,4 +1,5 @@
-package com.itda.android_c_teamproject.Activity
+package com.itda.android_c_teamproject.activity
+
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
@@ -9,10 +10,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.itda.android_c_teamproject.Activity.MealActivity
+import com.itda.android_c_teamproject.Activity.MealDetailActivity
 import com.itda.android_c_teamproject.adapter.FoodAdapter
 import com.itda.android_c_teamproject.adapter.MealAdapter
 import com.itda.android_c_teamproject.databinding.ActivityAddMealBinding
@@ -23,16 +24,16 @@ import com.itda.android_c_teamproject.model.dto.FoodDTO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 private const val TAG = "AddMealActivity"
+
 class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
     private lateinit var mealDatabase: MealDatabase
     private lateinit var mealAdapter: MealAdapter
     private lateinit var binding: ActivityAddMealBinding
     private lateinit var foodAdapter: FoodAdapter
-    private val sharedViewModel: SharedViewModel by viewModels {
-        ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-    }
+    private val sharedViewModel: SharedViewModel by viewModels()
 
     private val selectedMeals = mutableListOf<Meal>()
 
@@ -55,7 +56,6 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddMealBinding.inflate(layoutInflater)
@@ -70,37 +70,43 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = mealAdapter
 
-        sharedViewModel.meals.observe(this, Observer { meals ->
+        sharedViewModel.meals.observe(this) { meals ->
             Log.d(TAG, "Meals updated: $meals")
             mealAdapter.updateData(meals)
-        })
+        }
 
         binding.addButton.setOnClickListener {
             Log.d(TAG, "Add button clicked")
             val intent = Intent(this, MealActivity::class.java)
-            val selectedMealType = sharedViewModel.mealType.value
-            if (selectedMealType != null) {
+            sharedViewModel.mealType.value?.let { selectedMealType ->
                 intent.putExtra("mealType", selectedMealType)
                 Log.d(TAG, "Launching MealActivity with mealType: $selectedMealType")
-            } else {
-                Log.e(TAG, "MealType is null, cannot launch MealActivity")
-            }
-            addMealLauncher.launch(intent)
+                addMealLauncher.launch(intent)
+            } ?: Log.e(TAG, "MealType is null, cannot launch MealActivity")
         }
 
+        // 인텐트에서 mealType과 date를 가져와서 ViewModel에 설정
         val mealTypeFromIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getStringExtra("mealType") // 수정된 부분: 최신 메서드 사용
+            intent.getStringExtra("mealType")
         } else {
             @Suppress("DEPRECATION")
             intent.getStringExtra("mealType")
         }
+
+        val dateFromIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getSerializableExtra("date", Date::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getSerializableExtra("date") as? Date
+        } ?: Date()
+
         if (mealTypeFromIntent != null) {
             sharedViewModel.setMealType(mealTypeFromIntent)
-            loadMeals(mealTypeFromIntent)
+            sharedViewModel.setSelectedDate(dateFromIntent)
+            loadMeals(dateFromIntent, mealTypeFromIntent)
         } else {
             Log.e(TAG, "Received null mealType from Intent")
         }
-
     }
 
     private fun saveMeals(meals: List<Meal>) {
@@ -108,7 +114,8 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
             try {
                 meals.forEach {
                     Log.d(TAG, "Inserting meal: $it")
-                    mealDatabase.mealDao().insert(it) }
+                    mealDatabase.mealDao().insert(it)
+                }
 
                 withContext(Dispatchers.Main) {
                     meals.forEach { meal ->
@@ -122,43 +129,41 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
         }
     }
 
-    private fun loadMeals(mealType: String) {
-        mealDatabase.mealDao().getMealsByType(mealType).observe(this, Observer { mealsList ->
+    private fun loadMeals(date: Date, mealType: String) {
+        mealDatabase.mealDao().getMealsByDateAndType(date, mealType).observe(this) { mealsList ->
             Log.d(TAG, "Loaded meals: $mealsList")
             sharedViewModel.setMeals(mealsList)
-        })
+        }
     }
 
     override fun onItemClick(meal: Meal) {
-        // 보기 기능 : 클릭된 식사 항목의 상세 정보를 새로운 액티비티에 전달
-        val intent = Intent(this, MealDetailActivity::class.java)
-        intent.putExtra("meal", meal)
+        val intent = Intent(this, MealDetailActivity::class.java).apply {
+            putExtra("meal", meal)
+        }
         startActivity(intent)
         Log.d(TAG, "Viewing meal: $meal")
     }
+
     fun addFood(food: FoodDTO) {
         Toast.makeText(this, "${food.식품명} 추가됨", Toast.LENGTH_SHORT).show()
         Log.d(TAG, "Food added: $food")
 
-        val mealType = sharedViewModel.mealType.value
-        if (mealType != null) {
+        sharedViewModel.mealType.value?.let { mealType ->
             val newMeal = Meal(
                 mealType = mealType,
                 content = food.식품명,
                 energy = food.에너지,
                 protein = food.단백질,
                 fat = food.지방,
-                carbs = food.탄수화물
+                carbs = food.탄수화물,
+                date = sharedViewModel.selectedDate.value ?: Date()
             )
             selectedMeals.add(newMeal)
             sharedViewModel.addMeal(newMeal)
             Log.d(TAG, "New meal created: $newMeal")
-        } else {
-            Log.e(TAG, "Meal type is null, cannot create new meal")
-        }
+        } ?: Log.e(TAG, "Meal type is null, cannot create new meal")
     }
 
-    // 길게 클릭하면 삭제 확인 다이얼로그 표시
     override fun onItemLongClick(meal: Meal): Boolean {
         AlertDialog.Builder(this)
             .setTitle("삭제 확인")

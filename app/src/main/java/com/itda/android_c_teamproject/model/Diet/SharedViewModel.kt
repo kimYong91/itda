@@ -29,14 +29,14 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     val totalCarbs: LiveData<Float> get() = _totalCarbs
 
     init {
-       loadMealsByDate(Date()) // 데이터베이스에서 초기 데이터를 로드합니다.
+        loadMealsByDateAndType(Date(), _mealType.value) // 데이터베이스에서 초기 데이터를 로드합니다.
     }
-
 
 
     fun setMealType(mealType: String) {
         _mealType.value = mealType
     }
+
     fun setMeals(mealList: List<Meal>) {
         _meals.value = mealList.toMutableList()
         updateTotalNutritionalValues()
@@ -83,13 +83,15 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     fun setSelectedDate(date: Date) {
         _selectedDate.value = date
-        loadMealsByDate(date)
+        loadMealsByDateAndType(date, _mealType.value)
     }
 
-    private fun loadMealsByDate(date: Date) {
-        mealDao.getMealsByDate(date).observeForever { mealList ->
-            _meals.value = mealList.toMutableList()
-            updateTotalNutritionalValues()
+    private fun loadMealsByDateAndType(date: Date?, mealType: String?) {
+        if (date != null && mealType != null) {
+            mealDao.getMealsByDateAndType(date, mealType).observeForever { mealList ->
+                _meals.value = mealList.toMutableList()
+                updateTotalNutritionalValues()
+            }
         }
     }
 }
