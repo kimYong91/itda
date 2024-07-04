@@ -86,7 +86,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         loadMealsByDateAndType(date, _mealType.value)
     }
 
-    private fun loadMealsByDateAndType(date: Date?, mealType: String?) {
+    fun loadMealsByDateAndType(date: Date?, mealType: String?) {
         if (date != null && mealType != null) {
             mealDao.getMealsByDateAndType(date, mealType).observeForever { mealList ->
                 _meals.value = mealList.toMutableList()

@@ -12,7 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.itda.android_c_teamproject.activity.AddMealActivity
 import com.itda.android_c_teamproject.databinding.ActivityDietBinding
 import com.itda.android_c_teamproject.model.Diet.SharedViewModel
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class DietActivity : AppCompatActivity() {
 
@@ -20,6 +23,7 @@ class DietActivity : AppCompatActivity() {
     private val sharedViewModel: SharedViewModel by viewModels {
         ViewModelProvider.AndroidViewModelFactory.getInstance(application)
     }
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +33,10 @@ class DietActivity : AppCompatActivity() {
         val tvSelectedDate: TextView = binding.tvSelectedDate
         val calendar = Calendar.getInstance()
 
+        // 현재 날짜를 텍스트 뷰에 설정
+        tvSelectedDate.text = dateFormat.format(calendar.time)
+
+        // 텍스브뷰 클릭 시 DatePickerDialog를 사용하여 날짜 선택
         tvSelectedDate.setOnClickListener {
             val year = calendar.get(Calendar.YEAR)
             val month = calendar.get(Calendar.MONTH)
@@ -38,7 +46,8 @@ class DietActivity : AppCompatActivity() {
                 calendar.set(selectedYear, selectedMonth, selectedDay)
                 val selectedDate = calendar.time
                 sharedViewModel.setSelectedDate(selectedDate)
-                tvSelectedDate.text = "${selectedYear}년 ${selectedMonth + 1}월 ${selectedDay}일"
+                tvSelectedDate.text = dateFormat.format(selectedDate)
+                loadMeals(selectedDate)
             }, year, month, day)
 
             datePickerDialog.show()
@@ -64,6 +73,15 @@ class DietActivity : AppCompatActivity() {
         }
         binding.btnCompleteDiet.setOnClickListener {
             finish()
+        }
+
+        sharedViewModel.setSelectedDate(calendar.time)
+        loadMeals(calendar.time)
+    }
+
+    private fun loadMeals(date: Date) {
+        sharedViewModel.mealType.value?.let { mealType ->
+            sharedViewModel.loadMealsByDateAndType(date, mealType)
         }
     }
 

@@ -17,14 +17,6 @@
         android:clickable="true"
         android:focusable="true" />
 
-    <DatePicker
-        android:id="@+id/datePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:calendarViewShown="false"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="16dp"
-        />
 
     <Button
         android:id="@+id/btnBreakfast"
