@@ -5,14 +5,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
 object RetrofitClient {
-    private val BASE_URL = "http://10.100.203.69:8080"
+    private val BASE_URL = "http://13.209.37.105:8080"
     //private val BASE_URL = "http://192.168.171.1:8080"
 
     val api: ApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(ScalarsConverterFactory.create()) // Scalars 변환기(기본타입) 설정
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())// Scalars 변환기(기본타입) 설정
             .build()
             .create(ApiService::class.java)
     }

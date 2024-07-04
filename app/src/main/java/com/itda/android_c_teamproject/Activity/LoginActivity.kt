@@ -29,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
                 val username = editID.text.toString()
                 val password = editPassword.text.toString()
                 val user = LoginRequest(username, password)
+                Log.d("logg", "onCreate: $user")
 
                 RetrofitClient.api.login(user).enqueue(object : Callback<LoginResponse> {
                     override fun onResponse(
