@@ -74,9 +74,6 @@ class DietActivity : AppCompatActivity() {
         binding.btnCompleteDiet.setOnClickListener {
             finish()
         }
-
-        sharedViewModel.setSelectedDate(calendar.time)
-        loadMeals(calendar.time)
     }
 
     private fun loadMeals(date: Date) {
@@ -88,6 +85,7 @@ class DietActivity : AppCompatActivity() {
     private fun openMealActivity(mealType: String) {
         val intent = Intent(this, AddMealActivity::class.java)
         intent.putExtra("mealType", mealType)
+        intent.putExtra("date", sharedViewModel.selectedDate.value)
         startActivity(intent)
     }
 

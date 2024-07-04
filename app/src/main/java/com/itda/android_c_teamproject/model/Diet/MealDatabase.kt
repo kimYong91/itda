@@ -23,7 +23,7 @@ abstract class MealDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     MealDatabase::class.java,
-                    "meal_table_A"
+                    "DietManage.db"
                 ).build()
                 INSTANCE = instance
                 instance

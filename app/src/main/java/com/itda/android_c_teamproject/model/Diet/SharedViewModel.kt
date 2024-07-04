@@ -1,14 +1,21 @@
 package com.itda.android_c_teamproject.model.Diet
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.itda.android_c_teamproject.model.Meal
 import java.util.Date
 
+
+private const val TAG = "SharedViewModel"
+
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
     private val mealDao: MealDao = MealDatabase.getDatabase(application).mealDao()
+
+    private val _selectedDate = MutableLiveData<Date>(Date())
+    val selectedDate: LiveData<Date> get() = _selectedDate
 
     private val _mealType = MutableLiveData<String>()
     val mealType: LiveData<String> get() = _mealType
@@ -35,6 +42,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     fun setMealType(mealType: String) {
         _mealType.value = mealType
+        loadMealsByDateAndType(_selectedDate.value, mealType)
     }
 
     fun setMeals(mealList: List<Meal>) {
@@ -78,9 +86,6 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    private val _selectedDate = MutableLiveData<Date>(Date()) // 현재 날짜를 기본값으로 설정
-    val selectedDate: LiveData<Date> get() = _selectedDate
-
     fun setSelectedDate(date: Date) {
         _selectedDate.value = date
         loadMealsByDateAndType(date, _mealType.value)
@@ -88,7 +93,9 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
     fun loadMealsByDateAndType(date: Date?, mealType: String?) {
         if (date != null && mealType != null) {
+            Log.d(TAG, "Loading meals for date: $date and mealType: $mealType")
             mealDao.getMealsByDateAndType(date, mealType).observeForever { mealList ->
+                Log.d(TAG, "Loaded meals: $mealList")
                 _meals.value = mealList.toMutableList()
                 updateTotalNutritionalValues()
             }

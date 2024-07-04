@@ -7,7 +7,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
 
-@Entity(tableName = "meal_table_A")
+@Entity(tableName = "DietFood")
 data class Meal(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,

@@ -50,7 +50,7 @@
         android:id="@+id/btnCompleteDiet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Complete"
+        android:text="완료"
         android:layout_gravity="end"
         android:layout_marginTop="16dp" />
 </LinearLayout>

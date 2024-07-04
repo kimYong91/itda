@@ -1,5 +1,6 @@
 package com.itda.android_c_teamproject.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,7 +8,7 @@ import com.itda.android_c_teamproject.databinding.ItemMealBinding
 import com.itda.android_c_teamproject.model.Meal
 
 
-
+private const val TAG = "MealAdapter"
 class MealAdapter(private val meals: MutableList<Meal>, private val listener: OnItemClickListener) : RecyclerView.Adapter<MealAdapter.MealViewHolder>() {
 
 
@@ -41,12 +42,14 @@ class MealAdapter(private val meals: MutableList<Meal>, private val listener: On
     override fun getItemCount() = meals.size
 
     fun updateData(newMeals: List<Meal>) {
+        Log.d(TAG, "Updating data: $newMeals")
         meals.clear()
         meals.addAll(newMeals)
         notifyDataSetChanged()
     }
 
     fun addMeal(meal: Meal) {
+        Log.d(TAG, "Adding meal: $meal")
         meals.add(meal)
         notifyItemInserted(meals.size - 1)
     }

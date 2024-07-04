@@ -5,26 +5,37 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.itda.android_c_teamproject.Activity.MealActivity
 import com.itda.android_c_teamproject.Activity.MealDetailActivity
+import com.itda.android_c_teamproject.R
 import com.itda.android_c_teamproject.adapter.FoodAdapter
 import com.itda.android_c_teamproject.adapter.MealAdapter
 import com.itda.android_c_teamproject.databinding.ActivityAddMealBinding
+import com.itda.android_c_teamproject.databinding.ActivityMealBinding
 import com.itda.android_c_teamproject.model.Diet.MealDatabase
 import com.itda.android_c_teamproject.model.Diet.SharedViewModel
 import com.itda.android_c_teamproject.model.Meal
 import com.itda.android_c_teamproject.model.dto.FoodDTO
+import com.itda.android_c_teamproject.network.ApiService
+import com.itda.android_c_teamproject.network.DietRetrofitClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 private const val TAG = "AddMealActivity"
 
@@ -33,9 +44,13 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
     private lateinit var mealAdapter: MealAdapter
     private lateinit var binding: ActivityAddMealBinding
     private lateinit var foodAdapter: FoodAdapter
-    private val sharedViewModel: SharedViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by viewModels {
+        ViewModelProvider.AndroidViewModelFactory.getInstance(application)
+    }
+
 
     private val selectedMeals = mutableListOf<Meal>()
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
     private val addMealLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -93,6 +108,7 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
             intent.getStringExtra("mealType")
         }
 
+
         val dateFromIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getSerializableExtra("date", Date::class.java)
         } else {
@@ -108,7 +124,6 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
             Log.e(TAG, "Received null mealType from Intent")
         }
     }
-
     private fun saveMeals(meals: List<Meal>) {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
@@ -116,12 +131,9 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
                     Log.d(TAG, "Inserting meal: $it")
                     mealDatabase.mealDao().insert(it)
                 }
-
                 withContext(Dispatchers.Main) {
-                    meals.forEach { meal ->
-                        sharedViewModel.addMeal(meal)
-                        mealAdapter.addMeal(meal)
-                    }
+                    Log.d(TAG, "Meals inserted, reloading meals")
+                    sharedViewModel.loadMealsByDateAndType(sharedViewModel.selectedDate.value, sharedViewModel.mealType.value)
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error inserting meal: ${e.message}", e)
@@ -130,6 +142,7 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
     }
 
     private fun loadMeals(date: Date, mealType: String) {
+        Log.d(TAG, "Loading meals for date: ${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)} and mealType: $mealType")
         mealDatabase.mealDao().getMealsByDateAndType(date, mealType).observe(this) { mealsList ->
             Log.d(TAG, "Loaded meals: $mealsList")
             sharedViewModel.setMeals(mealsList)

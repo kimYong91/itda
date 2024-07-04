@@ -12,13 +12,18 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.itda.android_c_teamproject.R
 import com.itda.android_c_teamproject.databinding.ActivityFirstBinding
+import com.itda.android_c_teamproject.model.Diet.MealDatabase
+import com.itda.android_c_teamproject.model.Meal
 import com.itda.android_c_teamproject.model.dto.UserDTO
 import com.itda.android_c_teamproject.network.RetrofitClient
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.Date
 
 
 private const val TAG = "FirstActivity"
