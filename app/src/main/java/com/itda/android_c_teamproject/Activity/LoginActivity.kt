@@ -2,6 +2,7 @@ package com.itda.android_c_teamproject.Activity
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -16,9 +17,9 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
-    lateinit var binding: ActivityLoginBinding
-    var initTime = 0L
-    private lateinit var username: String  // 사용자 이름 변수 선언
+    private lateinit var binding: ActivityLoginBinding
+    private var initTime = 0L
+    private lateinit var sharedPreferences: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)

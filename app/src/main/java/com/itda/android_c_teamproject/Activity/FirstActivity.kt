@@ -123,8 +123,6 @@ class FirstActivity : AppCompatActivity() {
 
                         sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
 
-                        val sharedPreferences = getSharedPreferences("app_pref", MODE_PRIVATE)
-
                         // 로그인 시 저장된 사용자 이름을 가져옴
                         val username = sharedPreferences.getString("username", "") ?: ""
 
