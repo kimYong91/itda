@@ -23,7 +23,7 @@ abstract class MealDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     MealDatabase::class.java,
-                    "DietManage.db"
+                    "itda.db"
                 ).fallbackToDestructiveMigrationOnDowngrade()
                     .build()
                 INSTANCE = instance
