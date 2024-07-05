@@ -10,6 +10,7 @@ import com.itda.android_c_teamproject.model.dto.UserFindNameDTO
 import com.itda.android_c_teamproject.model.Response.UserFindNameResponse
 import com.itda.android_c_teamproject.model.dto.UserFindPasswordDTO
 import com.itda.android_c_teamproject.model.Response.UserFindPasswordResponse
+import com.itda.android_c_teamproject.model.dto.FoodDTO
 import com.itda.android_c_teamproject.model.dto.UserHealthDTO
 import com.itda.android_c_teamproject.model.dto.UserUsedNameDTO
 import com.itda.android_c_teamproject.model.dto.UserPersonalDTO
