@@ -47,7 +47,7 @@ class DietActivity : AppCompatActivity() {
                 val selectedDate = calendar.time
                 sharedViewModel.setSelectedDate(selectedDate)
                 tvSelectedDate.text = dateFormat.format(selectedDate)
-                loadMeals(selectedDate)
+                sharedViewModel.loadTotalNutritionalValues(selectedDate) // 전체 날짜의 영양 정보를 로드합니다.
             }, year, month, day)
 
             datePickerDialog.show()
@@ -76,13 +76,9 @@ class DietActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadMeals(date: Date) {
-        sharedViewModel.mealType.value?.let { mealType ->
-            sharedViewModel.loadMealsByDateAndType(date, mealType)
-        }
-    }
 
     private fun openMealActivity(mealType: String) {
+        sharedViewModel.setMealType(mealType) // mealType 설정
         val intent = Intent(this, AddMealActivity::class.java)
         intent.putExtra("mealType", mealType)
         intent.putExtra("date", sharedViewModel.selectedDate.value)

@@ -99,6 +99,11 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
             } ?: Log.e(TAG, "MealType is null, cannot launch MealActivity")
         }
 
+        binding.completeButton.setOnClickListener {
+            Log.d(TAG, "Complete button clicked")
+            finish()
+        }
+
         // 인텐트에서 mealType과 date를 가져와서 ViewModel에 설정
         val mealTypeFromIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getStringExtra("mealType")
@@ -122,6 +127,7 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
         } else {
             Log.e(TAG, "Received null mealType from Intent")
         }
+
     }
     private fun saveMeals(meals: List<Meal>) {
         lifecycleScope.launch(Dispatchers.IO) {
@@ -133,7 +139,7 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
                 }
                 withContext(Dispatchers.Main) {
                     Log.d(TAG, "Meals inserted, reloading meals")
-                    sharedViewModel.loadMealsByDateAndType(sharedViewModel.selectedDate.value!!, sharedViewModel.mealType.value)
+                    sharedViewModel.loadMealsByDateAndType(sharedViewModel.selectedDate.value!!, sharedViewModel.mealType.value!!)
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error inserting meal: ${e.message}", e)

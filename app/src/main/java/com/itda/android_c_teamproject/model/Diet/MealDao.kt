@@ -24,4 +24,6 @@ interface MealDao {
 
     @Query("SELECT * FROM DietFood")
     fun getAllMeals(): LiveData<List<Meal>> // LiveData를 반환하도록 수정
-}
+
+    @Query("SELECT * FROM DietFood WHERE date BETWEEN :startDate AND :endDate")
+    fun getMealsByDateRange(startDate: Date, endDate: Date): LiveData<List<Meal>>}
