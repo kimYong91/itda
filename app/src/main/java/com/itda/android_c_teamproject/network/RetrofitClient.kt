@@ -6,7 +6,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 
 object RetrofitClient {
     private val BASE_URL = "http://13.209.37.105:8080"
-//    private val BASE_URL = "http://192.168.171.1:8080"
 
     val api: ApiService by lazy {
         Retrofit.Builder()
