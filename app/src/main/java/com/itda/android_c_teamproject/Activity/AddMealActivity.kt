@@ -77,7 +77,6 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
         setContentView(binding.root)
 
         mealDatabase = MealDatabase.getDatabase(this)
-
         mealAdapter = MealAdapter(mutableListOf(), this)
         foodAdapter = FoodAdapter(emptyList()) { food ->
             addFood(food)
@@ -129,17 +128,19 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
             try {
                 meals.forEach {
                     Log.d(TAG, "Inserting meal: $it")
-                    mealDatabase.mealDao().insert(it)
+                    val result = mealDatabase.mealDao().insert(it)
+                    Log.d(TAG, "Insert result: $result")
                 }
                 withContext(Dispatchers.Main) {
                     Log.d(TAG, "Meals inserted, reloading meals")
-                    sharedViewModel.loadMealsByDateAndType(sharedViewModel.selectedDate.value, sharedViewModel.mealType.value)
+                    sharedViewModel.loadMealsByDateAndType(sharedViewModel.selectedDate.value!!, sharedViewModel.mealType.value)
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error inserting meal: ${e.message}", e)
             }
         }
     }
+
 
     private fun loadMeals(date: Date, mealType: String) {
         Log.d(TAG, "Loading meals for date: ${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)} and mealType: $mealType")

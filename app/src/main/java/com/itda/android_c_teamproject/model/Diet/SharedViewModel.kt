@@ -3,8 +3,10 @@ package com.itda.android_c_teamproject.model.Diet
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.itda.android_c_teamproject.model.Meal
 import java.util.Date
 
@@ -36,13 +38,13 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     val totalCarbs: LiveData<Float> get() = _totalCarbs
 
     init {
-        loadMealsByDateAndType(Date(), _mealType.value) // 데이터베이스에서 초기 데이터를 로드합니다.
+        loadMealsByDateAndType(_selectedDate.value!!, _mealType.value)
     }
 
 
     fun setMealType(mealType: String) {
         _mealType.value = mealType
-        loadMealsByDateAndType(_selectedDate.value, mealType)
+        loadMealsByDateAndType(_selectedDate.value!!, mealType)
     }
 
     fun setMeals(mealList: List<Meal>) {
@@ -79,23 +81,19 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         _totalCarbs.value = totalCarbs
     }
 
-    private fun loadMealsFromDatabase() {
-        mealDao.getAllMeals().observeForever { mealList ->
-            _meals.value = mealList.toMutableList()
-            updateTotalNutritionalValues()
-        }
-    }
-
     fun setSelectedDate(date: Date) {
         _selectedDate.value = date
         loadMealsByDateAndType(date, _mealType.value)
     }
 
-    fun loadMealsByDateAndType(date: Date?, mealType: String?) {
-        if (date != null && mealType != null) {
+    fun loadMealsByDateAndType(date: Date, mealType: String?) {
+        if (mealType != null) {
             Log.d(TAG, "Loading meals for date: $date and mealType: $mealType")
             mealDao.getMealsByDateAndType(date, mealType).observeForever { mealList ->
                 Log.d(TAG, "Loaded meals: $mealList")
+                if (mealList.isEmpty()) {
+                    Log.d(TAG, "No meals found for date: $date and mealType: $mealType")
+                }
                 _meals.value = mealList.toMutableList()
                 updateTotalNutritionalValues()
             }

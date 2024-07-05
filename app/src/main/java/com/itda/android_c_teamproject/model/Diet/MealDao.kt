@@ -11,7 +11,8 @@ import java.util.Date
 
 @Dao
 interface MealDao {
-    @Query("SELECT * FROM DietFood WHERE date = :date AND mealType = :mealType")
+    @Query("SELECT * FROM DietFood WHERE strftime('%Y-%m-%d', date / 1000, 'unixepoch') = strftime('%Y-%m-%d', :date / 1000, 'unixepoch') " +
+            "AND mealType = :mealType")
     fun getMealsByDateAndType(date: Date, mealType: String): LiveData<List<Meal>>
 
 
@@ -22,5 +23,5 @@ interface MealDao {
     suspend fun delete(meal: Meal)
 
     @Query("SELECT * FROM DietFood")
-    suspend fun getAllMeals(): LiveData<List<Meal>> // LiveData를 반환하도록 수정
+    fun getAllMeals(): LiveData<List<Meal>> // LiveData를 반환하도록 수정
 }
