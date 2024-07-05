@@ -31,73 +31,113 @@ class UpdateUserHealthActivity : AppCompatActivity() {
 
         sharedPreferences = getSharedPreferences("app_pref", Context.MODE_PRIVATE)
         val token = getToken()
+        val username = sharedPreferences.getString("username", "") ?: ""
 
         binding.run {
 
-            val username = sharedPreferences.getString("username", "") ?: ""
+            RetrofitClient.api.securityBarrier("Bearer $token").enqueue(object : Callback<String> {
+                override fun onResponse(call: Call<String>, response: Response<String>) {
 
-            textExit.setOnClickListener {
-                startActivity(Intent(this@UpdateUserHealthActivity, FirstActivity::class.java))
-                finish()
-            }
+                    if (response.isSuccessful) {
 
-            RetrofitClient.api.getUserInfo("Bearer $token", username).enqueue(object :
-                Callback<User> {
-                override fun onResponse(call: Call<User>, response: Response<User>) {
-                    val user = response.body()
-                    textUsername.text = "${username}님"
-                    textGender.text = "성별 : ${user?.userGender.toString()}"
-                    textWeight.text = "몸무게 : ${user?.userWeight.toString()}"
-                    textHeight.text = "키 : ${user?.userHeight.toString()}"
+                        textExit.setOnClickListener {
+                            startActivity(
+                                Intent(
+                                    this@UpdateUserHealthActivity,
+                                    FirstActivity::class.java
+                                )
+                            )
+                            finish()
+                        }
+
+                        RetrofitClient.api.getUserInfo("Bearer $token", username).enqueue(object :
+                            Callback<User> {
+                            override fun onResponse(call: Call<User>, response: Response<User>) {
+                                val user = response.body()
+                                textUsername.text = "${username}님"
+                                textGender.text = "성별 : ${user?.userGender.toString()}"
+                                textWeight.text = "몸무게 : ${user?.userWeight.toString()}"
+                                textHeight.text = "키 : ${user?.userHeight.toString()}"
+                            }
+
+                            override fun onFailure(call: Call<User>, t: Throwable) {
+                                Log.d(TAG, "onFailure: 네트워크 요청 실패")
+                            }
+
+                        })
+
+                        buttonMale.setOnClickListener {
+                            gender = "남"
+                        }
+                        buttonFemale.setOnClickListener {
+                            gender = "여"
+                        }
+                        textUpdate.setOnClickListener {
+                            val weight = editWeight.text.toString().toIntOrNull()
+                            val height = editHeight.text.toString().toDoubleOrNull()
+
+                            userHealthDTO = UserHealthDTO(gender, weight, height)
+
+                            RetrofitClient.api.updateUserHealthInfo(
+                                "Bearer ${token}",
+                                username,
+                                userHealthDTO
+                            )
+                                .enqueue(
+                                    object : Callback<UserHealthDTO> {
+                                        override fun onResponse(
+                                            call: Call<UserHealthDTO>,
+                                            response: Response<UserHealthDTO>
+                                        ) {
+                                            if (response.isSuccessful) {
+                                                Log.d(
+                                                    TAG,
+                                                    "onResponse: 정보 수정 성공 ${response.code()}"
+                                                )
+                                                Toast.makeText(
+                                                    this@UpdateUserHealthActivity,
+                                                    "정보를 수정 하였습니다.",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                                val user = response.body()
+                                                textGender.text =
+                                                    "성별 : ${user?.userGender.toString()}"
+                                                textWeight.text =
+                                                    "몸무게 : ${user?.userWeight.toString()}"
+                                                textHeight.text =
+                                                    "키 : ${user?.userHeight.toString()}"
+                                            } else {
+                                                Log.d(
+                                                    TAG,
+                                                    "onResponse: 정보 수정 실패 ${response.code()}"
+                                                )
+                                            }
+                                        }
+
+                                        override fun onFailure(
+                                            call: Call<UserHealthDTO>,
+                                            t: Throwable
+                                        ) {
+                                            Log.d(TAG, "onFailure: 네트워크 요청 실패")
+                                        }
+
+                                    }) // end updateUserHealthInfo
+                        } // end textUpdate
+
+                    } else if (response.code() == 403) {
+                        Toast.makeText(this@UpdateUserHealthActivity, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+                        logout()
+                    }
+
                 }
 
-                override fun onFailure(call: Call<User>, t: Throwable) {
-                    Log.d(TAG, "onFailure: 네트워크 요청 실패")
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    Toast.makeText(this@UpdateUserHealthActivity, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
+                    logout()
                 }
 
             })
 
-            buttonMale.setOnClickListener {
-                gender = "남"
-            }
-            buttonFemale.setOnClickListener {
-                gender = "여"
-            }
-            textUpdate.setOnClickListener {
-                val weight = editWeight.text.toString().toIntOrNull()
-                val height = editHeight.text.toString().toDoubleOrNull()
-
-                userHealthDTO = UserHealthDTO(gender, weight, height)
-
-                RetrofitClient.api.updateUserHealthInfo("Bearer ${token}", username, userHealthDTO)
-                    .enqueue(
-                        object : Callback<UserHealthDTO> {
-                            override fun onResponse(
-                                call: Call<UserHealthDTO>,
-                                response: Response<UserHealthDTO>
-                            ) {
-                                if (response.isSuccessful) {
-                                    Log.d(TAG, "onResponse: 정보 수정 성공 ${response.code()}")
-                                    Toast.makeText(
-                                        this@UpdateUserHealthActivity,
-                                        "정보를 수정 하였습니다.",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    val user = response.body()
-                                    textGender.text = "성별 : ${user?.userGender.toString()}"
-                                    textWeight.text = "몸무게 : ${user?.userWeight.toString()}"
-                                    textHeight.text = "키 : ${user?.userHeight.toString()}"
-                                } else {
-                                    Log.d(TAG, "onResponse: 정보 수정 실패 ${response.code()}")
-                                }
-                            }
-
-                            override fun onFailure(call: Call<UserHealthDTO>, t: Throwable) {
-                                Log.d(TAG, "onFailure: 네트워크 요청 실패")
-                            }
-
-                        }) // end updateUserHealthInfo
-            } // end textUpdate
         } // end binding
 
     } // end onCreate
@@ -118,5 +158,19 @@ class UpdateUserHealthActivity : AppCompatActivity() {
             }
         }
         return super.onKeyDown(keyCode, event)
+    }
+
+    private fun logout() {
+        // SharedPreferences에서 저장된 토큰과 사용자 이름 삭제
+        sharedPreferences.edit()
+            .remove("token")
+            .remove("username")
+            .apply()
+
+        // 로그인 액티비티로 이동
+        val intent = Intent(this@UpdateUserHealthActivity, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }

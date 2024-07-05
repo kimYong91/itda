@@ -18,6 +18,7 @@ import retrofit2.Response
 class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
     var initTime = 0L
+    private lateinit var username: String  // 사용자 이름 변수 선언
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -28,6 +29,7 @@ class LoginActivity : AppCompatActivity() {
                 val username = editID.text.toString()
                 val password = editPassword.text.toString()
                 val user = LoginRequest(username, password)
+                Log.d("logg", "onCreate: $user")
 
                 RetrofitClient.api.login(user).enqueue(object : Callback<LoginResponse> {
                     override fun onResponse(
@@ -59,6 +61,7 @@ class LoginActivity : AppCompatActivity() {
                             Toast.makeText(this@LoginActivity, "로그인 실패했습니다.", Toast.LENGTH_SHORT)
                                 .show()
                             Log.d("mylog", "onResponse: ${response.code()}")
+
                         }
 
                     } // end onResponse
@@ -102,4 +105,5 @@ class LoginActivity : AppCompatActivity() {
         }
         return super.onKeyDown(keyCode, event)
     }
+
 }

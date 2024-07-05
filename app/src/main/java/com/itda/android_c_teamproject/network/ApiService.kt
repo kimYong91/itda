@@ -10,7 +10,6 @@ import com.itda.android_c_teamproject.model.dto.UserFindNameDTO
 import com.itda.android_c_teamproject.model.Response.UserFindNameResponse
 import com.itda.android_c_teamproject.model.dto.UserFindPasswordDTO
 import com.itda.android_c_teamproject.model.Response.UserFindPasswordResponse
-import com.itda.android_c_teamproject.model.dto.FoodDTO
 import com.itda.android_c_teamproject.model.dto.UserHealthDTO
 import com.itda.android_c_teamproject.model.dto.UserUsedNameDTO
 import com.itda.android_c_teamproject.model.dto.UserPersonalDTO
@@ -34,7 +33,8 @@ interface ApiService {
     @GET("/itda/oneUserHealthDTO")
     fun getUserHealthInfo(@Header("Authorization") token: String, @Query("id") id: String): Call<UserDTO>
 
-    @POST("/path/to/chat/api") // 실제 엔드포인트로 변경
+    // 실제 엔드포인트로 변경
+    @POST("/path/to/chat/api")
     fun getChatResponse(@Body request: ChatRequest): Call<ChatResponse>
 
     // 회원 가입
@@ -68,6 +68,9 @@ interface ApiService {
     // 아이디 삭제
     @DELETE("/itda/userDelete")
     fun userDelete(@Header("Authorization") token: String, @Query("username") username: String): Call<Void>
+
+    @GET("/itda/SecurityBarrier")
+    fun securityBarrier(@Header("Authorization") token: String): Call<String>
 
     @GET("api/foods")
     fun getAllFoods(): Call<List<FoodDTO>>
