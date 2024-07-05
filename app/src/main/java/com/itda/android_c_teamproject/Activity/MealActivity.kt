@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.SearchView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -86,7 +87,7 @@ class MealActivity : AppCompatActivity() {
                 return false
             }
         })
-        findViewById<Button>(R.id.complete_button).setOnClickListener {
+        findViewById<TextView>(R.id.complete_button).setOnClickListener {
             Log.d(TAG, "Complete button clicked")
             completeSelection()
         }
