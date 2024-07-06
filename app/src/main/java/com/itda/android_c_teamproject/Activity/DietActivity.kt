@@ -92,10 +92,10 @@ class DietActivity : AppCompatActivity() {
         val totalCarbs = sharedViewModel.totalCarbs.value ?: 0f
 
         val totalNutritionalValues = """
-            Total Energy: $totalEnergy kcal
-            Total Protein: $totalProtein g
-            Total Fat: $totalFat g
-            Total Carbs: $totalCarbs g
+            총 칼로리: $totalEnergy kcal
+            총 단백질: $totalProtein g
+            총 지방: $totalFat g
+            총 탄수화물: $totalCarbs g
         """.trimIndent()
 
         binding.tvTotalNutritionalValues.text = totalNutritionalValues
