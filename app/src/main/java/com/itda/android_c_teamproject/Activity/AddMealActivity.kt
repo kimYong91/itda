@@ -84,7 +84,7 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = mealAdapter
 
-        sharedViewModel.meals.observe(this) { meals ->
+        sharedViewModel.mealsByDateAndType.observe(this) { meals ->
             Log.d(TAG, "Meals updated: $meals")
             mealAdapter.updateData(meals)
         }
@@ -123,7 +123,6 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
         if (mealTypeFromIntent != null) {
             sharedViewModel.setMealType(mealTypeFromIntent)
             sharedViewModel.setSelectedDate(dateFromIntent)
-            loadMeals(dateFromIntent, mealTypeFromIntent)
         } else {
             Log.e(TAG, "Received null mealType from Intent")
         }
@@ -144,15 +143,6 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
             } catch (e: Exception) {
                 Log.e(TAG, "Error inserting meal: ${e.message}", e)
             }
-        }
-    }
-
-
-    private fun loadMeals(date: Date, mealType: String) {
-        Log.d(TAG, "Loading meals for date: ${SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date)} and mealType: $mealType")
-        mealDatabase.mealDao().getMealsByDateAndType(date, mealType).observe(this) { mealsList ->
-            Log.d(TAG, "Loaded meals: $mealsList")
-            sharedViewModel.setMeals(mealsList)
         }
     }
 
@@ -193,8 +183,8 @@ class AddMealActivity : AppCompatActivity(), MealAdapter.OnItemClickListener {
                     try {
                         mealDatabase.mealDao().delete(meal)
                         withContext(Dispatchers.Main) {
-                            sharedViewModel.setMeals(sharedViewModel.meals.value?.filter { it.id != meal.id } ?: listOf())
-                            mealAdapter.updateData(sharedViewModel.meals.value ?: listOf())
+                            sharedViewModel.setMeals(sharedViewModel.mealsByDateAndType.value?.filter { it.id != meal.id } ?: listOf())
+                             mealAdapter.updateData(sharedViewModel.mealsByDateAndType.value ?: listOf())
                             Log.d(TAG, "Meal deleted: $meal")
                         }
                     } catch (e: Exception) {

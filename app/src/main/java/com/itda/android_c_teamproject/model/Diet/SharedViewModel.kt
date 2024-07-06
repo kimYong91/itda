@@ -20,8 +20,11 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private val _mealType = MutableLiveData<String>()
     val mealType: LiveData<String> get() = _mealType
 
-    private val _meals = MutableLiveData<MutableList<Meal>>()
-    val meals: LiveData<MutableList<Meal>> get() = _meals
+    private val _mealsByDateAndType = MutableLiveData<MutableList<Meal>>()
+    val mealsByDateAndType: LiveData<MutableList<Meal>> get() = _mealsByDateAndType
+
+    private val _totalMeals = MutableLiveData<MutableList<Meal>>()
+    val totalMeals: LiveData<MutableList<Meal>> get() = _totalMeals
 
     private val _totalEnergy = MutableLiveData<Float>(0f)
     val totalEnergy: LiveData<Float> get() = _totalEnergy
@@ -52,19 +55,19 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun setMeals(mealList: List<Meal>) {
-        _meals.value = mealList.toMutableList()
+        _mealsByDateAndType.value = mealList.toMutableList()
         updateTotalNutritionalValues()
     }
 
     fun addMeal(meal: Meal) {
-        val currentList = _meals.value?.toMutableList() ?: mutableListOf()
+        val currentList = _mealsByDateAndType.value?.toMutableList() ?: mutableListOf()
         currentList.add(meal)
-        _meals.value = currentList
+        _mealsByDateAndType.value = currentList
         updateTotalNutritionalValues()
     }
 
     private fun updateTotalNutritionalValues() {
-        val currentList = _meals.value ?: return
+        val currentList = _totalMeals.value ?: return
 
         var totalEnergy = 0f
         var totalProtein = 0f
@@ -92,7 +95,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     fun loadMealsByDateAndType(date: Date, mealType: String) {
         mealDao.getMealsByDateAndType(date, mealType).observeForever { mealList ->
             Log.d(TAG, "Loaded meals: $mealList")
-            _meals.value = mealList.toMutableList()
+            _mealsByDateAndType.value = mealList.toMutableList()
         }
     }
 
@@ -102,7 +105,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
 
         mealDao.getMealsByDateRange(startOfDay, endOfDay).observeForever { mealList ->
             Log.d(TAG, "Loaded all meals for the day: $mealList")
-            _meals.value = mealList.toMutableList()
+            _totalMeals.value = mealList.toMutableList()
             updateTotalNutritionalValues()
         }
     }
