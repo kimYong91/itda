@@ -79,7 +79,10 @@
 
 
 ## 시연 영상
+<details>
+<summary>1. 회원가입, 로그인</summary>
 ![1  회원가입, 로그인](https://github.com/kimYong91/itda/assets/159098694/4025c91a-8219-4c42-8d9f-2793a49e5d8f)
+</details>
 ![2  회원탈퇴](https://github.com/kimYong91/itda/assets/159098694/9c25978f-0ddb-489e-a496-c2c2d77d6687)
 ![3  개인정보 수정](https://github.com/kimYong91/itda/assets/159098694/350699d6-cc7c-49c7-a829-844212679f57)
 ![4  건강정보 수정](https://github.com/kimYong91/itda/assets/159098694/08e7e47c-ffa1-4e4b-b7c7-fae01e2f14c1)
