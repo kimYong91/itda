@@ -140,17 +140,15 @@
         3. [메모장](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/MemoActivity.kt)
 * 이광민 (운동추천 및 챗봇, 클라우드 서버)
     - ChatGPT API 활용 추천운동 / 챗봇
-        1. DB 가입정보 자동 적용된 프롬프트 선택 입력
-        2. 선택된 프롬프트 정보 ChatGPT에 전달 및 피드벡 표시
-        3. 실행 중지 (Stop), 입력 초기화(Clear)
-        4. 실행 오류 관리(ChatGPT 응답시간에 따른 timeout 문제)
-        5. 챗봇(사용자 자유 입력)
+        1. [메인화면](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/FirstActivity.kt)
+        2. [추천운동](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/ChatMainActivity.kt)
+        3. [챗봇](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/PopupChatActivity.kt)
     - 유틸
-      만보기
+        1. [만보기](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/PedometerActivity.kt)
     - AWS 서버 구축
-        1. AWS EC2 (서버)
-        2. AWS RDS (MariaDB)
-        3. AWS S3(앱 파일(APK) 다운로드 웹페이지)
+        1. [AWS EC2 (서버)]
+        2. [AWS RDS (MariaDB)]
+        3. [AWS S3(앱 파일(APK) 다운로드 웹페이지)]
 * 한규철 (식단관리 기능)
     - 식단 관리
         1. [식단 추가 기능](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/AddMealActivity.kt)
