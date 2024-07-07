@@ -128,12 +128,12 @@
 * 김용 (팀 매니져, 로그인과 보안 및 관련 DB)
     - 로그인
         1. [회원가입](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/RegisterActivity.kt)
-        2. [로그인](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/LoginActivity.kt)
-        3. 로그아웃
-        4. [회원 탈퇴](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/DeleteUserActivity.kt)
-        5. [아이디 찾기](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/FindUserNameActivity.kt)
-        6. [임시 비밀번호 찾기](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/FindUserPasswordActivity.kt)
-        7. [건강관련 정보 수정](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/UpdateUserHealthActivity.kt), [개인 정보 업데이트 수정](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/UpdateUserPersonalActivity.kt)
+        2. [로그인, 로그아웃](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/LoginActivity.kt)
+        3. [회원 탈퇴](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/DeleteUserActivity.kt)
+        4. [아이디 찾기](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/FindUserNameActivity.kt)
+        5. [임시 비밀번호 찾기](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/FindUserPasswordActivity.kt)
+        6. [건강 정보 업데이트](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/UpdateUserHealthActivity.kt)
+        7. [개인 정보 업데이트](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/UpdateUserPersonalActivity.kt)
     - 유틸
         1. [카운트](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/CounterActivity.kt)
         2. [타이머](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/StopWatchActivity.kt)
