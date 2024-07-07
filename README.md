@@ -51,9 +51,20 @@
 
 
 ## API 명세서
-|기능|URL|HTTP Method|
-|--|---|-----------|
-|UserController|
-| 테스트1 | 테스트2 | 테스트3      |
-| 테스트1 | 테스트2 | 테스트3      |
-| 테스트1 | 테스트2 | 테스트3      |
+|                      기능                       |                         URL                          |   HTTP Method   |
+|:---------------------------------------------:|:----------------------------------------------------:|:---------------:|
+|                   유저 건강 정보                    
+                 (성별, 몸무게, 키)                  |                /itda/oneUserHealthDTO                |       GET       |
+|                   유저의 모든 정보                   
+  (아이디, 비밀번호, 이메일, 휴대폰 번호, 생년월일, 성별, 몸무게, 키)   |                  /itda/oneUserInfo                   |       GET       |
+|                     유저 이름                     |                  /itda/oneUsername                   |       GET       |
+|                     회원 가입                     |                   /itda/createUser                   |      POST       |
+|                  임시 비밀번호 생성                   |                  /itda/findPassword                  |      POST       |
+|                    아이디 찾기                     |                  /itda/findUsername                  |      POST       |
+|                     회원 탈퇴                     |                   /itda/userDelete                   |     DELETE      |
+|                    유저 방호벽                     |                /itda/SecurityBarrier                 |       GET       |
+|                 유저 건강 정보 업데이트                 
+                 (성별, 몸무게, 키)                  |          /itda/oneUserHealthDTO/{username}           |      PATCH      |
+|                 유저 개인 정보 업데이트                 
+        (아이디, 비밀번호, 이메일, 휴대폰 번호, 생년월일)         |             /itda/oneUserInfo/{username}             |      PATCH      |
+|                 회원 인증(JWT토큰)                  |                      /itda/auth                      |      POST       |
