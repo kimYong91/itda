@@ -138,6 +138,7 @@
         1. [카운트](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/CounterActivity.kt)
         2. [타이머](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/StopWatchActivity.kt)
         3. [메모장](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/MemoActivity.kt)
+           
 * 이광민 (운동추천 및 챗봇, 클라우드 서버)
     - ChatGPT API 활용 추천운동 / 챗봇
         1. [메인화면](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/FirstActivity.kt)
@@ -149,6 +150,7 @@
         1. [AWS EC2 (서버)]
         2. [AWS RDS (MariaDB)]
         3. [AWS S3(앱 파일(APK) 다운로드 웹페이지)]
+           
 * 한규철 (식단관리 기능)
     - 식단 관리
         1. [식단 추가 기능](https://github.com/kimYong91/itda/blob/develop/app/src/main/java/com/itda/android_c_teamproject/Activity/AddMealActivity.kt)
