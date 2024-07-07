@@ -52,8 +52,8 @@
 |테스트1|테스트2|테스트3|
 
 ## Class Diagram
->!(https://github.com/kimYong91/itda/assets/159098694/b6feb6d3-bde6-41ad-b6ab-2103ce807915)
->!(https://github.com/kimYong91/itda/assets/159098694/91a128b5-41de-415e-abe4-77b7437066e0)
+![](https://github.com/kimYong91/itda/assets/159098694/b6feb6d3-bde6-41ad-b6ab-2103ce807915)
+![](https://github.com/kimYong91/itda/assets/159098694/91a128b5-41de-415e-abe4-77b7437066e0)
 
 ## API 명세서
 | 기능                                                   |                URL                 |   HTTP Method   |
