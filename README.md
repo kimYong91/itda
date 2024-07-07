@@ -43,6 +43,13 @@
 * 이광민
 
 * 한규철
+  - 식단 관리
+    1. 식단 추가 기능
+    2. 날짜 선택 및 식사 유형 관리
+    3. 음식 검색 및 추가
+    4. 식사 상세 정보 조회
+    5. 음식 목록 필터링 및 추가
+    6. 식사 목록 관리
 
 ## 개발환경
 |제목|내용|설명|
@@ -69,3 +76,17 @@
 | 유저 건강 정보 업데이트 (성별, 몸무게, 키)                           | /itda/oneUserHealthDTO/{username}  |      PATCH      |
 | 유저 개인 정보 업데이트 (아이디, 비밀번호, 이메일, 휴대폰 번호, 생년월일)         |    /itda/oneUserInfo/{username}    |      PATCH      |
 | 회원 인증(JWT토큰)                                         |             /itda/auth             |      POST       |
+
+
+## 시연 영상
+![1  회원가입, 로그인](https://github.com/kimYong91/itda/assets/159098694/4025c91a-8219-4c42-8d9f-2793a49e5d8f)
+![2  회원탈퇴](https://github.com/kimYong91/itda/assets/159098694/9c25978f-0ddb-489e-a496-c2c2d77d6687)
+![3  개인정보 수정](https://github.com/kimYong91/itda/assets/159098694/350699d6-cc7c-49c7-a829-844212679f57)
+![4  건강정보 수정](https://github.com/kimYong91/itda/assets/159098694/08e7e47c-ffa1-4e4b-b7c7-fae01e2f14c1)
+![5  추천 운동](https://github.com/kimYong91/itda/assets/159098694/6620f745-dd22-4272-bb07-53253f7edd1f)
+![6  저장된 운동 데이터 확인](https://github.com/kimYong91/itda/assets/159098694/8ef466cf-109b-4eb7-a740-d26331394872)
+![7  식단](https://github.com/kimYong91/itda/assets/159098694/38f11dd1-bdba-4163-9f1e-fdfc2e48922f)
+![9  스탑워치](https://github.com/kimYong91/itda/assets/159098694/2cb04ee1-c0b7-4be0-ae9c-d4e768afc942)
+![8  챗봇](https://github.com/kimYong91/itda/assets/159098694/f00e7a81-6dfa-4a27-b5f1-f459cf24eb99)
+![10  카운터](https://github.com/kimYong91/itda/assets/159098694/77674c8e-9ca1-4b6f-932d-f78e1fe5a384)
+![11  만보기](https://github.com/kimYong91/itda/assets/159098694/6bf4f24e-696c-4499-a895-447fda671949)
