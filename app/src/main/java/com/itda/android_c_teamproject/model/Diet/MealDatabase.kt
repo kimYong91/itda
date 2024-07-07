@@ -9,7 +9,7 @@ import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.itda.android_c_teamproject.model.Meal
 
-@Database(entities = [Meal::class], version = 1, exportSchema = false)
+@Database(entities = [Meal::class], version = 2, exportSchema = false)
 @TypeConverters(DateTypeConverter::class)
 abstract class MealDatabase : RoomDatabase() {
     abstract fun mealDao(): MealDao
@@ -23,7 +23,7 @@ abstract class MealDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     MealDatabase::class.java,
-                    "itda.db"
+                    "itdaTest.db"
                 ).fallbackToDestructiveMigrationOnDowngrade()
                     .build()
                 INSTANCE = instance

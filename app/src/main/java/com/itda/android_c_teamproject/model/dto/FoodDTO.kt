@@ -1,7 +1,6 @@
 package com.itda.android_c_teamproject.model.dto
 
 data class FoodDTO(
-    val 식품코드: String?,
     val 식품명: String,
     val 에너지: Float,
     val 단백질: Float,

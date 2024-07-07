@@ -19,7 +19,6 @@ class FoodAdapter(private var foodList: List<FoodDTO>, private val addFood: (Foo
             binding.foodProtein.text = "단백질: ${food.단백질} g"
             binding.foodFat.text = "지방: ${food.지방} g"
             binding.foodCarbs.text = "탄수화물: ${food.탄수화물} g"
-            binding.foodCode.text = "식품코드: ${food.식품코드 ?: "N/A"}"
 
             binding.addButton.setOnClickListener {
                 addFood(food)
