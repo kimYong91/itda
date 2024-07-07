@@ -79,14 +79,31 @@
 
 
 ## 시연 영상
+
+<details>
+<summary>1. 회원가입, 로그인</summary>
+
 ![1  회원가입, 로그인](https://github.com/kimYong91/itda/assets/159098694/4025c91a-8219-4c42-8d9f-2793a49e5d8f)
+</details>
+
+![1  회원가입, 로그인](https://github.com/kimYong91/itda/assets/159098694/4025c91a-8219-4c42-8d9f-2793a49e5d8f)
+2. 회원탈퇴
 ![2  회원탈퇴](https://github.com/kimYong91/itda/assets/159098694/9c25978f-0ddb-489e-a496-c2c2d77d6687)
+3. 개인정보 수정
 ![3  개인정보 수정](https://github.com/kimYong91/itda/assets/159098694/350699d6-cc7c-49c7-a829-844212679f57)
+4. 건강정보 수정
 ![4  건강정보 수정](https://github.com/kimYong91/itda/assets/159098694/08e7e47c-ffa1-4e4b-b7c7-fae01e2f14c1)
+5. 추천 운동
 ![5  추천 운동](https://github.com/kimYong91/itda/assets/159098694/6620f745-dd22-4272-bb07-53253f7edd1f)
+6. 저장된 운동 데이터 확인
 ![6  저장된 운동 데이터 확인](https://github.com/kimYong91/itda/assets/159098694/8ef466cf-109b-4eb7-a740-d26331394872)
+7. 식단
 ![7  식단](https://github.com/kimYong91/itda/assets/159098694/38f11dd1-bdba-4163-9f1e-fdfc2e48922f)
+8. 스탑워치
 ![9  스탑워치](https://github.com/kimYong91/itda/assets/159098694/2cb04ee1-c0b7-4be0-ae9c-d4e768afc942)
+9. 챗봇
 ![8  챗봇](https://github.com/kimYong91/itda/assets/159098694/f00e7a81-6dfa-4a27-b5f1-f459cf24eb99)
+10. 카운터
 ![10  카운터](https://github.com/kimYong91/itda/assets/159098694/77674c8e-9ca1-4b6f-932d-f78e1fe5a384)
+11. 만보기
 ![11  만보기](https://github.com/kimYong91/itda/assets/159098694/6bf4f24e-696c-4499-a895-447fda671949)
