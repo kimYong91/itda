@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_margin="20dp">
 
     <SearchView
         android:id="@+id/search_field"
@@ -22,7 +23,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_food" />
 
-    <Button
+    <TextView
         android:id="@+id/complete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,6 +31,10 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="2dp"
-        android:text="완료" />
-
+        android:background="@drawable/round"
+        android:text="   완료   "
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_horizontal"
+        android:padding="10dp"/>
 </RelativeLayout>

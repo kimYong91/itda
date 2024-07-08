@@ -5,52 +5,76 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".Activity.DietActivity">
+    tools:context=".Activity.DietActivity"
+    android:layout_margin="20dp">
 
     <TextView
         android:id="@+id/tvSelectedDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="날짜를 선택하세요"
         android:layout_gravity="center_horizontal"
         android:layout_margin="16dp"
+        android:background="@drawable/round"
         android:clickable="true"
-        android:focusable="true" />
+        android:focusable="true"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="날짜를 선택하세요" />
 
 
-    <Button
+    <TextView
         android:id="@+id/btnBreakfast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/round"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
         android:text="아침" />
 
-    <Button
+    <TextView
         android:id="@+id/btnLunch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="점심"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:background="@drawable/round"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="점심" />
 
-    <Button
+    <TextView
         android:id="@+id/btnDinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="저녁"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:background="@drawable/round"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="저녁" />
 
     <TextView
         android:id="@+id/tvTotalNutritionalValues"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Total Nutritional Values: 0 kcal, 0g Protein, 0g Fat, 0g Carbs"
-        android:gravity="center" />
+        android:gravity="center"
+        android:text="Total Nutritional Values: 0 kcal, 0g Protein, 0g Fat, 0g Carbs" />
 
-    <Button
+    <TextView
         android:id="@+id/btnCompleteDiet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="완료"
         android:layout_gravity="end"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:background="@drawable/round"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="   완료   " />
 </LinearLayout>

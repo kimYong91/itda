@@ -9,5 +9,9 @@
         android:id="@+id/meal_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Meal Content" />
+        android:background="@drawable/round"
+        android:text="Meal Content"
+        android:padding="10dp"
+        android:gravity="center_horizontal"
+        />
 </LinearLayout>
