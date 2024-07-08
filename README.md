@@ -1,6 +1,7 @@
 ### 운동을 어떻게 할지 모르는 사람들을 위한 맞춤 운동 보조 어플 "잇다"
 * 기획 및 개발 기간 : 2024.06.11 ~ 07.05
 * 배포주소 : http://itda-app-apk-bucket.s3-website.ap-northeast-2.amazonaws.com/
+* 백앤드 : https://github.com/kimYong91/C_TeamProject
 
 ## 개발 동기
 1. 취향에 맞는 운동 정보
