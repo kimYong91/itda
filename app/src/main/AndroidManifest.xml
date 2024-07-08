@@ -26,12 +26,7 @@
         <activity
             android:name=".Activity.PedometerActivity"
             android:configChanges="orientation|screenSize"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".Activity.CounterActivity"
             android:exported="false" />
@@ -41,12 +36,7 @@
         <activity
             android:name=".Activity.PopupChatActivity"
             android:theme="@style/SmallActivityAnimation"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.content.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".Activity.UpdateUserHealthActivity"
             android:exported="false" />
@@ -77,41 +67,21 @@
         <activity
             android:name=".Activity.LoginActivity"
             android:exported="false" /> <!-- StepCountService 추가 -->
-
-
         <activity
             android:name=".Activity.MealDetailActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false"/>
         <activity
             android:name=".activity.AddMealActivity"
-            android:exported="true"
-            android:theme="@style/Theme.Itda">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false"
+            android:theme="@style/Theme.Itda"/>
         <activity
             android:name=".Activity.DietActivity"
             android:exported="false"
             android:theme="@style/Theme.Itda" />
         <activity
             android:name=".Activity.MealActivity"
-            android:exported="true"
-            android:theme="@style/Theme.Itda">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false"
+            android:theme="@style/Theme.Itda"/>
     </application>
 
 </manifest>
